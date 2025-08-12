@@ -117,11 +117,11 @@ export function NetWorthCalculator() {
     value: {
       label: 'Value',
     },
-    assets: {
+    Assets: {
       label: 'Assets',
       color: 'hsl(var(--chart-2))',
     },
-    liabilities: {
+    Liabilities: {
       label: 'Liabilities',
       color: 'hsl(var(--chart-1))',
     },
