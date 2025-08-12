@@ -15,7 +15,12 @@ export default function ForecastPage() {
       <h1 className="text-3xl font-bold tracking-tight">Forecast &amp; Tools</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        {/* Column 1: Financial Forecast */}
+        {/* Column 1: Net Worth Calculator */}
+        <div className="lg:col-span-1 order-1 lg:order-2">
+            <NetWorthCalculator />
+        </div>
+
+        {/* Column 2: Financial Forecast */}
         <Card className="lg:col-span-1 order-2 lg:order-1">
           <CardHeader>
             <CardTitle>Financial Forecast Report</CardTitle>
@@ -26,11 +31,6 @@ export default function ForecastPage() {
             </div>
           </CardContent>
         </Card>
-        
-        {/* Column 2: Net Worth Calculator */}
-        <div className="lg:col-span-1 order-1 lg:order-2">
-            <NetWorthCalculator />
-        </div>
       </div>
     </main>
   );
