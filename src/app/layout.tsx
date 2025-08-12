@@ -1,21 +1,24 @@
-import type { Metadata } from 'next';
+
+"use client"
+
+import * as React from 'react';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { SidebarContent } from '@/components/layout/sidebar-content';
 import { ThemeProvider } from '@/components/theme-provider';
 
-export const metadata: Metadata = {
-  title: 'FinanceFlow',
-  description: 'Personal finance dashboard to track and manage your money.',
-  viewport: 'width=device-width, initial-scale=1',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isClient, setIsClient] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -25,6 +28,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
@@ -33,9 +37,11 @@ export default function RootLayout({
               <SidebarContent />
             </Sidebar>
             <SidebarInset>
-               <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
-                <SidebarTrigger />
-              </header>
+               {isClient && (
+                <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
+                  <SidebarTrigger />
+                </header>
+              )}
               {children}
             </SidebarInset>
           </SidebarProvider>
