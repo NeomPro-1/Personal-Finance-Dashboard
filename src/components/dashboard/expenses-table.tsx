@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useMemo, useState } from 'react'
@@ -6,11 +7,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { PlusCircle, Trash2 } from "lucide-react"
+import { PlusCircle, Trash2, Info } from "lucide-react"
 import { AddTransactionDialog } from './add-transaction-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import type { Transaction } from "@/lib/types"
 import { formatCurrency } from '@/lib/utils'
+import { Card, CardContent } from '@/components/ui/card'
 
 interface ExpensesTableProps {
   transactions: Transaction[];
@@ -44,6 +46,34 @@ export function ExpensesTable({ transactions, onAddTransaction, onDeleteTransact
   }, [transactions]);
   
   const defaultOpenMonths = useMemo(() => Object.keys(groupedByMonth), [groupedByMonth]);
+
+  if (transactions.length === 0) {
+    return (
+        <div className="space-y-4">
+            <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold">Expenses</h2>
+                <AddTransactionDialog
+                    isOpen={isDialogOpen}
+                    setIsOpen={setIsDialogOpen}
+                    onAddTransaction={onAddTransaction}
+                    type="expense"
+                >
+                    <Button variant="outline" size="sm">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    New
+                    </Button>
+                </AddTransactionDialog>
+            </div>
+            <Card className="flex items-center justify-center h-48 bg-card/50">
+                <CardContent className="text-center text-muted-foreground p-6">
+                    <Info className="mx-auto h-8 w-8 mb-2" />
+                    <p>No expenses recorded yet.</p>
+                    <p className="text-sm">Click "New" to add one.</p>
+                </CardContent>
+            </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-4">
