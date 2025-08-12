@@ -10,6 +10,7 @@ const INVESTMENTS_STORAGE_KEY = 'investments';
 
 export default function InvestmentsPage() {
   const [investments, setInvestments] = useState<Investment[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     try {
@@ -22,16 +23,20 @@ export default function InvestmentsPage() {
     } catch (error) {
       console.error("Failed to load investments from localStorage", error);
       setInvestments(initialInvestments);
+    } finally {
+        setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    try {
-      localStorage.setItem(INVESTMENTS_STORAGE_KEY, JSON.stringify(investments));
-    } catch (error) {
-      console.error("Failed to save investments to localStorage", error);
+    if (!isLoading) {
+        try {
+          localStorage.setItem(INVESTMENTS_STORAGE_KEY, JSON.stringify(investments));
+        } catch (error) {
+          console.error("Failed to save investments to localStorage", error);
+        }
     }
-  }, [investments]);
+  }, [investments, isLoading]);
 
   const handleAddInvestment = (investment: Omit<Investment, 'id' | 'currentValue'>) => {
     const newInvestment: Investment = {
@@ -45,6 +50,16 @@ export default function InvestmentsPage() {
   const handleDeleteInvestment = (id: string) => {
     setInvestments(prev => prev.filter(inv => inv.id !== id));
   };
+
+  if (isLoading) {
+    return (
+        <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
+            <div className="flex justify-center items-center h-full">
+                <p>Loading your investment data...</p>
+            </div>
+        </main>
+    )
+  }
   
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">

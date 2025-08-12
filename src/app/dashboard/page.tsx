@@ -18,6 +18,7 @@ const TRANSACTIONS_STORAGE_KEY = 'transactions';
 export default function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     try {
@@ -30,16 +31,20 @@ export default function DashboardPage() {
     } catch (error) {
       console.error("Failed to load transactions from localStorage", error);
       setTransactions(initialTransactions);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    try {
-      localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify(transactions));
-    } catch (error) {
-      console.error("Failed to save transactions to localStorage", error);
+    if (!isLoading) {
+      try {
+        localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify(transactions));
+      } catch (error) {
+        console.error("Failed to save transactions to localStorage", error);
+      }
     }
-  }, [transactions]);
+  }, [transactions, isLoading]);
 
 
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
@@ -101,6 +106,16 @@ export default function DashboardPage() {
 
     return uniqueOptions;
   }, [transactions]);
+
+  if (isLoading) {
+    return (
+        <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
+            <div className="flex justify-center items-center h-full">
+                <p>Loading your financial data...</p>
+            </div>
+        </main>
+    )
+  }
 
 
   return (
