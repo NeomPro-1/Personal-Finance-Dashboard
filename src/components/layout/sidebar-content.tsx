@@ -17,10 +17,12 @@ import { ThemeToggle } from '@/components/theme-toggle'
 
 export function SidebarContent() {
   const pathname = usePathname();
-  const { setOpenMobile } = useSidebar();
+  const { setOpenMobile, isMobile } = useSidebar();
 
   const handleLinkClick = () => {
-    setOpenMobile(false);
+    if (isMobile) {
+      setOpenMobile(false);
+    }
   }
 
   return (
