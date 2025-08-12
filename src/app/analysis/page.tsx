@@ -12,7 +12,7 @@ export default function AnalysisPage() {
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <h1 className="text-3xl font-bold tracking-tight">Financial Analysis</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
         <NetWorthCalculator />
         <Card>
           <CardHeader>
