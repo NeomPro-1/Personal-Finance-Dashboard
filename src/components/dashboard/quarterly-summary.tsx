@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from 'react';
-import { getQuarter } from 'date-fns';
+import { getQuarter, getYear, format } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { QuarterlySummaryCard } from './quarterly-summary-card';
 
@@ -24,29 +24,45 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
   }
 
   const quarterlyData = useMemo(() => {
-    const quarters = {
-      1: { income: 0, expenses: 0, net: 0 },
-      2: { income: 0, expenses: 0, net: 0 },
-      3: { income: 0, expenses: 0, net: 0 },
-      4: { income: 0, expenses: 0, net: 0 },
-    };
+    const dataByYearAndQuarter: Record<string, Record<string, { income: number; expenses: number; net: number }>> = {};
 
     transactions.forEach((t) => {
-      const quarter = getQuarter(new Date(t.date)) as keyof typeof quarters;
-      if (t.type === 'income') {
-        quarters[quarter].income += t.amount;
-      } else {
-        quarters[quarter].expenses += t.amount;
+      const date = new Date(t.date);
+      const year = getYear(date);
+      const quarter = getQuarter(date);
+      const key = `${year}-Q${quarter}`;
+
+      if (!dataByYearAndQuarter[year]) {
+        dataByYearAndQuarter[year] = {
+          1: { income: 0, expenses: 0, net: 0 },
+          2: { income: 0, expenses: 0, net: 0 },
+          3: { income: 0, expenses: 0, net: 0 },
+          4: { income: 0, expenses: 0, net: 0 },
+        };
       }
-      quarters[quarter].net = quarters[quarter].income - quarters[quarter].expenses;
+      
+      const quarterData = dataByYearAndQuarter[year][quarter];
+
+      if (t.type === 'income') {
+        quarterData.income += t.amount;
+      } else {
+        quarterData.expenses += t.amount;
+      }
+      quarterData.net = quarterData.income - quarterData.expenses;
     });
 
-    return Object.entries(quarters).map(([q, data]) => ({
-      quarter: `Q${q}`,
-      months: quarterMonthsMap[`Q${q}`],
-      ...data,
-    }));
+    return Object.entries(dataByYearAndQuarter)
+      .sort(([yearA], [yearB]) => parseInt(yearB, 10) - parseInt(yearA, 10))
+      .flatMap(([year, quarters]) =>
+        Object.entries(quarters).map(([q, data]) => ({
+          id: `${year}-Q${q}`,
+          title: `Q${q} ${year}`,
+          months: quarterMonthsMap[`Q${q}`],
+          ...data,
+        }))
+      );
   }, [transactions]);
+
 
   return (
     <div>
@@ -54,14 +70,14 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {quarterlyData.map((data) => (
           <QuarterlySummaryCard
-            key={data.quarter}
-            title={data.quarter}
+            key={data.id}
+            title={data.title}
             months={data.months}
             income={data.income}
             expenses={data.expenses}
             net={data.net}
-            isChecked={!!checkedQuarters[data.quarter]}
-            onCheckedChange={(isChecked) => handleCheckedChange(data.quarter, isChecked)}
+            isChecked={!!checkedQuarters[data.id]}
+            onCheckedChange={(isChecked) => handleCheckedChange(data.id, isChecked)}
           />
         ))}
       </div>
