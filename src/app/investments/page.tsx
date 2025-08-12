@@ -1,18 +1,42 @@
+
 "use client"
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { InvestmentsTable } from '@/components/investments/investments-table';
 import { initialInvestments } from '@/lib/data';
 import type { Investment } from '@/lib/types';
 
+const INVESTMENTS_STORAGE_KEY = 'investments';
+
 export default function InvestmentsPage() {
-  const [investments, setInvestments] = React.useState(initialInvestments);
+  const [investments, setInvestments] = useState<Investment[]>([]);
+
+  useEffect(() => {
+    try {
+      const storedInvestments = localStorage.getItem(INVESTMENTS_STORAGE_KEY);
+      if (storedInvestments) {
+        setInvestments(JSON.parse(storedInvestments));
+      } else {
+        setInvestments(initialInvestments);
+      }
+    } catch (error) {
+      console.error("Failed to load investments from localStorage", error);
+      setInvestments(initialInvestments);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(INVESTMENTS_STORAGE_KEY, JSON.stringify(investments));
+    } catch (error) {
+      console.error("Failed to save investments to localStorage", error);
+    }
+  }, [investments]);
 
   const handleAddInvestment = (investment: Omit<Investment, 'id' | 'currentValue'>) => {
     const newInvestment: Investment = {
       ...investment,
       id: crypto.randomUUID(),
-      // Simulate currentValue being slightly different from initial for new investments
       currentValue: investment.initialValue * (1 + (Math.random() - 0.5) * 0.2), 
     };
     setInvestments(prev => [...prev, newInvestment]);

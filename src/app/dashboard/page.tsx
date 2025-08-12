@@ -1,7 +1,7 @@
 
 "use client"
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { subMonths, format, getQuarter, getYear } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { SummaryCard } from '@/components/dashboard/summary-card';
@@ -13,9 +13,34 @@ import { QuarterlySummary } from '@/components/dashboard/quarterly-summary';
 import { initialTransactions } from '@/lib/data';
 import { formatCurrency } from '@/lib/utils';
 
+const TRANSACTIONS_STORAGE_KEY = 'transactions';
+
 export default function DashboardPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
+
+  useEffect(() => {
+    try {
+      const storedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
+      if (storedTransactions) {
+        setTransactions(JSON.parse(storedTransactions));
+      } else {
+        setTransactions(initialTransactions);
+      }
+    } catch (error) {
+      console.error("Failed to load transactions from localStorage", error);
+      setTransactions(initialTransactions);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify(transactions));
+    } catch (error) {
+      console.error("Failed to save transactions to localStorage", error);
+    }
+  }, [transactions]);
+
 
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: crypto.randomUUID() };
@@ -52,7 +77,6 @@ export default function DashboardPage() {
   
   const monthOptions = useMemo(() => {
     const options: { label: string, value: string }[] = [];
-    // Get unique years from transactions, don't include future years
     const transactionYears = Array.from(new Set(transactions.map(t => getYear(new Date(t.date)))))
                                   .filter(year => year <= new Date().getFullYear());
 
@@ -60,23 +84,20 @@ export default function DashboardPage() {
     yearsToDisplay.sort((a,b) => b-a);
     
     yearsToDisplay.forEach(year => {
-        const yearLabel = yearsToDisplay.length > 1 ? ` ${year}`: '';
         for (let i = 11; i >= 0; i--) {
             const date = new Date(year, i, 1);
             options.push({
-                label: `${format(date, 'MMMM')}${yearLabel}`,
+                label: format(date, 'MMMM'),
                 value: format(date, 'yyyy-MM')
             });
         }
     });
 
-    // Remove duplicates by value, keeping the first one (which will be the most recent year)
     const uniqueOptions = options.filter((option, index, self) =>
         index === self.findIndex((o) => (
             format(new Date(o.value), 'MMMM') === format(new Date(option.value), 'MMMM')
         ))
-    ).map(opt => ({...opt, label: format(new Date(opt.value), 'MMMM')}));
-
+    );
 
     return uniqueOptions;
   }, [transactions]);
