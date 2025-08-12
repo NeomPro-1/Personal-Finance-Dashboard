@@ -9,6 +9,7 @@ import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 import type { Transaction } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const TRANSACTIONS_STORAGE_KEY = 'transactions';
 
 function ForecastLoading() {
     return (
