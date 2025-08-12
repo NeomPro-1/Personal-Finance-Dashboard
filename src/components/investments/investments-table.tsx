@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { InvestmentSummaryCard } from './investment-summary-card'
 
@@ -75,17 +75,17 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <InvestmentSummaryCard 
           title="Total Invested" 
-          value={formatCurrency(totalInvested)} 
+          value={formatCurrency(totalInvested, isMobile)} 
           icon={PiggyBank} 
         />
         <InvestmentSummaryCard 
           title="Current Value" 
-          value={formatCurrency(currentValue)} 
+          value={formatCurrency(currentValue, isMobile)} 
           icon={Briefcase} 
         />
         <InvestmentSummaryCard 
           title="Total Gain/Loss" 
-          value={formatCurrency(totalGainLoss)} 
+          value={formatCurrency(totalGainLoss, isMobile)} 
           icon={totalGainLoss >= 0 ? TrendingUp : TrendingDown}
           change={`${totalGainLossPercent.toFixed(2)}%`}
           changeColor={totalGainLoss >= 0 ? 'text-green-500' : 'text-red-500'}
@@ -102,8 +102,8 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
               <LineChart data={performanceData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
-                <YAxis tickFormatter={(value) => formatCurrency(value)} width={isMobile ? 60 : 80} />
-                <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                <YAxis tickFormatter={(value) => formatCurrency(value, isMobile)} width={isMobile ? 60 : 80} />
+                <Tooltip formatter={(value: number) => formatCurrency(value, isMobile)} />
                 <Legend />
                 <Line type="monotone" dataKey="initial" name="Initial Value" stroke="hsl(var(--chart-1))" />
                 <Line type="monotone" dataKey="current" name="Current Value" stroke="hsl(var(--chart-2))" />
@@ -118,37 +118,17 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           <CardTitle>Investments</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="w-full overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Purchase Date</TableHead>
-                  <TableHead className="text-right">Initial Value</TableHead>
-                  <TableHead className="text-right">Current Value</TableHead>
-                  <TableHead className="text-right">Gain/Loss</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {investments.map(inv => {
+          {isMobile ? (
+            <div className="space-y-4">
+              {investments.map(inv => {
                   const gainLoss = inv.currentValue - inv.initialValue;
                   return (
-                    <TableRow key={inv.id}>
-                      <TableCell className="font-medium">{inv.name}</TableCell>
-                      <TableCell>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
-                      <TableCell className="text-right">{formatCurrency(inv.initialValue)}</TableCell>
-                      <TableCell className="text-right">{formatCurrency(inv.currentValue)}</TableCell>
-                      <TableCell className={cn(
-                        "text-right",
-                        gainLoss >= 0 ? "text-green-500" : "text-red-500"
-                      )}>
-                        {formatCurrency(gainLoss)}
-                      </TableCell>
-                      <TableCell>
+                    <Card key={inv.id} className="bg-card/50">
+                      <CardHeader className="flex flex-row justify-between items-start pb-2">
+                        <CardTitle className="text-lg">{inv.name}</CardTitle>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <Button variant="ghost" size="icon" className="h-8 w-8 -mt-2 -mr-2">
                                 <Trash2 className="h-4 w-4 text-muted-foreground" />
                               </Button>
                             </AlertDialogTrigger>
@@ -165,13 +145,87 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
-                      </TableCell>
-                    </TableRow>
+                      </CardHeader>
+                      <CardContent className="space-y-2 text-sm">
+                        <p className="text-muted-foreground">{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</p>
+                        <div className="flex justify-between items-center">
+                          <span>Initial Value:</span>
+                          <span className="font-medium">{formatCurrency(inv.initialValue, isMobile)}</span>
+                        </div>
+                         <div className="flex justify-between items-center">
+                          <span>Current Value:</span>
+                          <span className="font-medium">{formatCurrency(inv.currentValue, isMobile)}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span>Gain/Loss:</span>
+                           <span className={cn(
+                            "font-bold",
+                            gainLoss >= 0 ? "text-green-500" : "text-red-500"
+                          )}>
+                            {formatCurrency(gainLoss, isMobile)}
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
                   )
                 })}
-              </TableBody>
-            </Table>
-          </div>
+            </div>
+          ) : (
+            <div className="w-full overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Purchase Date</TableHead>
+                    <TableHead className="text-right">Initial Value</TableHead>
+                    <TableHead className="text-right">Current Value</TableHead>
+                    <TableHead className="text-right">Gain/Loss</TableHead>
+                    <TableHead className="w-[50px]"></TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {investments.map(inv => {
+                    const gainLoss = inv.currentValue - inv.initialValue;
+                    return (
+                      <TableRow key={inv.id}>
+                        <TableCell className="font-medium">{inv.name}</TableCell>
+                        <TableCell>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
+                        <TableCell className="text-right">{formatCurrency(inv.initialValue, isMobile)}</TableCell>
+                        <TableCell className="text-right">{formatCurrency(inv.currentValue, isMobile)}</TableCell>
+                        <TableCell className={cn(
+                          "text-right",
+                          gainLoss >= 0 ? "text-green-500" : "text-red-500"
+                        )}>
+                          {formatCurrency(gainLoss, isMobile)}
+                        </TableCell>
+                        <TableCell>
+                          <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                  <Trash2 className="h-4 w-4 text-muted-foreground" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete this investment.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => onDeleteInvestment(inv.id)}>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </CardContent>
       </Card>
 
