@@ -37,7 +37,7 @@ export default function InvestmentsPage() {
     const newInvestment: Investment = {
       ...investment,
       id: crypto.randomUUID(),
-      currentValue: investment.initialValue * (1 + (Math.random() - 0.5) * 0.2), 
+      currentValue: investment.initialValue, 
     };
     setInvestments(prev => [...prev, newInvestment]);
   };
