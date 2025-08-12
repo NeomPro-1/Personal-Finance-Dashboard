@@ -127,7 +127,7 @@ export function NetWorthCalculator() {
   }
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Net Worth Calculator</CardTitle>
       </CardHeader>
@@ -170,6 +170,8 @@ export function NetWorthCalculator() {
                   const radius = 12 + innerRadius + (outerRadius - innerRadius)
                   const x = cx + radius * Math.cos(-midAngle * RADIAN)
                   const y = cy + radius * Math.sin(-midAngle * RADIAN)
+                  const total = totalAssets + totalLiabilities;
+                  if (total === 0) return null;
 
                   return (
                     <text
@@ -180,7 +182,7 @@ export function NetWorthCalculator() {
                       dominantBaseline="central"
                     >
                       {chartData[index].name} (
-                      {`${((value / (totalAssets + totalLiabilities)) * 100).toFixed(0)}%`}
+                      {`${((value / total) * 100).toFixed(0)}%`}
                       )
                     </text>
                   )
