@@ -44,7 +44,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
     defaultValues: {
       name: "",
       purchaseDate: new Date(),
-      initialValue: undefined
+      initialValue: undefined,
     },
   });
 
@@ -246,7 +246,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                <FormField control={form.control} name="initialValue" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Initial Value</FormLabel>
-                  <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} /></FormControl>
+                  <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )}/>

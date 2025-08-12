@@ -45,6 +45,7 @@ export function AddTransactionDialog({ children, isOpen, setIsOpen, onAddTransac
       description: "",
       type: type,
       date: new Date(),
+      amount: undefined,
     },
   });
   
@@ -85,7 +86,7 @@ export function AddTransactionDialog({ children, isOpen, setIsOpen, onAddTransac
             <FormField control={form.control} name="amount" render={({ field }) => (
               <FormItem>
                 <FormLabel>Amount</FormLabel>
-                <FormControl><Input type="number" step="0.01" placeholder="e.g., 1000.00" {...field} /></FormControl>
+                <FormControl><Input type="number" step="0.01" placeholder="e.g., 1000.00" {...field} value={field.value ?? ''} /></FormControl>
                 <FormMessage />
               </FormItem>
             )}/>
