@@ -7,12 +7,12 @@ import { initialTransactions } from '@/lib/data';
 import { FinancialForecastChart } from '@/components/analysis/financial-forecast-chart';
 import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 
-export default function AnalysisPage() {
+export default function ForecastPage() {
   const [transactions] = useState(initialTransactions);
 
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
-      <h1 className="text-3xl font-bold tracking-tight">Financial Analysis</h1>
+      <h1 className="text-3xl font-bold tracking-tight">Forecast &amp; Tools</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <Card className="lg:col-span-2">
