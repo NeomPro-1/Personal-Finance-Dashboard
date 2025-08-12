@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useMemo } from 'react'
@@ -131,13 +132,13 @@ export function NetWorthCalculator() {
       <CardHeader>
         <CardTitle>Net Worth Calculator</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <div className="space-y-8">
             <FinancialItemList title="Assets" items={assets} setItems={setAssets} />
             <FinancialItemList title="Liabilities" items={liabilities} setItems={setLiabilities} />
         </div>
-        <div className="h-[300px] md:h-[400px]">
-          <ChartContainer config={chartConfig} className="w-full h-full">
+        <div className="h-[300px] md:h-full flex items-center justify-center">
+          <ChartContainer config={chartConfig} className="w-full h-full max-h-[400px]">
             <PieChart>
               <ChartTooltip
                 cursor={false}
