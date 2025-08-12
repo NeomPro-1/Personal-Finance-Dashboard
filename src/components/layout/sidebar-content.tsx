@@ -7,7 +7,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarContent as SidebarBody
+  SidebarContent as SidebarBody,
+  useSidebar
 } from "@/components/ui/sidebar"
 import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp } from "lucide-react"
 import Link from "next/link"
@@ -16,6 +17,11 @@ import { ThemeToggle } from '@/components/theme-toggle'
 
 export function SidebarContent() {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
+
+  const handleLinkClick = () => {
+    setOpenMobile(false);
+  }
 
   return (
     <>
@@ -28,7 +34,7 @@ export function SidebarContent() {
       <SidebarBody>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/dashboard')}>
+            <SidebarMenuButton asChild isActive={pathname.includes('/dashboard')} onClick={handleLinkClick}>
                 <Link href="/dashboard">
                     <LayoutDashboard />
                     <span>Dashboard</span>
@@ -36,7 +42,7 @@ export function SidebarContent() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/investments')}>
+            <SidebarMenuButton asChild isActive={pathname.includes('/investments')} onClick={handleLinkClick}>
                 <Link href="/investments">
                     <TrendingUp />
                     <span>Investments</span>
@@ -44,7 +50,7 @@ export function SidebarContent() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/forecast')}>
+            <SidebarMenuButton asChild isActive={pathname.includes('/forecast')} onClick={handleLinkClick}>
                 <Link href="/forecast">
                     <BarChart />
                     <span>Forecast &amp; Tools</span>
@@ -52,7 +58,7 @@ export function SidebarContent() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/settings')}>
+            <SidebarMenuButton asChild isActive={pathname.includes('/settings')} onClick={handleLinkClick}>
                 <Link href="/settings">
                     <Settings />
                     <span>Settings</span>
