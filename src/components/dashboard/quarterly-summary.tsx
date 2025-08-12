@@ -25,13 +25,15 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
 
   const quarterlyData = useMemo(() => {
     const dataByYearAndQuarter: Record<string, Record<string, { income: number; expenses: number; net: number }>> = {};
+    const currentYear = getYear(new Date());
 
-    transactions.forEach((t) => {
+    const filteredTransactions = transactions.filter(t => getYear(new Date(t.date)) <= currentYear);
+
+    filteredTransactions.forEach((t) => {
       const date = new Date(t.date);
       const year = getYear(date);
       const quarter = getQuarter(date);
-      const key = `${year}-Q${quarter}`;
-
+      
       if (!dataByYearAndQuarter[year]) {
         dataByYearAndQuarter[year] = {
           1: { income: 0, expenses: 0, net: 0 },
@@ -54,7 +56,9 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
     return Object.entries(dataByYearAndQuarter)
       .sort(([yearA], [yearB]) => parseInt(yearB, 10) - parseInt(yearA, 10))
       .flatMap(([year, quarters]) =>
-        Object.entries(quarters).map(([q, data]) => ({
+        Object.entries(quarters)
+        .filter(([,qData]) => qData.income > 0 || qData.expenses > 0)
+        .map(([q, data]) => ({
           id: `${year}-Q${q}`,
           title: `Q${q} ${year}`,
           months: quarterMonthsMap[`Q${q}`],
