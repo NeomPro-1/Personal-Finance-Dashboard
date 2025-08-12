@@ -50,7 +50,7 @@ export function QuarterlySummaryCard({
               className="h-5 w-5"
             />
             <div>
-              <CardTitle className={cn("text-lg font-semibold", isChecked && 'line-through text-muted-foreground')}>
+              <CardTitle className={cn("text-lg font-semibold", isChecked && 'text-muted-foreground')}>
                 {title}
               </CardTitle>
               <CardDescription className={cn("text-xs text-muted-foreground", isChecked && 'line-through')}>

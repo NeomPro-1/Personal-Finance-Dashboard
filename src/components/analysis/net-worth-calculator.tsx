@@ -131,13 +131,13 @@ export function NetWorthCalculator() {
       <CardHeader>
         <CardTitle>Net Worth Calculator</CardTitle>
       </CardHeader>
-      <CardContent className="grid md:grid-cols-2 gap-8">
-        <FinancialItemList title="Assets" items={assets} setItems={setAssets} />
-        <FinancialItemList title="Liabilities" items={liabilities} setItems={setLiabilities} />
-      </CardContent>
-       <CardContent>
-        <div className="h-[250px]">
-          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+      <CardContent className="grid md:grid-cols-2 gap-8 items-start">
+        <div className="space-y-8">
+            <FinancialItemList title="Assets" items={assets} setItems={setAssets} />
+            <FinancialItemList title="Liabilities" items={liabilities} setItems={setLiabilities} />
+        </div>
+        <div className="h-[250px] md:h-[400px]">
+          <ChartContainer config={chartConfig} className="w-full h-full">
             <PieChart>
               <ChartTooltip
                 cursor={false}
@@ -154,8 +154,37 @@ export function NetWorthCalculator() {
                 data={chartData}
                 dataKey="value"
                 nameKey="name"
-                innerRadius={50}
+                innerRadius="40%"
                 strokeWidth={5}
+                labelLine={false}
+                label={({
+                  cx,
+                  cy,
+                  midAngle,
+                  innerRadius,
+                  outerRadius,
+                  value,
+                  index,
+                }) => {
+                  const RADIAN = Math.PI / 180
+                  const radius = 12 + innerRadius + (outerRadius - innerRadius)
+                  const x = cx + radius * Math.cos(-midAngle * RADIAN)
+                  const y = cy + radius * Math.sin(-midAngle * RADIAN)
+
+                  return (
+                    <text
+                      x={x}
+                      y={y}
+                      className="fill-muted-foreground text-xs"
+                      textAnchor={x > cx ? "start" : "end"}
+                      dominantBaseline="central"
+                    >
+                      {chartData[index].name} (
+                      {`${((value / (totalAssets + totalLiabilities)) * 100).toFixed(0)}%`}
+                      )
+                    </text>
+                  )
+                }}
               >
                  {chartData.map((entry) => (
                   <Cell

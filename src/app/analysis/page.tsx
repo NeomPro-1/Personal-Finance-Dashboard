@@ -12,19 +12,19 @@ export default function AnalysisPage() {
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <h1 className="text-3xl font-bold tracking-tight">Analysis</h1>
-
-      <NetWorthCalculator />
-      
-      <Card>
-        <CardHeader>
-          <CardTitle>Monthly Expenses</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[400px]">
-            <MonthlyExpensesChart transactions={transactions} />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid lg:grid-cols-2 gap-8 items-start">
+        <NetWorthCalculator />
+        <Card>
+          <CardHeader>
+            <CardTitle>Monthly Expenses</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[400px]">
+              <MonthlyExpensesChart transactions={transactions} />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }
