@@ -18,6 +18,8 @@ export const CATEGORIES = [
   'Healthcare',
   'Salary',
   'Freelance',
+  'Investments',
+  'Retail',
   'Other',
 ] as const;
 
