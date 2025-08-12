@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { InvestmentsTable } from '@/components/investments/investments-table';
-import { FinancialForecastChart } from '@/components/investments/financial-forecast-chart';
 import { initialInvestments } from '@/lib/data';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Investment } from '@/lib/types';
 
 export default function InvestmentsPage() {
   const [investments, setInvestments] = React.useState(initialInvestments);
@@ -31,16 +30,6 @@ export default function InvestmentsPage() {
         onAddInvestment={handleAddInvestment}
         onDeleteInvestment={handleDeleteInvestment}
       />
-      <Card>
-        <CardHeader>
-          <CardTitle>Financial Forecast Report</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[400px] w-full">
-            <FinancialForecastChart investments={investments} />
-          </div>
-        </CardContent>
-      </Card>
     </main>
   );
 }
