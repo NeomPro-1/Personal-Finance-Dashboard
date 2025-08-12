@@ -8,7 +8,7 @@ import {
   SidebarFooter,
   SidebarContent as SidebarBody
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Settings, Wallet, BarChart } from "lucide-react"
+import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -31,6 +31,14 @@ export function SidebarContent() {
                 <Link href="/dashboard">
                     <LayoutDashboard />
                     <span>Dashboard</span>
+                </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname.includes('/investments')}>
+                <Link href="/investments">
+                    <TrendingUp />
+                    <span>Investments</span>
                 </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

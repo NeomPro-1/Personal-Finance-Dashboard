@@ -24,3 +24,11 @@ export const CATEGORIES = [
 ] as const;
 
 export type Category = (typeof CATEGORIES)[number];
+
+export type Investment = {
+  id: string;
+  name: string;
+  purchaseDate: string;
+  initialValue: number;
+  currentValue: number;
+};
