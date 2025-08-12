@@ -66,15 +66,15 @@ export default function DashboardPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Time</SelectItem>
+                {monthOptions.map(month => (
+                  <SelectItem key={month} value={month}>
+                    {format(new Date(`${month}-02`), 'MMMM yyyy')}
+                  </SelectItem>
+                ))}
                 <SelectItem value="q1">Q1</SelectItem>
                 <SelectItem value="q2">Q2</SelectItem>
                 <SelectItem value="q3">Q3</SelectItem>
                 <SelectItem value="q4">Q4</SelectItem>
-                {monthOptions.map(month => (
-                  <SelectItem key={month} value={month}>
-                    {format(new Date(`${month}-02`), 'MMMM')}
-                  </SelectItem>
-                ))}
               </SelectContent>
             </Select>
         </div>
