@@ -31,6 +31,22 @@ const initialTransactions: Transaction[] = [
   { id: '15', date: '2025-04-18', description: 'Car Insurance', amount: 150, type: 'expense', category: 'Utilities' },
   { id: '16', date: '2025-05-22', description: 'Groceries', amount: 400, type: 'expense', category: 'Groceries' },
   { id: '17', date: '2025-06-25', description: 'Movie Night', amount: 50, type: 'expense', category: 'Entertainment' },
+  
+  // Q3 Transactions
+  { id: '18', date: '2025-07-10', description: 'Acme Inc.', amount: 6500, type: 'income', category: 'Salary' },
+  { id: '19', date: '2025-08-15', description: 'Side Gig', amount: 1200, type: 'income', category: 'Freelance' },
+  { id: '20', date: '2025-09-05', description: 'Acme Inc.', amount: 6500, type: 'income', category: 'Salary' },
+  { id: '21', date: '2025-07-18', description: 'Groceries', amount: 350, type: 'expense', category: 'Groceries' },
+  { id: '22', date: '2025-08-22', description: 'Internet Bill', amount: 80, type: 'expense', category: 'Utilities' },
+  { id: '23', date: '2025-09-25', description: 'Mortgage', amount: 2500, type: 'expense', category: 'Rent/Mortgage' },
+
+  // Q4 Transactions
+  { id: '24', date: '2025-10-10', description: 'Acme Inc.', amount: 6500, type: 'income', category: 'Salary' },
+  { id: '25', date: '2025-11-15', description: 'Consulting Work', amount: 3000, type: 'income', category: 'Freelance' },
+  { id: '26', date: '2025-12-05', description: 'Stock Dividend', amount: 450, type: 'income', category: 'Investments' },
+  { id: '27', date: '2025-10-18', description: 'Health Insurance', amount: 300, type: 'expense', category: 'Healthcare' },
+  { id: '28', date: '2025-11-22', description: 'Holiday Shopping', amount: 700, type: 'expense', category: 'Retail' },
+  { id: '29', date: '2025-12-25', description: 'Mortgage', amount: 2500, type: 'expense', category: 'Rent/Mortgage' },
 ];
 
 export default function DashboardPage() {
