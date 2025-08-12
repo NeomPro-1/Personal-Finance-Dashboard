@@ -12,6 +12,7 @@ import { ExpensesTable } from '@/components/dashboard/expenses-table';
 import { QuarterlySummary } from '@/components/dashboard/quarterly-summary';
 import { initialTransactions } from '@/lib/data';
 import { formatCurrency } from '@/lib/utils';
+import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 
 const TRANSACTIONS_STORAGE_KEY = 'transactions';
 
@@ -88,6 +89,8 @@ export default function DashboardPage() {
     const yearsToDisplay = transactionYears.length > 0 ? transactionYears : [new Date().getFullYear()];
     yearsToDisplay.sort((a,b) => b-a);
     
+    const currentYear = new Date().getFullYear();
+
     yearsToDisplay.forEach(year => {
         for (let i = 11; i >= 0; i--) {
             const date = new Date(year, i, 1);
@@ -108,13 +111,7 @@ export default function DashboardPage() {
   }, [transactions]);
 
   if (isLoading) {
-    return (
-        <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
-            <div className="flex justify-center items-center h-full">
-                <p>Loading your financial data...</p>
-            </div>
-        </main>
-    )
+    return <LoadingSkeleton />;
   }
 
 

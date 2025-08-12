@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 
 const INVESTMENTS_STORAGE_KEY = 'investments';
 
@@ -72,16 +73,11 @@ export default function InvestmentsPage() {
   
   const handleClearSampleData = () => {
     setInvestments([]);
+    setIsInitialData(false);
   }
 
   if (isLoading) {
-    return (
-        <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
-            <div className="flex justify-center items-center h-full">
-                <p>Loading your investment data...</p>
-            </div>
-        </main>
-    )
+    return <LoadingSkeleton />;
   }
   
   return (
