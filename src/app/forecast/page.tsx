@@ -26,7 +26,7 @@ export default function ForecastPage() {
             <CardTitle>Financial Forecast Report</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[400px] w-full">
+            <div className="w-full">
               <FinancialForecastChart transactions={transactions} />
             </div>
           </CardContent>

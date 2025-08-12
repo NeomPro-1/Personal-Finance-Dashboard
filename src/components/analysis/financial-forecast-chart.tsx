@@ -90,7 +90,7 @@ export function FinancialForecastChart({ transactions }: FinancialForecastChartP
   }
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <ChartContainer config={chartConfig} className="min-h-[200px] w-full h-[350px]">
       <BarChart
         accessibilityLayer
         data={chartData}
