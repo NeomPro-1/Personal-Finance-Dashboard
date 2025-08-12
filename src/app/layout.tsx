@@ -34,7 +34,7 @@ export default function RootLayout({
             </Sidebar>
             <SidebarInset>
                <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
-                <SidebarTrigger />
+                <SidebarTrigger className="h-8 w-8 [&>svg]:h-5 [&>svg]:w-5" />
               </header>
               {children}
             </SidebarInset>
