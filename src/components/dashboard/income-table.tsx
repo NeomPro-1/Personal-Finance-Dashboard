@@ -6,13 +6,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { PlusCircle } from "lucide-react"
+import { PlusCircle, Trash2 } from "lucide-react"
 import { AddTransactionDialog } from './add-transaction-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import type { Transaction } from "@/lib/types"
 
 interface IncomeTableProps {
   transactions: Transaction[];
   onAddTransaction: (transaction: Omit<Transaction, 'id'>) => void;
+  onDeleteTransaction: (id: string) => void;
 }
 
 const getCategoryColor = (category: string) => {
@@ -24,7 +26,7 @@ const getCategoryColor = (category: string) => {
   }
 }
 
-export function IncomeTable({ transactions, onAddTransaction }: IncomeTableProps) {
+export function IncomeTable({ transactions, onAddTransaction, onDeleteTransaction }: IncomeTableProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const groupedByMonth = useMemo(() => {
@@ -78,21 +80,43 @@ export function IncomeTable({ transactions, onAddTransaction }: IncomeTableProps
                     <TableHead>Tags</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="w-[50px]"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {monthTransactions.map(t => (
-                    <TableRow key={t.id} className="hover:bg-transparent">
+                    <TableRow key={t.id} className="hover:bg-transparent group">
                       <TableCell className="font-medium">{t.description}</TableCell>
                       <TableCell>
                         <Badge variant="outline" className={getCategoryColor(t.category)}>{t.category}</Badge>
                       </TableCell>
                        <TableCell>{format(parseISO(t.date), 'MMM dd, yyyy')}</TableCell>
                       <TableCell className="text-right">{formatCurrency(t.amount)}</TableCell>
+                      <TableCell>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100">
+                              <Trash2 className="h-4 w-4 text-muted-foreground" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete this transaction.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => onDeleteTransaction(t.id)}>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </TableCell>
                     </TableRow>
                   ))}
                    <TableRow className="hover:bg-transparent">
-                      <TableCell colSpan={3} className="text-right font-semibold text-muted-foreground">SUM</TableCell>
+                      <TableCell colSpan={4} className="text-right font-semibold text-muted-foreground">SUM</TableCell>
                       <TableCell className="text-right font-bold">{formatCurrency(total)}</TableCell>
                   </TableRow>
                 </TableBody>

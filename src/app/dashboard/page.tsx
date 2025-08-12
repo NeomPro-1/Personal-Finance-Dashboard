@@ -42,6 +42,10 @@ export default function DashboardPage() {
     setTransactions(prev => [...prev, newTransaction]);
   };
 
+  const handleDeleteTransaction = (id: string) => {
+    setTransactions(prev => prev.filter(t => t.id !== id));
+  };
+
   const filteredTransactions = useMemo(() => {
     if (filter === 'all') return transactions;
     if (filter.startsWith('q')) {
@@ -110,8 +114,16 @@ export default function DashboardPage() {
       <QuarterlySummary transactions={transactions} />
 
       <div className="grid gap-8 lg:grid-cols-2">
-        <IncomeTable transactions={incomeTransactions} onAddTransaction={handleAddTransaction} />
-        <ExpensesTable transactions={expenseTransactions} onAddTransaction={handleAddTransaction} />
+        <IncomeTable 
+          transactions={incomeTransactions} 
+          onAddTransaction={handleAddTransaction}
+          onDeleteTransaction={handleDeleteTransaction} 
+        />
+        <ExpensesTable 
+          transactions={expenseTransactions} 
+          onAddTransaction={handleAddTransaction} 
+          onDeleteTransaction={handleDeleteTransaction}
+        />
       </div>
     </main>
   );
