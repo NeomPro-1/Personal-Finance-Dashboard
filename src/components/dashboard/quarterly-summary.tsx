@@ -9,6 +9,13 @@ interface QuarterlySummaryProps {
   transactions: Transaction[];
 }
 
+const quarterMonthsMap: Record<string, string> = {
+  "Q1": "January, February, March",
+  "Q2": "April, May, June",
+  "Q3": "July, August, September",
+  "Q4": "October, November, December"
+};
+
 export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
   const [checkedQuarters, setCheckedQuarters] = useState<Record<string, boolean>>({});
 
@@ -36,6 +43,7 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
 
     return Object.entries(quarters).map(([q, data]) => ({
       quarter: `Q${q}`,
+      months: quarterMonthsMap[`Q${q}`],
       ...data,
     }));
   }, [transactions]);
@@ -48,6 +56,7 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
           <QuarterlySummaryCard
             key={data.quarter}
             title={data.quarter}
+            months={data.months}
             income={data.income}
             expenses={data.expenses}
             net={data.net}

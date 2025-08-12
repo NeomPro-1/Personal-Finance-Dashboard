@@ -3,6 +3,7 @@
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -12,6 +13,7 @@ import { cn } from '@/lib/utils';
 
 interface QuarterlySummaryCardProps {
   title: string;
+  months: string;
   income: number;
   expenses: number;
   net: number;
@@ -21,6 +23,7 @@ interface QuarterlySummaryCardProps {
 
 export function QuarterlySummaryCard({
   title,
+  months,
   income,
   expenses,
   net,
@@ -44,16 +47,23 @@ export function QuarterlySummaryCard({
       onClick={handleCardClick}
     >
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <Checkbox
-            id={`quarter-${title}`}
-            checked={isChecked}
-            onCheckedChange={onCheckedChange}
-            className="h-5 w-5"
-          />
-          <CardTitle className={cn("text-lg font-semibold", isChecked && 'line-through text-muted-foreground')}>
-            {title}
-          </CardTitle>
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-3">
+            <Checkbox
+              id={`quarter-${title}`}
+              checked={isChecked}
+              onCheckedChange={onCheckedChange}
+              className="h-5 w-5"
+            />
+            <div>
+              <CardTitle className={cn("text-lg font-semibold", isChecked && 'line-through text-muted-foreground')}>
+                {title}
+              </CardTitle>
+              <CardDescription className={cn("text-xs text-muted-foreground", isChecked && 'line-through')}>
+                {months}
+              </CardDescription>
+            </div>
+          </div>
         </div>
       </CardHeader>
       <CardContent className={cn("space-y-4", isChecked && 'opacity-50')}>
