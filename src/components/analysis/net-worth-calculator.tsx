@@ -5,6 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PlusCircle, Trash2 } from 'lucide-react'
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 
 type Item = {
   id: string
@@ -102,6 +108,25 @@ export function NetWorthCalculator() {
   )
   const netWorth = totalAssets - totalLiabilities
 
+  const chartData = [
+    { name: 'Assets', value: totalAssets, fill: "var(--color-assets)" },
+    { name: 'Liabilities', value: totalLiabilities, fill: "var(--color-liabilities)" }
+  ]
+
+  const chartConfig = {
+    value: {
+      label: 'Value',
+    },
+    assets: {
+      label: 'Assets',
+      color: 'hsl(var(--chart-2))',
+    },
+    liabilities: {
+      label: 'Liabilities',
+      color: 'hsl(var(--chart-1))',
+    },
+  }
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
   }
@@ -114,6 +139,29 @@ export function NetWorthCalculator() {
       <CardContent className="grid md:grid-cols-2 gap-8">
         <FinancialItemList title="Assets" items={assets} setItems={setAssets} />
         <FinancialItemList title="Liabilities" items={liabilities} setItems={setLiabilities} />
+      </CardContent>
+       <CardContent>
+        <div className="h-[200px]">
+          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+            <BarChart accessibilityLayer data={chartData} layout="vertical" margin={{ left: 10 }}>
+              <CartesianGrid horizontal={false} />
+              <YAxis
+                dataKey="name"
+                type="category"
+                tickLine={false}
+                axisLine={false}
+              />
+              <XAxis type="number" hide />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent
+                  formatter={(value) => formatCurrency(value as number)}
+                />}
+              />
+              <Bar dataKey="value" radius={5} />
+            </BarChart>
+          </ChartContainer>
+        </div>
       </CardContent>
       <CardFooter className="mt-6">
         <div className="w-full flex justify-between items-center text-xl font-bold text-primary">
