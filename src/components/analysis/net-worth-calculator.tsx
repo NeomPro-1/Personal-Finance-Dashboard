@@ -58,7 +58,7 @@ function FinancialItemList({
       <h3 className="text-lg font-semibold">{title}</h3>
       <div className="space-y-2">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center gap-2">
+          <div key={item.id} className="flex flex-wrap sm:flex-nowrap items-center gap-2">
             <Input
               placeholder="e.g., Savings Account"
               value={item.description}
@@ -70,7 +70,7 @@ function FinancialItemList({
               placeholder="Amount"
               value={item.value || ''}
               onChange={(e) => handleItemChange(item.id, 'value', e.target.value)}
-              className="w-32"
+              className="w-full sm:w-32"
             />
             <Button variant="ghost" size="icon" onClick={() => handleRemoveItem(item.id)}>
               <Trash2 className="h-4 w-4 text-muted-foreground" />
@@ -131,7 +131,7 @@ export function NetWorthCalculator() {
       <CardHeader>
         <CardTitle>Net Worth Calculator</CardTitle>
       </CardHeader>
-      <CardContent className="grid md:grid-cols-2 gap-8 items-start">
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <div className="space-y-8">
             <FinancialItemList title="Assets" items={assets} setItems={setAssets} />
             <FinancialItemList title="Liabilities" items={liabilities} setItems={setLiabilities} />

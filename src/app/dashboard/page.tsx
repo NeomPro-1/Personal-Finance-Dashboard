@@ -59,9 +59,9 @@ export default function DashboardPage() {
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Personal Finance Dashboard</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
             <Select value={filter} onValueChange={setFilter}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Filter by period" />
               </SelectTrigger>
               <SelectContent>
@@ -72,7 +72,7 @@ export default function DashboardPage() {
                 <SelectItem value="q4">Q4</SelectItem>
                 {monthOptions.map(month => (
                   <SelectItem key={month} value={month}>
-                    {format(new Date(`${month}-01`), 'MMMM')}
+                    {format(new Date(`${month}-02`), 'MMMM')}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -80,7 +80,7 @@ export default function DashboardPage() {
         </div>
       </div>
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <SummaryCard title="Total Income" value={formatCurrency(income)} icon={ArrowUpCircle} />
         <SummaryCard title="Total Expenses" value={formatCurrency(expenses)} icon={ArrowDownCircle} />
         <SummaryCard title="Net Balance" value={formatCurrency(net)} icon={DollarSign} />
@@ -88,7 +88,7 @@ export default function DashboardPage() {
 
       <QuarterlySummary transactions={transactions} />
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
         <IncomeTable 
           transactions={incomeTransactions} 
           onAddTransaction={handleAddTransaction}
