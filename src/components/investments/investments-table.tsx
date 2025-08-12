@@ -213,7 +213,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
               </CardHeader>
               <CardContent className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
                 <p className="text-blue-200 text-sm max-w-prose">
-                  The data you see below is for demonstration purposes only. To start tracking your own finances, please clear the sample data.
+                  The data you see below is for demonstration purposes only and not based on real market values. To start tracking your own finances, please clear the sample data.
                 </p>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
