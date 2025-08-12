@@ -20,6 +20,7 @@ import { InvestmentSummaryCard } from './investment-summary-card'
 import { cn, formatCurrency } from "@/lib/utils"
 import type { Investment } from "@/lib/types"
 import { CalendarIcon, Trash2, TrendingUp, TrendingDown, DollarSign, PiggyBank, Briefcase } from "lucide-react"
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface InvestmentsTableProps {
   investments: Investment[];
@@ -36,7 +37,7 @@ const addInvestmentFormSchema = z.object({
 type AddInvestmentFormValues = z.infer<typeof addInvestmentFormSchema>;
 
 export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestment }: InvestmentsTableProps) {
-
+  const isMobile = useIsMobile();
   const form = useForm<AddInvestmentFormValues>({
     resolver: zodResolver(addInvestmentFormSchema),
     defaultValues: {
@@ -100,7 +101,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
               <LineChart data={performanceData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
-                <YAxis tickFormatter={(value) => formatCurrency(value)} />
+                <YAxis tickFormatter={(value) => formatCurrency(value)} width={isMobile ? 60 : 80} />
                 <Tooltip formatter={(value: number) => formatCurrency(value)} />
                 <Legend />
                 <Line type="monotone" dataKey="initial" name="Initial Value" stroke="hsl(var(--chart-1))" />
@@ -116,58 +117,60 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           <CardTitle>Investments</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Purchase Date</TableHead>
-                <TableHead className="text-right">Initial Value</TableHead>
-                <TableHead className="text-right">Current Value</TableHead>
-                <TableHead className="text-right">Gain/Loss</TableHead>
-                <TableHead className="w-[50px]"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {investments.map(inv => {
-                const gainLoss = inv.currentValue - inv.initialValue;
-                return (
-                  <TableRow key={inv.id}>
-                    <TableCell className="font-medium">{inv.name}</TableCell>
-                    <TableCell>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(inv.initialValue)}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(inv.currentValue)}</TableCell>
-                    <TableCell className={cn(
-                      "text-right",
-                      gainLoss >= 0 ? "text-green-500" : "text-red-500"
-                    )}>
-                      {formatCurrency(gainLoss)}
-                    </TableCell>
-                    <TableCell>
-                      <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <Trash2 className="h-4 w-4 text-muted-foreground" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete this investment.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => onDeleteInvestment(inv.id)}>Continue</AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
+          <div className="w-full overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Purchase Date</TableHead>
+                  <TableHead className="text-right">Initial Value</TableHead>
+                  <TableHead className="text-right">Current Value</TableHead>
+                  <TableHead className="text-right">Gain/Loss</TableHead>
+                  <TableHead className="w-[50px]"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {investments.map(inv => {
+                  const gainLoss = inv.currentValue - inv.initialValue;
+                  return (
+                    <TableRow key={inv.id}>
+                      <TableCell className="font-medium">{inv.name}</TableCell>
+                      <TableCell>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
+                      <TableCell className="text-right">{formatCurrency(inv.initialValue)}</TableCell>
+                      <TableCell className="text-right">{formatCurrency(inv.currentValue)}</TableCell>
+                      <TableCell className={cn(
+                        "text-right",
+                        gainLoss >= 0 ? "text-green-500" : "text-red-500"
+                      )}>
+                        {formatCurrency(gainLoss)}
+                      </TableCell>
+                      <TableCell>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <Trash2 className="h-4 w-4 text-muted-foreground" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will permanently delete this investment.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => onDeleteInvestment(inv.id)}>Continue</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 

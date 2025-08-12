@@ -15,6 +15,7 @@ import {
   ChartLegendContent,
 } from "@/components/ui/chart"
 import { formatCurrency } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 type Item = {
   id: string
@@ -92,6 +93,7 @@ function FinancialItemList({
 }
 
 export function NetWorthCalculator() {
+  const isMobile = useIsMobile();
   const [assets, setAssets] = useState<Item[]>([
     { id: crypto.randomUUID(), description: 'Checking Account', value: 5000 },
     { id: crypto.randomUUID(), description: 'Investments', value: 25000 },
@@ -168,7 +170,7 @@ export function NetWorthCalculator() {
                   index,
                 }) => {
                   const RADIAN = Math.PI / 180
-                  const radius = 12 + innerRadius + (outerRadius - innerRadius)
+                  const radius = (isMobile ? 0 : 12) + innerRadius + (outerRadius - innerRadius)
                   const x = cx + radius * Math.cos(-midAngle * RADIAN)
                   const y = cy + radius * Math.sin(-midAngle * RADIAN)
                   const total = totalAssets + totalLiabilities;

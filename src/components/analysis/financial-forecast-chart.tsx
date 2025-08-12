@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/chart"
 import type { Transaction } from "@/lib/types"
 import { formatCurrency } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FinancialForecastChartProps {
     transactions: Transaction[];
 }
 
 export function FinancialForecastChart({ transactions }: FinancialForecastChartProps) {
+  const isMobile = useIsMobile();
   const chartData = React.useMemo(() => {
     const monthlyData: Record<string, { income: number; expenses: number; month: string }> = {};
 
@@ -97,13 +99,14 @@ export function FinancialForecastChart({ transactions }: FinancialForecastChartP
           tickLine={false}
           axisLine={false}
           tickMargin={8}
+          tickFormatter={(value) => isMobile ? value.substring(0, 3) : value}
         />
         <YAxis
           tickFormatter={(value) => formatCurrency(value as number)}
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          width={80}
+          width={isMobile ? 60 : 80}
         />
         <ChartTooltip
           cursor={false}
