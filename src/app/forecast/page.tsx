@@ -1,14 +1,67 @@
 
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { initialTransactions } from '@/lib/data';
 import { FinancialForecastChart } from '@/components/analysis/financial-forecast-chart';
 import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
+import type { Transaction } from '@/lib/types';
+import { Skeleton } from '@/components/ui/skeleton';
+
+
+function ForecastLoading() {
+    return (
+    <main className="p-4 sm:p-6 lg:p-8 space-y-8">
+      <Skeleton className="h-9 w-72" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-48" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-48" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-[350px] w-full" />
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
 
 export default function ForecastPage() {
-  const [transactions] = useState(initialTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading data, e.g., from localStorage
+     try {
+      const storedTransactions = localStorage.getItem('transactions');
+      if (storedTransactions) {
+        setTransactions(JSON.parse(storedTransactions));
+      } else {
+        setTransactions(initialTransactions);
+      }
+    } catch (error) {
+      console.error("Failed to load transactions from localStorage", error);
+      setTransactions(initialTransactions);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  if (isLoading) {
+    return <ForecastLoading />;
+  }
 
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
