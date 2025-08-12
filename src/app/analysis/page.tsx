@@ -14,18 +14,22 @@ export default function AnalysisPage() {
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <h1 className="text-3xl font-bold tracking-tight">Financial Analysis</h1>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>Financial Forecast Report</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[400px] w-full">
-            <FinancialForecastChart transactions={transactions} />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Financial Forecast Report</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[400px] w-full">
+              <FinancialForecastChart transactions={transactions} />
+            </div>
+          </CardContent>
+        </Card>
 
-      <NetWorthCalculator />
+        <div className="lg:col-span-2">
+          <NetWorthCalculator />
+        </div>
+      </div>
       
     </main>
   );
