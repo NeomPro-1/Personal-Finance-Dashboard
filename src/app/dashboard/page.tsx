@@ -51,12 +51,12 @@ export default function DashboardPage() {
   }, [filteredTransactions]);
   
   const monthOptions = useMemo(() => {
-    const years = Array.from(new Set(transactions.map(t => getYear(new Date(t.date)))))
-                         .sort((a, b) => b - a);
-    
-    if (years.length === 0) {
-      years.push(new Date().getFullYear());
-    }
+    const currentYear = new Date().getFullYear();
+    const transactionYears = Array.from(new Set(transactions.map(t => getYear(new Date(t.date)))))
+                                  .filter(year => year <= currentYear);
+
+    const years = transactionYears.length > 0 ? transactionYears : [currentYear];
+    years.sort((a, b) => b - a);
 
     const options: { label: string, value: string }[] = [];
     years.forEach(year => {
@@ -120,4 +120,3 @@ export default function DashboardPage() {
     </main>
   );
 }
-
