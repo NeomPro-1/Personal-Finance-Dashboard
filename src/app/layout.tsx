@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 export const metadata: Metadata = {
   title: 'FinanceFlow',
   description: 'Personal finance dashboard to track and manage your money.',
+  viewport: 'width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({
