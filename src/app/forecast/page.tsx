@@ -13,7 +13,7 @@ const TRANSACTIONS_STORAGE_KEY = 'transactions';
 
 function ForecastLoading() {
     return (
-    <main className="p-4 sm:p-6 lg:p-8 space-y-8">
+    <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-fade-in">
       <Skeleton className="h-9 w-72" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <Card>

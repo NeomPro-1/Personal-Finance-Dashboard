@@ -6,7 +6,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
 export function LoadingSkeleton() {
   return (
-    <main className="p-4 sm:p-6 lg:p-8 space-y-8">
+    <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-slide-up-and-fade-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <Skeleton className="h-9 w-64" />
         <Skeleton className="h-10 w-full sm:w-[180px]" />
