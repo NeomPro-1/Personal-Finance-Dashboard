@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useMemo, useState } from 'react';
@@ -29,21 +30,29 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
 
     const filteredTransactions = transactions.filter(t => getYear(new Date(t.date)) <= currentYear);
 
+    const transactionYears = Array.from(new Set(filteredTransactions.map(t => getYear(new Date(t.date)))));
+    
+    if (transactionYears.length === 0) {
+      transactionYears.push(currentYear);
+    }
+
+    transactionYears.forEach(year => {
+        dataByYearAndQuarter[year] = {
+            1: { income: 0, expenses: 0, net: 0 },
+            2: { income: 0, expenses: 0, net: 0 },
+            3: { income: 0, expenses: 0, net: 0 },
+            4: { income: 0, expenses: 0, net: 0 },
+        };
+    });
+
+
     filteredTransactions.forEach((t) => {
       const date = new Date(t.date);
       const year = getYear(date);
       const quarter = getQuarter(date);
       
-      if (!dataByYearAndQuarter[year]) {
-        dataByYearAndQuarter[year] = {
-          1: { income: 0, expenses: 0, net: 0 },
-          2: { income: 0, expenses: 0, net: 0 },
-          3: { income: 0, expenses: 0, net: 0 },
-          4: { income: 0, expenses: 0, net: 0 },
-        };
-      }
-      
-      const quarterData = dataByYearAndQuarter[year][quarter];
+      const quarterData = dataByYearAndQuarter[year]?.[quarter];
+      if (!quarterData) return;
 
       if (t.type === 'income') {
         quarterData.income += t.amount;
@@ -57,7 +66,6 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
       .sort(([yearA], [yearB]) => parseInt(yearB, 10) - parseInt(yearA, 10))
       .flatMap(([year, quarters]) =>
         Object.entries(quarters)
-        .filter(([,qData]) => qData.income > 0 || qData.expenses > 0)
         .map(([q, data]) => ({
           id: `${year}-Q${q}`,
           title: `Q${q} ${year}`,
