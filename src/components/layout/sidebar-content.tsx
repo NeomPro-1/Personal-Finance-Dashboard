@@ -70,7 +70,7 @@ export function SidebarContent() {
         </SidebarMenu>
       </SidebarBody>
       <SidebarFooter>
-        <ThemeToggle />
+        <ThemeToggle setOpenMobile={setOpenMobile} />
       </SidebarFooter>
     </>
   )

@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -11,9 +12,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useSidebar } from "./ui/sidebar"
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  setOpenMobile?: (open: boolean) => void;
+}
+
+export function ThemeToggle({ setOpenMobile }: ThemeToggleProps) {
   const { setTheme } = useTheme()
+  const { isMobile } = useSidebar();
+
+  const handleThemeChange = (theme: string) => {
+    setTheme(theme);
+    if (isMobile && setOpenMobile) {
+      setOpenMobile(false);
+    }
+  }
 
   return (
     <DropdownMenu>
@@ -25,13 +39,13 @@ export function ThemeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => handleThemeChange("light")}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => handleThemeChange("dark")}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => handleThemeChange("system")}>
           System
         </DropdownMenuItem>
       </DropdownMenuContent>
