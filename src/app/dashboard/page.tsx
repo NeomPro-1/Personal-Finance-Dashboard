@@ -51,24 +51,34 @@ export default function DashboardPage() {
   }, [filteredTransactions]);
   
   const monthOptions = useMemo(() => {
-    const currentYear = new Date().getFullYear();
-    const transactionYears = Array.from(new Set(transactions.map(t => getYear(new Date(t.date)))))
-                                  .filter(year => year <= currentYear);
-
-    const years = transactionYears.length > 0 ? transactionYears : [currentYear];
-    years.sort((a, b) => b - a);
-
     const options: { label: string, value: string }[] = [];
-    years.forEach(year => {
-      for (let i = 11; i >= 0; i--) {
-        const date = new Date(year, i, 1);
-        options.push({
-          label: format(date, 'MMMM yyyy'),
-          value: format(date, 'yyyy-MM')
-        });
-      }
+    // Get unique years from transactions, don't include future years
+    const transactionYears = Array.from(new Set(transactions.map(t => getYear(new Date(t.date)))))
+                                  .filter(year => year <= new Date().getFullYear());
+
+    const yearsToDisplay = transactionYears.length > 0 ? transactionYears : [new Date().getFullYear()];
+    yearsToDisplay.sort((a,b) => b-a);
+    
+    yearsToDisplay.forEach(year => {
+        const yearLabel = yearsToDisplay.length > 1 ? ` ${year}`: '';
+        for (let i = 11; i >= 0; i--) {
+            const date = new Date(year, i, 1);
+            options.push({
+                label: `${format(date, 'MMMM')}${yearLabel}`,
+                value: format(date, 'yyyy-MM')
+            });
+        }
     });
-    return options;
+
+    // Remove duplicates by value, keeping the first one (which will be the most recent year)
+    const uniqueOptions = options.filter((option, index, self) =>
+        index === self.findIndex((o) => (
+            format(new Date(o.value), 'MMMM') === format(new Date(option.value), 'MMMM')
+        ))
+    ).map(opt => ({...opt, label: format(new Date(opt.value), 'MMMM')}));
+
+
+    return uniqueOptions;
   }, [transactions]);
 
 
