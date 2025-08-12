@@ -19,11 +19,11 @@ interface ExpensesTableProps {
 
 const getCategoryColor = (category: string) => {
   switch (category) {
-    case 'Rent/Mortgage': return 'bg-red-500/20 text-red-300 border-red-500/30';
-    case 'Utilities': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
-    case 'Dining Out': return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
-    case 'Retail': return 'bg-pink-500/20 text-pink-300 border-pink-500/30';
-    default: return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
+    case 'Rent/Mortgage': return 'bg-red-500/20 text-red-400 border-red-500/30';
+    case 'Utilities': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+    case 'Dining Out': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+    case 'Retail': return 'bg-pink-500/20 text-pink-400 border-pink-500/30';
+    default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
   }
 }
 
