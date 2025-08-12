@@ -84,21 +84,27 @@ export default function InvestmentsPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    try {
-      const storedInvestments = localStorage.getItem(INVESTMENTS_STORAGE_KEY);
-      if (storedInvestments) {
-        setInvestments(JSON.parse(storedInvestments));
-      } else {
+    const loadData = () => {
+      try {
+        const storedInvestments = localStorage.getItem(INVESTMENTS_STORAGE_KEY);
+        if (storedInvestments) {
+          setInvestments(JSON.parse(storedInvestments));
+        } else {
+          setInvestments(initialInvestments);
+          setIsInitialData(true);
+        }
+      } catch (error) {
+        console.error("Failed to load investments from localStorage", error);
         setInvestments(initialInvestments);
         setIsInitialData(true);
+      } finally {
+          // Delay to show loading indicator for at least 500ms
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
       }
-    } catch (error) {
-      console.error("Failed to load investments from localStorage", error);
-      setInvestments(initialInvestments);
-      setIsInitialData(true);
-    } finally {
-        setIsLoading(false);
-    }
+    };
+    loadData();
   }, []);
 
   useEffect(() => {

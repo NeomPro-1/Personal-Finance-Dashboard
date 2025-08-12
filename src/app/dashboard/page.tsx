@@ -23,20 +23,29 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    try {
-      const storedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
-      if (storedTransactions) {
-        setTransactions(JSON.parse(storedTransactions));
-      } else {
+  
+    const loadData = () => {
+      try {
+        const storedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
+        if (storedTransactions) {
+          setTransactions(JSON.parse(storedTransactions));
+        } else {
+          setTransactions(initialTransactions);
+        }
+      } catch (error) {
+        console.error("Failed to load transactions from localStorage", error);
         setTransactions(initialTransactions);
+      } finally {
+        // Delay to show loading indicator for at least 500ms
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
-    } catch (error) {
-      console.error("Failed to load transactions from localStorage", error);
-      setTransactions(initialTransactions);
-    } finally {
-      setIsLoading(false);
-    }
+    };
+  
+    loadData();
   }, []);
+  
 
   useEffect(() => {
     if (!isLoading) {
