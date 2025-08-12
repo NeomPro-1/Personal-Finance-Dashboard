@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { getQuarter } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { QuarterlySummaryCard } from './quarterly-summary-card';
@@ -10,6 +10,12 @@ interface QuarterlySummaryProps {
 }
 
 export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
+  const [checkedQuarters, setCheckedQuarters] = useState<Record<string, boolean>>({});
+
+  const handleCheckedChange = (quarter: string, isChecked: boolean) => {
+    setCheckedQuarters(prev => ({...prev, [quarter]: isChecked}));
+  }
+
   const quarterlyData = useMemo(() => {
     const quarters = {
       1: { income: 0, expenses: 0, net: 0 },
@@ -45,6 +51,8 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
             income={data.income}
             expenses={data.expenses}
             net={data.net}
+            isChecked={!!checkedQuarters[data.quarter]}
+            onCheckedChange={(isChecked) => handleCheckedChange(data.quarter, isChecked)}
           />
         ))}
       </div>
