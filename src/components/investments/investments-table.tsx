@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useMemo } from 'react'
@@ -180,7 +181,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
               <FormField control={form.control} name="name" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Investment Name</FormLabel>
@@ -214,7 +215,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                   <FormMessage />
                 </FormItem>
               )}/>
-              <Button type="submit">Add Investment</Button>
+              <Button type="submit" className="w-full lg:w-auto">Add Investment</Button>
             </form>
           </Form>
         </CardContent>
