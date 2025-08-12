@@ -1,10 +1,10 @@
+
 "use client"
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 import { initialTransactions } from '@/lib/data';
-import { IncomeExpenseChart } from '@/components/analysis/income-expense-chart';
+import { FinancialForecastChart } from '@/components/analysis/financial-forecast-chart';
 
 export default function AnalysisPage() {
   const [transactions] = useState(initialTransactions);
@@ -12,19 +12,16 @@ export default function AnalysisPage() {
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <h1 className="text-3xl font-bold tracking-tight">Financial Analysis</h1>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
-        <NetWorthCalculator />
-        <Card>
+      <Card>
           <CardHeader>
-            <CardTitle>Income vs. Expenses</CardTitle>
+            <CardTitle>Financial Forecast Report</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[400px] w-full">
-              <IncomeExpenseChart transactions={transactions} />
+              <FinancialForecastChart transactions={transactions} />
             </div>
           </CardContent>
         </Card>
-      </div>
     </main>
   );
 }
