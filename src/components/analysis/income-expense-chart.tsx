@@ -1,13 +1,15 @@
 "use client"
 
 import * as React from "react"
-import { Line, LineChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
+import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { format, parseISO, startOfMonth } from 'date-fns';
 
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
 } from "@/components/ui/chart"
 import type { Transaction } from "@/lib/types"
 import { formatCurrency } from "@/lib/utils";
@@ -90,12 +92,14 @@ export function IncomeExpenseChart({ transactions }: IncomeExpenseChartProps) {
             )}
           />}
         />
+        <ChartLegend content={<ChartLegendContent />} />
         <Line
           dataKey="income"
           type="monotone"
           stroke="var(--color-income)"
           strokeWidth={2}
           dot={true}
+          name="Income"
         />
         <Line
           dataKey="expenses"
@@ -103,6 +107,7 @@ export function IncomeExpenseChart({ transactions }: IncomeExpenseChartProps) {
           stroke="var(--color-expenses)"
           strokeWidth={2}
           dot={true}
+          name="Expenses"
         />
       </LineChart>
     </ChartContainer>
