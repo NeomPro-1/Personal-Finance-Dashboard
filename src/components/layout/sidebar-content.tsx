@@ -21,7 +21,7 @@ export function SidebarContent() {
       <SidebarHeader>
         <div className="flex items-center gap-2">
             <Wallet className="w-8 h-8 text-primary" />
-            <h1 className="text-2xl font-bold text-sidebar-foreground">FinanceFlow</h1>
+            <h1 className="text-2xl font-bold" style={{ color: 'hsl(var(--sidebar-foreground))' }}>FinanceFlow</h1>
         </div>
       </SidebarHeader>
       <SidebarBody>
