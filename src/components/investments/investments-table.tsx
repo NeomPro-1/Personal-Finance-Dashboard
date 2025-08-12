@@ -205,39 +205,19 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           <CardTitle>Investments</CardTitle>
         </CardHeader>
         <CardContent>
-          {isInitialData && (
-            <Card className="bg-blue-500/10 border-blue-500/30 mb-6">
+          <Card className="bg-blue-500/10 border-blue-500/30 mb-6">
               <CardHeader className='flex-row items-center gap-4 space-y-0 pb-4'>
                 <Info className="h-6 w-6 text-blue-400" />
-                <CardTitle className='text-blue-300 text-xl'>Disclaimer: Sample Data</CardTitle>
+                <CardTitle className='text-blue-300 text-xl'>Disclaimer</CardTitle>
               </CardHeader>
-              <CardContent className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
+              <CardContent>
                 <p className="text-blue-200 text-sm max-w-prose">
-                  The data you see below is for demonstration purposes only and not based on real market values. To start tracking your own finances, please clear the sample data.
+                  The data shown is for demonstration purposes only.
+                  <br/>
+                  It is not based on real-time market values.
                 </p>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="sm">
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Clear Sample Data
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure you want to clear the sample data?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the sample investment data.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={onClearSampleData}>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
               </CardContent>
             </Card>
-          )}
           {isMobile ? (
             <div className="space-y-4">
               {investments.map(inv => {
