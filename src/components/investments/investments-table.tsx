@@ -27,6 +27,8 @@ interface InvestmentsTableProps {
   investments: Investment[];
   onAddInvestment: (investment: Omit<Investment, 'id' | 'currentValue'>) => void;
   onDeleteInvestment: (id: string) => void;
+  isInitialData: boolean;
+  onClearSampleData: () => void;
 }
 
 const addInvestmentFormSchema = z.object({
@@ -37,7 +39,7 @@ const addInvestmentFormSchema = z.object({
 
 type AddInvestmentFormValues = z.infer<typeof addInvestmentFormSchema>;
 
-export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestment }: InvestmentsTableProps) {
+export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestment, isInitialData, onClearSampleData }: InvestmentsTableProps) {
   const isMobile = useIsMobile();
   const form = useForm<AddInvestmentFormValues>({
     resolver: zodResolver(addInvestmentFormSchema),
@@ -70,7 +72,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
     })).sort((a,b) => new Date(a.name).getTime() - new Date(b.name).getTime());
   }, [investments]);
 
-  if (investments.length === 0) {
+  if (investments.length === 0 && !isInitialData) {
     return (
        <div className="space-y-8">
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -91,13 +93,21 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
             change={`0.00%`}
           />
         </div>
-        <Card className="flex items-center justify-center h-48 bg-card/50">
-            <CardContent className="text-center text-muted-foreground p-6">
-                <Info className="mx-auto h-8 w-8 mb-2" />
-                <p>No investments recorded yet.</p>
-                <p className="text-sm">Use the form below to add one.</p>
+        <Card>
+            <CardHeader>
+                <CardTitle>Investments</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div className="flex items-center justify-center h-48 bg-card/50 rounded-md">
+                    <div className="text-center text-muted-foreground p-6">
+                        <Info className="mx-auto h-8 w-8 mb-2" />
+                        <p>No investments recorded yet.</p>
+                        <p className="text-sm">Use the form below to add one.</p>
+                    </div>
+                </div>
             </CardContent>
         </Card>
+
         <Card>
           <CardHeader>
             <CardTitle>Add New Investment</CardTitle>
@@ -195,6 +205,39 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           <CardTitle>Investments</CardTitle>
         </CardHeader>
         <CardContent>
+          {isInitialData && (
+            <Card className="bg-blue-500/10 border-blue-500/30 mb-6">
+              <CardHeader className='flex-row items-center gap-4 space-y-0 pb-4'>
+                <Info className="h-6 w-6 text-blue-400" />
+                <CardTitle className='text-blue-300 text-xl'>Disclaimer: Sample Data</CardTitle>
+              </CardHeader>
+              <CardContent className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
+                <p className="text-blue-200 text-sm max-w-prose">
+                  The data you see below is for demonstration purposes only. To start tracking your own finances, please clear the sample data.
+                </p>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" size="sm">
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Clear Sample Data
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure you want to clear the sample data?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete the sample investment data.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={onClearSampleData}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </CardContent>
+            </Card>
+          )}
           {isMobile ? (
             <div className="space-y-4">
               {investments.map(inv => {
