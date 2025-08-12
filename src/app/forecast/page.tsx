@@ -43,8 +43,8 @@ export default function ForecastPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading data, e.g., from localStorage
-     try {
+    setIsLoading(true);
+    try {
       const storedTransactions = localStorage.getItem('transactions');
       if (storedTransactions) {
         setTransactions(JSON.parse(storedTransactions));

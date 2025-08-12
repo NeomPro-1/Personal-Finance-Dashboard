@@ -83,6 +83,7 @@ export default function InvestmentsPage() {
   const [isInitialData, setIsInitialData] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     try {
       const storedInvestments = localStorage.getItem(INVESTMENTS_STORAGE_KEY);
       if (storedInvestments) {

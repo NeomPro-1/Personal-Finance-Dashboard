@@ -22,6 +22,7 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     try {
       const storedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
       if (storedTransactions) {
