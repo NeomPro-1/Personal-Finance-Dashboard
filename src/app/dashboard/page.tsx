@@ -113,7 +113,7 @@ export default function DashboardPage() {
                 <SelectItem value="q4">Q4</SelectItem>
                 {monthOptions.map(month => (
                   <SelectItem key={month} value={month}>
-                    {format(new Date(`${month}-01`), 'MMMM yyyy')}
+                    {format(new Date(`${month}-01`), 'MMMM')}
                   </SelectItem>
                 ))}
               </SelectContent>
