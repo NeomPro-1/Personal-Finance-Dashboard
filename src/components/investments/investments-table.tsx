@@ -20,7 +20,7 @@ import { InvestmentSummaryCard } from './investment-summary-card'
 
 import { cn, formatCurrency } from "@/lib/utils"
 import type { Investment } from "@/lib/types"
-import { CalendarIcon, Trash2, TrendingUp, TrendingDown, DollarSign, PiggyBank, Briefcase } from "lucide-react"
+import { CalendarIcon, Trash2, TrendingUp, TrendingDown, DollarSign, PiggyBank, Briefcase, Info } from "lucide-react"
 import { useIsMobile } from '@/hooks/use-mobile'
 
 interface InvestmentsTableProps {
@@ -69,6 +69,83 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
       gain: inv.currentValue - inv.initialValue,
     })).sort((a,b) => new Date(a.name).getTime() - new Date(b.name).getTime());
   }, [investments]);
+
+  if (investments.length === 0) {
+    return (
+       <div className="space-y-8">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <InvestmentSummaryCard 
+            title="Total Invested" 
+            value={formatCurrency(0, isMobile)} 
+            icon={PiggyBank} 
+          />
+          <InvestmentSummaryCard 
+            title="Current Value" 
+            value={formatCurrency(0, isMobile)} 
+            icon={Briefcase} 
+          />
+          <InvestmentSummaryCard 
+            title="Total Gain/Loss" 
+            value={formatCurrency(0, isMobile)} 
+            icon={DollarSign}
+            change={`0.00%`}
+          />
+        </div>
+        <Card className="flex items-center justify-center h-48 bg-card/50">
+            <CardContent className="text-center text-muted-foreground p-6">
+                <Info className="mx-auto h-8 w-8 mb-2" />
+                <p>No investments recorded yet.</p>
+                <p className="text-sm">Use the form below to add one.</p>
+            </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Add New Investment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
+                <FormField control={form.control} name="name" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Investment Name</FormLabel>
+                    <FormControl><Input placeholder="e.g., Tech Giant Inc." {...field} /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}/>
+                <FormField control={form.control} name="initialValue" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Initial Value</FormLabel>
+                    <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}/>
+                <FormField control={form.control} name="purchaseDate" render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Purchase Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}/>
+                <Button type="submit" className="w-full lg:w-auto">Add Investment</Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-8">
