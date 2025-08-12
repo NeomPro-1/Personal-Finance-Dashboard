@@ -1,7 +1,8 @@
+
 "use client"
 
 import React, { useState, useMemo } from 'react';
-import { subMonths, format, getQuarter } from 'date-fns';
+import { subMonths, format, getQuarter, getYear } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { SummaryCard } from '@/components/dashboard/summary-card';
 import { DollarSign, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
@@ -50,8 +51,24 @@ export default function DashboardPage() {
   }, [filteredTransactions]);
   
   const monthOptions = useMemo(() => {
-    const months = new Set(transactions.map(t => format(new Date(t.date), 'yyyy-MM')));
-    return Array.from(months).sort().reverse();
+    const years = Array.from(new Set(transactions.map(t => getYear(new Date(t.date)))))
+                         .sort((a, b) => b - a);
+    
+    if (years.length === 0) {
+      years.push(new Date().getFullYear());
+    }
+
+    const options: { label: string, value: string }[] = [];
+    years.forEach(year => {
+      for (let i = 11; i >= 0; i--) {
+        const date = new Date(year, i, 1);
+        options.push({
+          label: format(date, 'MMMM yyyy'),
+          value: format(date, 'yyyy-MM')
+        });
+      }
+    });
+    return options;
   }, [transactions]);
 
 
@@ -66,9 +83,9 @@ export default function DashboardPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Time</SelectItem>
-                {monthOptions.map(month => (
-                  <SelectItem key={month} value={month}>
-                    {format(new Date(`${month}-02`), 'MMMM yyyy')}
+                {monthOptions.map(option => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
                   </SelectItem>
                 ))}
                 <SelectItem value="q1">Q1</SelectItem>
@@ -103,3 +120,4 @@ export default function DashboardPage() {
     </main>
   );
 }
+
