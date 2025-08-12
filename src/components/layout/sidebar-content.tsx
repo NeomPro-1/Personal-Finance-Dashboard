@@ -44,8 +44,8 @@ export function SidebarContent() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/analysis')}>
-                <Link href="/analysis">
+            <SidebarMenuButton asChild isActive={pathname.includes('/forecast')}>
+                <Link href="/forecast">
                     <BarChart />
                     <span>Forecast &amp; Tools</span>
                 </Link>
