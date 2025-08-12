@@ -17,6 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import type { Transaction } from "@/lib/types"
+import { formatCurrency } from "@/lib/utils";
 
 interface MonthlyExpensesChartProps {
     transactions: Transaction[];
@@ -68,7 +69,7 @@ export function MonthlyExpensesChart({ transactions }: MonthlyExpensesChartProps
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent 
-            formatter={(value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value as number)}
+            formatter={(value) => formatCurrency(value as number)}
           />}
         />
         <Bar

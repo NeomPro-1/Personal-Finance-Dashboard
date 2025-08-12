@@ -13,6 +13,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart"
+import { formatCurrency } from '@/lib/utils'
 
 type Item = {
   id: string
@@ -51,10 +52,6 @@ function FinancialItemList({
   }
 
   const total = useMemo(() => items.reduce((sum, item) => sum + item.value, 0), [items])
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
-  }
 
   return (
     <div className="space-y-4">
@@ -127,10 +124,6 @@ export function NetWorthCalculator() {
       label: 'Liabilities',
       color: 'hsl(var(--chart-1))',
     },
-  }
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
   }
 
   return (

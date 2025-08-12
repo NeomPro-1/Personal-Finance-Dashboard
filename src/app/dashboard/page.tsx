@@ -10,6 +10,7 @@ import { IncomeTable } from '@/components/dashboard/income-table';
 import { ExpensesTable } from '@/components/dashboard/expenses-table';
 import { QuarterlySummary } from '@/components/dashboard/quarterly-summary';
 import { initialTransactions } from '@/lib/data';
+import { formatCurrency } from '@/lib/utils';
 
 export default function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
@@ -47,10 +48,6 @@ export default function DashboardPage() {
       { income: 0, expenses: 0, net: 0 }
     );
   }, [filteredTransactions]);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  };
   
   const monthOptions = useMemo(() => {
     const months = new Set(transactions.map(t => format(new Date(t.date), 'yyyy-MM')));

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DollarSign, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, formatCurrency } from '@/lib/utils';
 
 interface QuarterlySummaryCardProps {
   title: string;
@@ -30,12 +30,6 @@ export function QuarterlySummaryCard({
   isChecked,
   onCheckedChange,
 }: QuarterlySummaryCardProps) {
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
 
   const handleCardClick = () => {
     onCheckedChange(!isChecked);

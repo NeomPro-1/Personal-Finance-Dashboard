@@ -10,6 +10,7 @@ import { PlusCircle, Trash2 } from "lucide-react"
 import { AddTransactionDialog } from './add-transaction-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import type { Transaction } from "@/lib/types"
+import { formatCurrency } from '@/lib/utils'
 
 interface ExpensesTableProps {
   transactions: Transaction[];
@@ -43,10 +44,6 @@ export function ExpensesTable({ transactions, onAddTransaction, onDeleteTransact
   }, [transactions]);
   
   const defaultOpenMonths = useMemo(() => Object.keys(groupedByMonth), [groupedByMonth]);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  };
 
   return (
     <div className="space-y-4">
