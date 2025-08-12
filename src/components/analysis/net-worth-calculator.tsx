@@ -5,11 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PlusCircle, Trash2 } from 'lucide-react'
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { Pie, PieChart, Cell } from "recharts"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
 } from "@/components/ui/chart"
 
 type Item = {
@@ -109,9 +111,9 @@ export function NetWorthCalculator() {
   const netWorth = totalAssets - totalLiabilities
 
   const chartData = [
-    { name: 'Assets', value: totalAssets, fill: "var(--color-assets)" },
-    { name: 'Liabilities', value: totalLiabilities, fill: "var(--color-liabilities)" }
-  ]
+    { name: 'Assets', value: totalAssets, fill: "hsl(var(--chart-2))" },
+    { name: 'Liabilities', value: totalLiabilities, fill: "hsl(var(--chart-1))" }
+  ].filter(d => d.value > 0);
 
   const chartConfig = {
     value: {
@@ -141,25 +143,36 @@ export function NetWorthCalculator() {
         <FinancialItemList title="Liabilities" items={liabilities} setItems={setLiabilities} />
       </CardContent>
        <CardContent>
-        <div className="h-[200px]">
+        <div className="h-[250px]">
           <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-            <BarChart accessibilityLayer data={chartData} layout="vertical" margin={{ left: 10 }}>
-              <CartesianGrid horizontal={false} />
-              <YAxis
-                dataKey="name"
-                type="category"
-                tickLine={false}
-                axisLine={false}
-              />
-              <XAxis type="number" hide />
+            <PieChart>
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent
                   formatter={(value) => formatCurrency(value as number)}
+                  hideLabel
                 />}
               />
-              <Bar dataKey="value" radius={5} />
-            </BarChart>
+               <ChartLegend
+                content={<ChartLegendContent nameKey="name" />}
+                className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+              />
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                innerRadius={50}
+                strokeWidth={5}
+              >
+                 {chartData.map((entry) => (
+                  <Cell
+                    key={entry.name}
+                    fill={entry.fill}
+                    className="focus:outline-none"
+                  />
+                ))}
+              </Pie>
+            </PieChart>
           </ChartContainer>
         </div>
       </CardContent>
