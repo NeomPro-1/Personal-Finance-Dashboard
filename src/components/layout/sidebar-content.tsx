@@ -11,6 +11,7 @@ import {
 import { LayoutDashboard, Settings, Wallet } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export function SidebarContent() {
   const pathname = usePathname();
@@ -44,6 +45,7 @@ export function SidebarContent() {
         </SidebarMenu>
       </SidebarBody>
       <SidebarFooter>
+        <ThemeToggle />
       </SidebarFooter>
     </>
   )

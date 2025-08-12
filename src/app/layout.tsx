@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 import { SidebarContent } from '@/components/layout/sidebar-content';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'FinanceFlow',
@@ -15,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -25,14 +26,16 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <SidebarProvider>
-          <Sidebar>
-            <SidebarContent />
-          </Sidebar>
-          <SidebarInset>
-            {children}
-          </SidebarInset>
-        </SidebarProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <SidebarProvider>
+            <Sidebar>
+              <SidebarContent />
+            </Sidebar>
+            <SidebarInset>
+              {children}
+            </SidebarInset>
+          </SidebarProvider>
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>
