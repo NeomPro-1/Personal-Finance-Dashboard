@@ -26,28 +26,28 @@ export function FinancialForecastChart({ transactions }: FinancialForecastChartP
     const monthlyData: Record<string, { income: number; expenses: number; month: string }> = {};
 
     transactions.forEach(t => {
-      const month = format(startOfMonth(parseISO(t.date)), 'MMM yyyy');
-      if (!monthlyData[month]) {
-        monthlyData[month] = { income: 0, expenses: 0, month };
+      const monthKey = format(startOfMonth(parseISO(t.date)), 'yyyy-MM');
+      if (!monthlyData[monthKey]) {
+        monthlyData[monthKey] = { income: 0, expenses: 0, month: format(startOfMonth(parseISO(t.date)), 'MMM yyyy') };
       }
       if (t.type === 'income') {
-        monthlyData[month].income += t.amount;
+        monthlyData[monthKey].income += t.amount;
       } else {
-        monthlyData[month].expenses += t.amount;
+        monthlyData[monthKey].expenses += t.amount;
       }
     });
-
+    
     const sortedMonths = Object.values(monthlyData).sort((a,b) => new Date(a.month).getTime() - new Date(b.month).getTime());
 
-    const averageIncome = sortedMonths.reduce((acc, d) => acc + d.income, 0) / sortedMonths.length;
-    const averageExpenses = sortedMonths.reduce((acc, d) => acc + d.expenses, 0) / sortedMonths.length;
+    const averageIncome = sortedMonths.length > 0 ? sortedMonths.reduce((acc, d) => acc + d.income, 0) / sortedMonths.length : 0;
+    const averageExpenses = sortedMonths.length > 0 ? sortedMonths.reduce((acc, d) => acc + d.expenses, 0) / sortedMonths.length : 0;
     
     const lastMonth = sortedMonths.length > 0 ? new Date(sortedMonths[sortedMonths.length - 1].month) : new Date();
 
     const forecastMonths = Array.from({length: 6}).map((_, i) => {
-        const nextMonth = addMonths(lastMonth, i + 1);
+        const nextMonthDate = addMonths(lastMonth, i + 1);
         return {
-            month: format(nextMonth, 'MMM yyyy'),
+            month: format(nextMonthDate, 'MMM yyyy'),
             income: averageIncome,
             expenses: averageExpenses,
             savings: averageIncome - averageExpenses,
