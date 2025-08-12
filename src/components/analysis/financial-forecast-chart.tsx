@@ -3,7 +3,7 @@
 
 import * as React from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { format, parseISO, startOfMonth, addMonths, subMonths } from 'date-fns';
+import { format, parseISO, startOfMonth, addMonths } from 'date-fns';
 
 import {
   ChartContainer,
@@ -56,9 +56,15 @@ export function FinancialForecastChart({ transactions }: FinancialForecastChartP
     
     const historicalData = sortedMonths.map(d => ({...d, savings: d.income - d.expenses}));
 
-    return [...historicalData, ...forecastMonths];
+    const fullData = [...historicalData, ...forecastMonths];
+    
+    if(isMobile && fullData.length > 6) {
+      return fullData.slice(fullData.length - 6);
+    }
+    
+    return fullData;
 
-  }, [transactions]);
+  }, [transactions, isMobile]);
 
   const chartConfig = {
     income: {
@@ -102,11 +108,13 @@ export function FinancialForecastChart({ transactions }: FinancialForecastChartP
           tickFormatter={(value) => isMobile ? value.substring(0, 3) : value}
         />
         <YAxis
-          tickFormatter={(value) => formatCurrency(value as number)}
+          tickFormatter={(value) => isMobile
+              ? `${(value as number / 1000).toLocaleString()}k`
+              : formatCurrency(value as number)}
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          width={isMobile ? 60 : 80}
+          width={isMobile ? 30 : 80}
         />
         <ChartTooltip
           cursor={false}
