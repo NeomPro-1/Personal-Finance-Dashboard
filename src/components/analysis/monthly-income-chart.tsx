@@ -5,13 +5,6 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { format, parseISO } from 'date-fns';
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -19,21 +12,21 @@ import {
 import type { Transaction } from "@/lib/types"
 import { formatCurrency } from "@/lib/utils";
 
-interface MonthlyExpensesChartProps {
+interface MonthlyIncomeChartProps {
     transactions: Transaction[];
 }
 
-export function MonthlyExpensesChart({ transactions }: MonthlyExpensesChartProps) {
+export function MonthlyIncomeChart({ transactions }: MonthlyIncomeChartProps) {
   const chartData = React.useMemo(() => {
-    const monthlyExpenses: Record<string, number> = {};
+    const monthlyIncome: Record<string, number> = {};
 
     transactions.forEach(t => {
-      if (t.type === 'expense') {
+      if (t.type === 'income') {
         const month = format(parseISO(t.date), 'MMM');
-        if (!monthlyExpenses[month]) {
-          monthlyExpenses[month] = 0;
+        if (!monthlyIncome[month]) {
+          monthlyIncome[month] = 0;
         }
-        monthlyExpenses[month] += t.amount;
+        monthlyIncome[month] += t.amount;
       }
     });
 
@@ -41,22 +34,22 @@ export function MonthlyExpensesChart({ transactions }: MonthlyExpensesChartProps
 
     return monthOrder.map(month => ({
       month,
-      expenses: monthlyExpenses[month] || 0
-    })).filter(d => d.expenses > 0);
+      income: monthlyIncome[month] || 0
+    })).filter(d => d.income > 0);
 
   }, [transactions]);
   
   const chartConfig = {
-    expenses: {
-      label: "Expenses",
-      color: "hsl(var(--primary))",
+    income: {
+      label: "Income",
+      color: "hsl(var(--chart-2))",
     },
   }
-  
+
   if (chartData.length === 0) {
     return (
       <div className="flex items-center justify-center h-full text-muted-foreground">
-        No expense data available for this period.
+        No income data available for this period.
       </div>
     );
   }
@@ -81,8 +74,8 @@ export function MonthlyExpensesChart({ transactions }: MonthlyExpensesChartProps
           />}
         />
         <Bar
-          dataKey="expenses"
-          fill="var(--color-expenses)"
+          dataKey="income"
+          fill="var(--color-income)"
           radius={4}
         />
       </BarChart>
