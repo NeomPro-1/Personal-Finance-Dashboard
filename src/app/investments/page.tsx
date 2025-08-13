@@ -3,7 +3,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { InvestmentsTable } from '@/components/investments/investments-table';
-import { initialInvestments } from '@/lib/data';
 import type { Investment } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';

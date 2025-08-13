@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { IncomeTable } from '@/components/dashboard/income-table';
 import { ExpensesTable } from '@/components/dashboard/expenses-table';
 import { QuarterlySummary } from '@/components/dashboard/quarterly-summary';
-import { initialTransactions } from '@/lib/data';
 import { formatCurrency } from '@/lib/utils';
 import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 
