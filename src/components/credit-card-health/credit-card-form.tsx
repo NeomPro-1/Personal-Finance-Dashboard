@@ -84,29 +84,29 @@ export function CreditCardForm({
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormItem>
-                        <FormLabel>Card Name</FormLabel>
+                    <div className="space-y-2">
+                        <Label>Card Name</Label>
                         <Input value={card.name} onChange={(e) => handleFieldChange(index, 'name', e.target.value)} />
-                    </FormItem>
-                     <FormItem>
-                        <FormLabel>Open Date</FormLabel>
+                    </div>
+                     <div className="space-y-2">
+                        <Label>Open Date</Label>
                         <Input type="date" value={card.openDate} onChange={(e) => handleFieldChange(index, 'openDate', e.target.value)} />
-                    </FormItem>
+                    </div>
                 </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormItem>
-                        <FormLabel>Credit Limit</FormLabel>
+                    <div className="space-y-2">
+                        <Label>Credit Limit</Label>
                         <Input type="number" value={card.limit} onChange={(e) => handleFieldChange(index, 'limit', parseFloat(e.target.value) || 0)} />
-                    </FormItem>
-                     <FormItem>
-                        <FormLabel>Current Balance</FormLabel>
+                    </div>
+                     <div className="space-y-2">
+                        <Label>Current Balance</Label>
                         <Input type="number" value={card.balance} onChange={(e) => handleFieldChange(index, 'balance', parseFloat(e.target.value) || 0)} />
-                    </FormItem>
+                    </div>
                 </div>
-                <FormItem>
-                    <FormLabel>Missed Payments (Last 12 Months)</FormLabel>
+                <div className="space-y-2">
+                    <Label>Missed Payments (Last 12 Months)</Label>
                     <Input type="number" value={card.missedPayments} onChange={(e) => handleFieldChange(index, 'missedPayments', parseInt(e.target.value) || 0)} />
-                </FormItem>
+                </div>
 
                 <Button variant="destructive" size="sm" onClick={() => onDeleteCard(card.id)} className="mt-2">
                     <Trash2 className="mr-2 h-4 w-4" />
@@ -184,10 +184,10 @@ export function CreditCardForm({
       <div className="border-t pt-6 space-y-4">
          <h3 className="text-lg font-semibold">Other Factors</h3>
          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormItem>
-                <FormLabel>Recent Applications (Last 6 mo.)</FormLabel>
+            <div className="space-y-2">
+                <Label>Recent Applications (Last 6 mo.)</Label>
                 <Input type="number" value={applications} onChange={(e) => setApplications(parseInt(e.target.value) || 0)} />
-            </FormItem>
+            </div>
             <div className="flex items-center space-x-2 pt-6">
                 <Switch id="other-loans" checked={hasOtherLoans} onCheckedChange={setHasOtherLoans} />
                 <Label htmlFor="other-loans">Do you have other loans?</Label>
