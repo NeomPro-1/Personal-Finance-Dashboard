@@ -64,10 +64,10 @@ export function SidebarContent() {
           </SidebarMenuItem>
           
            <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/credit-card-health')} onClick={handleLinkClick} tooltip="Card Health">
+            <SidebarMenuButton asChild isActive={pathname.includes('/credit-card-health')} onClick={handleLinkClick} tooltip="Credit Health Check">
               <Link href="/credit-card-health">
                 <CreditCard />
-                <span>Card Health</span>
+                <span>Credit Health Check</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
