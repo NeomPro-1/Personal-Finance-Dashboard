@@ -37,7 +37,7 @@ export default function RootLayout({
           <SidebarProvider>
             <Sidebar>
               <SidebarContent />
-              <SidebarFooter>
+              <SidebarFooter className="hidden md:flex">
                 {isClient && <ThemeToggle />}
               </SidebarFooter>
             </Sidebar>
