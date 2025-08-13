@@ -14,17 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useSidebar } from "./ui/sidebar"
 
-interface ThemeToggleProps {
-  setOpenMobile?: (open: boolean) => void;
-}
-
-export function ThemeToggle({ setOpenMobile }: ThemeToggleProps) {
+export function ThemeToggle() {
   const { setTheme } = useTheme()
-  const { isMobile } = useSidebar();
+  const { setOpenMobile, isMobile } = useSidebar();
 
   const handleThemeChange = (theme: string) => {
     setTheme(theme);
-    if (isMobile && setOpenMobile) {
+    if (isMobile) {
       setOpenMobile(false);
     }
   }

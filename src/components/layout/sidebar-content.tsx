@@ -69,8 +69,8 @@ export function SidebarContent() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarBody>
-      <SidebarFooter className="hidden md:flex">
-        <ThemeToggle setOpenMobile={setOpenMobile} />
+      <SidebarFooter>
+        <ThemeToggle />
       </SidebarFooter>
     </>
   )
