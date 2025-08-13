@@ -27,8 +27,6 @@ interface InvestmentsTableProps {
   investments: Investment[];
   onAddInvestment: (investment: Omit<Investment, 'id' | 'currentValue'>) => void;
   onDeleteInvestment: (id: string) => void;
-  isInitialData: boolean;
-  onClearSampleData: () => void;
 }
 
 const addInvestmentFormSchema = z.object({
@@ -39,7 +37,7 @@ const addInvestmentFormSchema = z.object({
 
 type AddInvestmentFormValues = z.infer<typeof addInvestmentFormSchema>;
 
-export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestment, isInitialData, onClearSampleData }: InvestmentsTableProps) {
+export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestment }: InvestmentsTableProps) {
   const isMobile = useIsMobile();
   const form = useForm<AddInvestmentFormValues>({
     resolver: zodResolver(addInvestmentFormSchema),
@@ -72,7 +70,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
     })).sort((a,b) => new Date(a.name).getTime() - new Date(b.name).getTime());
   }, [investments]);
 
-  if (investments.length === 0 && !isInitialData) {
+  if (investments.length === 0) {
     return (
        <div className="space-y-8">
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -205,18 +203,16 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           <CardTitle>Investments</CardTitle>
         </CardHeader>
         <CardContent>
-          <Card className="bg-blue-500/10 border-blue-500/30 mb-6">
-              <CardHeader className='flex-row items-center gap-4 space-y-0 pb-4'>
-                <Info className="h-6 w-6 text-blue-400" />
-                <CardTitle className='text-blue-300 text-xl'>Disclaimer</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-blue-200 text-sm max-w-prose">
-                  The data shown is for demonstration purposes only.
-                  <br/>
-                  It is not based on real-time market values.
-                </p>
-              </CardContent>
+            <Card className="bg-blue-500/10 border-blue-500/30 mb-6">
+                <CardHeader className="flex-row items-center gap-4 space-y-0 pb-4">
+                    <Info className="h-6 w-6 text-blue-400" />
+                    <CardTitle className="text-blue-300 text-xl">Disclaimer</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-blue-200 text-sm max-w-prose">
+                        The data shown is for demonstration purposes only. It is not based on real-time market values.
+                    </p>
+                </CardContent>
             </Card>
           {isMobile ? (
             <div className="space-y-4">

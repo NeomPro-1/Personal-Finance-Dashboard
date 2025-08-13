@@ -30,11 +30,11 @@ export default function DashboardPage() {
         if (storedTransactions) {
           setTransactions(JSON.parse(storedTransactions));
         } else {
-          setTransactions(initialTransactions);
+          setTransactions([]);
         }
       } catch (error) {
         console.error("Failed to load transactions from localStorage", error);
-        setTransactions(initialTransactions);
+        setTransactions([]);
       } finally {
         // Delay to show loading indicator for at least 500ms
         setTimeout(() => {
@@ -93,32 +93,21 @@ export default function DashboardPage() {
   
   const monthOptions = useMemo(() => {
     const options: { label: string, value: string }[] = [];
-    const transactionYears = Array.from(new Set(transactions.map(t => getYear(new Date(t.date)))))
-                                  .filter(year => year <= new Date().getFullYear());
-
-    const yearsToDisplay = transactionYears.length > 0 ? transactionYears : [new Date().getFullYear()];
-    yearsToDisplay.sort((a,b) => b-a);
     
+    // Always show the current year's months, even if there are no transactions
     const currentYear = new Date().getFullYear();
 
-    yearsToDisplay.forEach(year => {
-        for (let i = 0; i <= 11; i++) {
-            const date = new Date(year, i, 1);
-            options.push({
-                label: format(date, 'MMMM'),
-                value: format(date, 'yyyy-MM')
-            });
-        }
-    });
+    for (let i = 0; i < 12; i++) {
+        const date = new Date(currentYear, i, 1);
+        options.push({
+            label: format(date, 'MMMM'),
+            value: format(date, 'yyyy-MM')
+        });
+    }
 
-    const uniqueOptions = options.filter((option, index, self) =>
-        index === self.findIndex((o) => (
-            format(new Date(o.value), 'MMMM') === format(new Date(option.value), 'MMMM')
-        ))
-    );
-
-    return uniqueOptions;
-  }, [transactions]);
+    return options.sort((a,b) => new Date(a.value).getMonth() - new Date(b.value).getMonth());
+    
+  }, []);
 
   if (isLoading) {
     return <LoadingSkeleton />;

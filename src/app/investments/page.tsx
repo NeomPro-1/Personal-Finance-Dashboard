@@ -80,7 +80,6 @@ function InvestmentsLoading() {
 export default function InvestmentsPage() {
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isInitialData, setIsInitialData] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -90,13 +89,11 @@ export default function InvestmentsPage() {
         if (storedInvestments) {
           setInvestments(JSON.parse(storedInvestments));
         } else {
-          setInvestments(initialInvestments);
-          setIsInitialData(true);
+          setInvestments([]);
         }
       } catch (error) {
         console.error("Failed to load investments from localStorage", error);
-        setInvestments(initialInvestments);
-        setIsInitialData(true);
+        setInvestments([]);
       } finally {
           // Delay to show loading indicator for at least 500ms
           setTimeout(() => {
@@ -111,9 +108,6 @@ export default function InvestmentsPage() {
     if (!isLoading) {
         try {
           localStorage.setItem(INVESTMENTS_STORAGE_KEY, JSON.stringify(investments));
-          if (JSON.stringify(investments) !== JSON.stringify(initialInvestments)) {
-            setIsInitialData(false);
-          }
         } catch (error) {
           console.error("Failed to save investments to localStorage", error);
         }
@@ -133,11 +127,6 @@ export default function InvestmentsPage() {
     setInvestments(prev => prev.filter(inv => inv.id !== id));
   };
   
-  const handleClearSampleData = () => {
-    setInvestments([]);
-    setIsInitialData(false);
-  }
-
   if (isLoading) {
     return <InvestmentsLoading />;
   }
@@ -150,8 +139,6 @@ export default function InvestmentsPage() {
         investments={investments} 
         onAddInvestment={handleAddInvestment}
         onDeleteInvestment={handleDeleteInvestment}
-        isInitialData={isInitialData}
-        onClearSampleData={handleClearSampleData}
       />
     </main>
   );

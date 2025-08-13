@@ -3,7 +3,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { initialTransactions } from '@/lib/data';
 import { FinancialForecastChart } from '@/components/analysis/financial-forecast-chart';
 import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 import type { Transaction } from '@/lib/types';
@@ -52,11 +51,11 @@ export default function ForecastPage() {
         if (storedTransactions) {
           setTransactions(JSON.parse(storedTransactions));
         } else {
-          setTransactions(initialTransactions);
+          setTransactions([]);
         }
       } catch (error) {
         console.error("Failed to load transactions from localStorage", error);
-        setTransactions(initialTransactions);
+        setTransactions([]);
       } finally {
         // Delay to show loading indicator for at least 500ms
         setTimeout(() => {
