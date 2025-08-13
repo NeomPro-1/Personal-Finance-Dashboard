@@ -32,12 +32,12 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" enableSystem>
           <SidebarProvider>
             <Sidebar>
               <SidebarContent />
               {isClient && (
-                <SidebarFooter className="hidden md:flex">
+                <SidebarFooter>
                   <ThemeToggle />
                 </SidebarFooter>
               )}
