@@ -37,7 +37,7 @@ export function SidebarContent() {
       <SidebarBody>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/dashboard')} onClick={handleLinkClick}>
+            <SidebarMenuButton asChild isActive={pathname.includes('/dashboard')} onClick={handleLinkClick} tooltip="Dashboard">
               <Link href="/dashboard">
                 <LayoutDashboard />
                 <span>Dashboard</span>
@@ -46,7 +46,7 @@ export function SidebarContent() {
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/investments')} onClick={handleLinkClick}>
+            <SidebarMenuButton asChild isActive={pathname.includes('/investments')} onClick={handleLinkClick} tooltip="Investments">
               <Link href="/investments">
                 <TrendingUp />
                 <span>Investments</span>
@@ -55,7 +55,7 @@ export function SidebarContent() {
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/forecast')} onClick={handleLinkClick}>
+            <SidebarMenuButton asChild isActive={pathname.includes('/forecast')} onClick={handleLinkClick} tooltip="Forecast & Tools">
               <Link href="/forecast">
                 <BarChart />
                 <span>Forecast &amp; Tools</span>
@@ -68,7 +68,7 @@ export function SidebarContent() {
       <SidebarFooter className={isMobile ? 'flex' : 'hidden md:flex'}>
          <SidebarMenu>
             <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.includes('/settings')} onClick={handleLinkClick}>
+                <SidebarMenuButton asChild isActive={pathname.includes('/settings')} onClick={handleLinkClick} tooltip="Settings">
                 <Link href="/settings">
                     <Settings />
                     <span>Settings</span>
