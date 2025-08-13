@@ -8,6 +8,7 @@ import { CreditFactors } from "@/components/credit-score/credit-factors";
 import { ScoreHistoryChart } from "@/components/credit-score/score-history-chart";
 import { ImprovementTips } from "@/components/credit-score/improvement-tips";
 import { creditScoreData, scoreFactors, scoreHistory, improvementTips } from "@/lib/data";
+import { Info } from 'lucide-react';
 
 export default function CreditScorePage() {
   const [score, setScore] = useState(creditScoreData.currentScore);
@@ -17,6 +18,18 @@ export default function CreditScorePage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Credit Score Insights</h1>
       </div>
+
+      <Card className="bg-blue-500/10 border-blue-500/30">
+          <CardHeader className="flex-row items-center gap-4 space-y-0 pb-4">
+              <Info className="h-6 w-6 text-blue-400" />
+              <CardTitle className="text-blue-300 text-xl">Demonstration Data</CardTitle>
+          </CardHeader>
+          <CardContent>
+              <p className="text-blue-200 text-sm max-w-prose">
+                  The credit score and related data shown on this page are for demonstration purposes only. It is not based on your real credit history.
+              </p>
+          </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">

@@ -146,7 +146,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                     <FormMessage />
                   </FormItem>
                 )}/>
-                <Button type="submit" className="w-full md:w-auto lg:col-start-4">Add Investment</Button>
+                <Button type="submit" className="w-full md:w-auto md:col-span-2 lg:col-span-1">Add Investment</Button>
               </form>
             </Form>
           </CardContent>
@@ -177,6 +177,18 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
         />
       </div>
       
+       <Card className="bg-blue-500/10 border-blue-500/30">
+          <CardHeader className="flex-row items-center gap-4 space-y-0 pb-4">
+              <Info className="h-6 w-6 text-blue-400" />
+              <CardTitle className="text-blue-300 text-xl">Demonstration Data</CardTitle>
+          </CardHeader>
+          <CardContent>
+              <p className="text-blue-200 text-sm max-w-prose">
+                  The data shown is for demonstration purposes only. It is not based on real-time market values.
+              </p>
+          </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Performance</CardTitle>
@@ -203,17 +215,6 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           <CardTitle>Investments</CardTitle>
         </CardHeader>
         <CardContent>
-            <Card className="bg-blue-500/10 border-blue-500/30 mb-6">
-                <CardHeader className="flex-row items-center gap-4 space-y-0 pb-4">
-                    <Info className="h-6 w-6 text-blue-400" />
-                    <CardTitle className="text-blue-300 text-xl">Disclaimer</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-blue-200 text-sm max-w-prose">
-                        The data shown is for demonstration purposes only. It is not based on real-time market values.
-                    </p>
-                </CardContent>
-            </Card>
           {isMobile ? (
             <div className="space-y-4">
               {investments.map(inv => {
@@ -365,7 +366,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                   <FormMessage />
                 </FormItem>
               )}/>
-              <Button type="submit" className="w-full md:col-span-2 lg:col-span-1 lg:w-auto">Add Investment</Button>
+              <Button type="submit" className="w-full md:w-auto md:col-span-2 lg:col-span-1">Add Investment</Button>
             </form>
           </Form>
         </CardContent>
