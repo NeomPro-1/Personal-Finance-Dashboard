@@ -1,7 +1,7 @@
 
 "use client"
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { CreditCardForm } from '@/components/credit-card-health/credit-card-form';
 import { ScoreDisplay } from '@/components/credit-card-health/score-display';
@@ -10,11 +10,43 @@ import { Insights } from '@/components/credit-card-health/insights';
 import type { CreditCardData, ScoreFactors } from '@/lib/types';
 import { calculateScore, generateInsights } from '@/lib/credit-card-score';
 import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
+import { CreditHealthLoadingSkeleton } from '@/components/credit-card-health/credit-health-loading';
+
+const CREDIT_HEALTH_DATA_KEY = 'creditHealthData';
 
 export default function CreditCardHealthPage() {
   const [cards, setCards] = useState<CreditCardData[]>([]);
   const [applications, setApplications] = useState(0);
   const [hasOtherLoans, setHasOtherLoans] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    try {
+      const savedData = localStorage.getItem(CREDIT_HEALTH_DATA_KEY);
+      if (savedData) {
+        const { cards, applications, hasOtherLoans } = JSON.parse(savedData);
+        setCards(cards || []);
+        setApplications(applications || 0);
+        setHasOtherLoans(hasOtherLoans || false);
+      }
+    } catch (error) {
+      console.error("Failed to load credit health data from localStorage", error);
+    } finally {
+      setTimeout(() => setIsLoading(false), 500);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      try {
+        const dataToSave = JSON.stringify({ cards, applications, hasOtherLoans });
+        localStorage.setItem(CREDIT_HEALTH_DATA_KEY, dataToSave);
+      } catch (error) {
+        console.error("Failed to save credit health data to localStorage", error);
+      }
+    }
+  }, [cards, applications, hasOtherLoans, isLoading]);
 
   const { score, factors } = useMemo(() => 
     calculateScore(cards, applications, hasOtherLoans), 
@@ -36,6 +68,10 @@ export default function CreditCardHealthPage() {
   
   const handleDeleteCard = (id: string) => {
     setCards(prev => prev.filter(c => c.id !== id));
+  }
+  
+  if (isLoading) {
+    return <CreditHealthLoadingSkeleton />;
   }
 
   return (
