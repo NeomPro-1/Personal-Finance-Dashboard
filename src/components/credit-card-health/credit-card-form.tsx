@@ -186,7 +186,7 @@ export function CreditCardForm({
          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
                 <Label>Recent Applications (Last 6 mo.)</Label>
-                <Input type="number" value={applications} onChange={(e) => setApplications(parseInt(e.target.value) || 0)} />
+                <Input type="number" value={applications} onChange={(e) => setApplications(Number(e.target.value) || 0)} />
             </div>
             <div className="flex items-center space-x-2 pt-6">
                 <Switch id="other-loans" checked={hasOtherLoans} onCheckedChange={setHasOtherLoans} />
