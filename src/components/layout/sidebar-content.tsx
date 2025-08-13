@@ -14,19 +14,11 @@ import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp } from "lucide-
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "../theme-toggle"
-
-// Mobile-only icon wrapper
-function MobileOnlyIcon({ Icon, className }: { Icon: React.ElementType, className?: string }) {
-  return (
-    <Icon
-      className={`w-8 h-8 text-primary md:hidden ${className || ""}`} // Larger size + hidden on tablet/desktop
-    />
-  )
-}
+import { Sidebar, SidebarTrigger } from '../ui/sidebar';
 
 export function SidebarContent() {
   const pathname = usePathname();
-  const { setOpenMobile, isMobile } = useSidebar();
+  const { setOpenMobile, isMobile, state } = useSidebar();
 
   const handleLinkClick = () => {
     if (isMobile) {
@@ -38,9 +30,7 @@ export function SidebarContent() {
     <>
       <SidebarHeader>
         <div className="flex items-center gap-2">
-          {/* This icon only appears in mobile view */}
-          <MobileOnlyIcon Icon={Wallet} />
-          <h1 className="text-xl font-bold md:hidden">FinanceFlow</h1>
+           <Wallet className={`w-8 h-8 text-primary ${state === 'collapsed' && 'w-10 h-10'}`} />
         </div>
       </SidebarHeader>
 
@@ -72,21 +62,25 @@ export function SidebarContent() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
-
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/settings')} onClick={handleLinkClick}>
-              <Link href="/settings">
-                <Settings />
-                <span>Settings</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarBody>
-
-      <SidebarFooter className="hidden md:flex">
-        <ThemeToggle />
+      
+      <SidebarFooter className={isMobile ? 'flex' : 'hidden md:flex'}>
+         <SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.includes('/settings')} onClick={handleLinkClick}>
+                <Link href="/settings">
+                    <Settings />
+                    <span>Settings</span>
+                </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
+
+      <div className="hidden md:flex items-center justify-center p-2">
+        <ThemeToggle />
+      </div>
     </>
   )
 }
