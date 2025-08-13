@@ -1,14 +1,39 @@
 
 "use client"
 
-import * as React from 'react';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { SidebarContent } from '@/components/layout/sidebar-content';
-import { ThemeProvider } from '@/components/theme-provider';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
+import dynamic from 'next/dynamic';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const ClientLayout = dynamic(() => import('@/components/layout/client-layout').then(mod => mod.ClientLayout), { 
+  ssr: false,
+  loading: () => (
+     <div className="flex h-screen w-screen">
+      <div className="hidden md:block md:w-64 bg-muted p-4">
+        <div className="flex items-center gap-2 mb-8">
+            <Skeleton className="w-8 h-8 rounded-full" />
+            <Skeleton className="h-6 w-32" />
+        </div>
+        <div className="space-y-4">
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col">
+        <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
+            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-8 rounded-full" />
+        </header>
+        <main className="p-4 sm:p-6 lg:p-8">
+           <Skeleton className="h-[calc(100vh-10rem)] w-full" />
+        </main>
+      </div>
+    </div>
+  )
+});
 
 export default function RootLayout({
   children,
@@ -28,22 +53,9 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        <ThemeProvider attribute="class" enableSystem>
-          <SidebarProvider>
-            <Sidebar>
-              <SidebarContent />
-            </Sidebar>
-            <SidebarInset>
-                <>
-                  <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
-                    <SidebarTrigger />
-                    <ThemeToggle />
-                  </header>
-                  {children}
-                </>
-            </SidebarInset>
-          </SidebarProvider>
-        </ThemeProvider>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
         <Toaster />
       </body>
     </html>
