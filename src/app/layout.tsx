@@ -4,7 +4,7 @@
 import * as React from 'react';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger, SidebarFooter } from '@/components/ui/sidebar';
 import { SidebarContent } from '@/components/layout/sidebar-content';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ThemeToggle } from '@/components/theme-toggle';

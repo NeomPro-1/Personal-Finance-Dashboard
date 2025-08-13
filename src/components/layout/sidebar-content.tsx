@@ -69,7 +69,7 @@ export function SidebarContent() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarBody>
-      <SidebarFooter className="hidden md:flex">
+      <SidebarFooter>
         <ThemeToggle />
       </SidebarFooter>
     </>
