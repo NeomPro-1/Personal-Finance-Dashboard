@@ -1,3 +1,4 @@
+
 import type { Transaction, Investment } from '@/lib/types';
 
 export const initialTransactions: Transaction[] = [
@@ -28,4 +29,55 @@ export const initialInvestments: Investment[] = [
   { id: '2', name: 'Green Energy Co.', purchaseDate: '2024-03-22', initialValue: 3000, currentValue: 2800 },
   { id: '3', name: 'BioPharma Solutions', purchaseDate: '2024-06-10', initialValue: 10000, currentValue: 12500 },
   { id: '4', name: 'Robotics Startup', purchaseDate: '2024-09-01', initialValue: 7500, currentValue: 9000 },
+];
+
+export const creditScoreData = {
+  currentScore: 780,
+  lastUpdated: "June 1, 2024",
+};
+
+export const scoreFactors = [
+  { name: 'Payment History', value: 95, impact: 'High', description: 'Consistency of on-time payments.' },
+  { name: 'Credit Card Utilization', value: 75, impact: 'High', description: 'The ratio of your credit card balance to your credit limit.' },
+  { name: 'Credit Age', value: 80, impact: 'Medium', description: 'The average age of all your credit accounts.' },
+  { name: 'Total Accounts', value: 90, impact: 'Low', description: 'The number of credit accounts you have.' },
+  { name: 'Credit Inquiries', value: 85, impact: 'Low', description: 'The number of times you\'ve applied for new credit recently.' },
+];
+
+export const scoreHistory = [
+  { date: '2023-07-01', score: 720 },
+  { date: '2023-08-01', score: 725 },
+  { date: '2023-09-01', score: 730 },
+  { date: '2023-10-01', score: 740 },
+  { date: '2023-11-01', score: 745 },
+  { date: '2023-12-01', score: 750 },
+  { date: '2024-01-01', score: 755 },
+  { date: '2024-02-01', score: 760 },
+  { date: '2024-03-01', score: 765 },
+  { date: '2024-04-01', score: 770 },
+  { date: '2024-05-01', score: 775 },
+  { date: '2024-06-01', score: 780 },
+];
+
+export const improvementTips = [
+    {
+        title: "Pay Your Bills On Time",
+        description: "Late payments can have a significant negative impact on your credit score. Set up automatic payments to avoid missing a due date.",
+        priority: "High"
+    },
+    {
+        title: "Keep Credit Card Balances Low",
+        description: "High credit utilization can lower your score. Aim to use less than 30% of your available credit.",
+        priority: "High"
+    },
+    {
+        title: "Dispute Inaccuracies",
+        description: "Check your credit report for errors. Disputing and removing inaccuracies can quickly improve your score.",
+        priority: "Medium"
+    },
+    {
+        title: "Avoid Opening Too Many New Accounts",
+        description: "Each new credit application results in a hard inquiry, which can temporarily lower your score.",
+        priority: "Low"
+    },
 ];
