@@ -75,6 +75,15 @@ export default function CreditCardHealthPage() {
                 <Insights insights={insights} />
             </CardContent>
           </Card>
+           <Card>
+            <CardHeader>
+                <CardTitle>Score Factors</CardTitle>
+                <CardDescription>How your score is calculated</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <FactorsBreakdown factors={factors} />
+            </CardContent>
+          </Card>
         </div>
         <div className="lg:col-span-2 space-y-8">
           <Card>
@@ -93,15 +102,6 @@ export default function CreditCardHealthPage() {
                 hasOtherLoans={hasOtherLoans}
                 setHasOtherLoans={setHasOtherLoans}
               />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-                <CardTitle>Score Factors</CardTitle>
-                <CardDescription>How your score is calculated</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <FactorsBreakdown factors={factors} />
             </CardContent>
           </Card>
         </div>
