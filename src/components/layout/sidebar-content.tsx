@@ -1,3 +1,4 @@
+
 "use client"
 
 import {
@@ -39,7 +40,7 @@ export function SidebarContent() {
         <div className="flex items-center gap-2">
           {/* This icon only appears in mobile view */}
           <MobileOnlyIcon Icon={Wallet} />
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">FinanceFlow</h1>
+          <h1 className="text-xl font-bold md:hidden">FinanceFlow</h1>
         </div>
       </SidebarHeader>
 
