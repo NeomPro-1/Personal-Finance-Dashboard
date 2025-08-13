@@ -120,6 +120,10 @@ export function calculateScore(
     'Credit Mix': { name: 'Credit Mix', value: creditMix.score, weight: FACTOR_WEIGHTS['Credit Mix'], details: creditMix.details },
   };
 
+  if (cards.length === 0) {
+      return { score: 300, factors };
+  }
+
   const weightedScore = Object.values(factors).reduce((sum, factor) => sum + factor.value * factor.weight, 0);
 
   // Scale the 0-100 score to the 300-900 range
