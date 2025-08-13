@@ -8,19 +8,19 @@ interface ScoreDisplayProps {
   score: number;
 }
 
-const getScoreColor = (score: number) => {
-  if (score >= 800) return { color: "hsl(var(--chart-2))", label: "Excellent" };
-  if (score >= 740) return { color: "hsl(var(--chart-3))", label: "Very Good" };
-  if (score >= 670) return { color: "hsl(var(--chart-4))", label: "Good" };
-  if (score >= 580) return { color: "hsl(var(--chart-5))", label: "Fair" };
-  return { color: "hsl(var(--destructive))", label: "Poor" };
+const getScoreDetails = (score: number) => {
+  if (score >= 800) return { color: "hsl(var(--chart-2))", label: "Excellent", emoji: "😊" };
+  if (score >= 740) return { color: "hsl(var(--chart-3))", label: "Very Good", emoji: "🙂" };
+  if (score >= 670) return { color: "hsl(var(--chart-4))", label: "Good", emoji: "😐" };
+  if (score >= 580) return { color: "hsl(var(--chart-5))", label: "Fair", emoji: "😟" };
+  return { color: "hsl(var(--destructive))", label: "Poor", emoji: "😢" };
 };
 
 const MIN_SCORE = 300;
 const MAX_SCORE = 900;
 
 export function ScoreDisplay({ score }: ScoreDisplayProps) {
-  const { color, label } = getScoreColor(score);
+  const { color, label, emoji } = getScoreDetails(score);
   // Calculate percentage of the arc from 300 to 900
   const percentage = ((score - MIN_SCORE) / (MAX_SCORE - MIN_SCORE)) * 100;
   
@@ -54,8 +54,9 @@ export function ScoreDisplay({ score }: ScoreDisplayProps) {
         <span className="text-4xl sm:text-5xl font-bold" style={{ color }}>
           {Math.round(score)}
         </span>
-        <span className="text-sm sm:text-base font-medium" style={{ color }}>
-          {label}
+        <span className="text-sm sm:text-base font-medium flex items-center gap-1.5" style={{ color }}>
+          <span>{label}</span>
+          <span>{emoji}</span>
         </span>
       </div>
     </div>
