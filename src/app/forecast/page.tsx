@@ -14,7 +14,7 @@ function ForecastLoading() {
     return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-slide-up-and-fade-in">
       <Skeleton className="h-9 w-72" />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <Card>
           <CardHeader>
             <Skeleton className="h-8 w-48" />
@@ -76,14 +76,14 @@ export default function ForecastPage() {
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <h1 className="text-3xl font-bold tracking-tight">Forecast &amp; Tools</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {/* Column 1: Net Worth Calculator */}
-        <div className="lg:col-span-1 order-1 lg:order-2">
+        <div className="md:col-span-1 order-1 md:order-2">
           <NetWorthCalculator />
         </div>
         
         {/* Column 2: Financial Forecast */}
-        <Card className="lg:col-span-1 order-2 lg:order-1">
+        <Card className="md:col-span-1 order-2 md:order-1">
           <CardHeader>
             <CardTitle>Financial Forecast Report</CardTitle>
           </CardHeader>

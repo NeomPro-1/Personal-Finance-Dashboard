@@ -138,7 +138,7 @@ export default function DashboardPage() {
         </div>
       </div>
       
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         <SummaryCard title="Total Income" value={formatCurrency(income)} icon={ArrowUpCircle} />
         <SummaryCard title="Total Expenses" value={formatCurrency(expenses)} icon={ArrowDownCircle} />
         <SummaryCard title="Net Balance" value={formatCurrency(net)} icon={DollarSign} />
@@ -146,7 +146,7 @@ export default function DashboardPage() {
 
       <QuarterlySummary transactions={transactions} />
 
-      <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
         <IncomeTable 
           transactions={incomeTransactions} 
           onAddTransaction={handleAddTransaction}

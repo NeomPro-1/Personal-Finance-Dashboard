@@ -73,7 +73,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
   if (investments.length === 0) {
     return (
        <div className="space-y-8">
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           <InvestmentSummaryCard 
             title="Total Invested" 
             value={formatCurrency(0, isMobile)} 
@@ -112,7 +112,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                 <FormField control={form.control} name="name" render={({ field }) => (
                   <FormItem>
                     <FormLabel>Investment Name</FormLabel>
@@ -146,7 +146,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                     <FormMessage />
                   </FormItem>
                 )}/>
-                <Button type="submit" className="w-full lg:w-auto">Add Investment</Button>
+                <Button type="submit" className="w-full md:w-auto">Add Investment</Button>
               </form>
             </Form>
           </CardContent>
@@ -157,7 +157,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
 
   return (
     <div className="space-y-8">
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         <InvestmentSummaryCard 
           title="Total Invested" 
           value={formatCurrency(totalInvested, isMobile)} 
@@ -331,7 +331,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-end">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <FormField control={form.control} name="name" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Investment Name</FormLabel>
@@ -365,7 +365,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                   <FormMessage />
                 </FormItem>
               )}/>
-              <Button type="submit" className="w-full lg:w-auto">Add Investment</Button>
+              <Button type="submit" className="w-full md:w-auto">Add Investment</Button>
             </form>
           </Form>
         </CardContent>

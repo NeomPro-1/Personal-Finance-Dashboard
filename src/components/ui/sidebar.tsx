@@ -58,7 +58,7 @@ const SidebarProvider = React.forwardRef<
 >(
   (
     {
-      defaultOpen = true,
+      defaultOpen = false, // Collapsed by default on desktop/tablet
       open: openProp,
       onOpenChange: setOpenProp,
       className,
@@ -169,7 +169,7 @@ const Sidebar = React.forwardRef<
     {
       side = "left",
       variant = "sidebar",
-      collapsible = "offcanvas",
+      collapsible = "icon", // Changed from "offcanvas" to "icon"
       className,
       children,
       ...props
