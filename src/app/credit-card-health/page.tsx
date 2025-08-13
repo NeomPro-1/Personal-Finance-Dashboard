@@ -12,20 +12,9 @@ import { calculateScore, generateInsights } from '@/lib/credit-card-score';
 import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
 
 export default function CreditCardHealthPage() {
-  const [cards, setCards] = useState<CreditCardData[]>([
-    // Start with some default example data
-    {
-      id: '1',
-      name: 'Example Bank Visa',
-      issuer: 'Example Bank',
-      limit: 10000,
-      balance: 2500,
-      openDate: '2022-01-01',
-      missedPayments: 0,
-    }
-  ]);
-  const [applications, setApplications] = useState(1);
-  const [hasOtherLoans, setHasOtherLoans] = useState(true);
+  const [cards, setCards] = useState<CreditCardData[]>([]);
+  const [applications, setApplications] = useState(0);
+  const [hasOtherLoans, setHasOtherLoans] = useState(false);
 
   const { score, factors } = useMemo(() => 
     calculateScore(cards, applications, hasOtherLoans), 
