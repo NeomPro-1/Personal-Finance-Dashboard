@@ -8,6 +8,7 @@ import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger, SidebarFooter }
 import { SidebarContent } from '@/components/layout/sidebar-content';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 
 export default function RootLayout({
   children,
@@ -32,29 +33,23 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        {isClient ? (
-          <ThemeProvider attribute="class" enableSystem>
-            <SidebarProvider>
-              <Sidebar>
-                <SidebarContent />
-                <SidebarFooter>
-                  <ThemeToggle />
-                </SidebarFooter>
-              </Sidebar>
-              <SidebarInset>
-                <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
-                  <SidebarTrigger />
-                  <ThemeToggle />
-                </header>
-                {children}
-              </SidebarInset>
-            </SidebarProvider>
-          </ThemeProvider>
-        ) : (
-          <div className="flex min-h-svh w-full items-center justify-center">
-            {/* You can place a simple loader here if you want */}
-          </div>
-        )}
+        <ThemeProvider attribute="class" enableSystem>
+          <SidebarProvider>
+            <Sidebar>
+              <SidebarContent />
+              <SidebarFooter>
+                {isClient && <ThemeToggle />}
+              </SidebarFooter>
+            </Sidebar>
+            <SidebarInset>
+              <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
+                <SidebarTrigger />
+                {isClient && <ThemeToggle />}
+              </header>
+              {isClient ? children : <LoadingSkeleton />}
+            </SidebarInset>
+          </SidebarProvider>
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>
