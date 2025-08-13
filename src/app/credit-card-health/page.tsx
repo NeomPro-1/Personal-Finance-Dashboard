@@ -9,6 +9,7 @@ import { FactorsBreakdown } from '@/components/credit-card-health/factors-breakd
 import { Insights } from '@/components/credit-card-health/insights';
 import type { CreditCardData, ScoreFactors } from '@/lib/types';
 import { calculateScore, generateInsights } from '@/lib/credit-card-score';
+import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
 
 export default function CreditCardHealthPage() {
   const [cards, setCards] = useState<CreditCardData[]>([
@@ -74,6 +75,7 @@ export default function CreditCardHealthPage() {
                 <Insights insights={insights} />
             </CardContent>
           </Card>
+          <ImprovementTips />
         </div>
         <div className="lg:col-span-2 space-y-8">
           <Card>
