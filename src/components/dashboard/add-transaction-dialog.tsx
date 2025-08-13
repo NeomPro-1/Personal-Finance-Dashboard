@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from 'react'
@@ -6,7 +7,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { format } from "date-fns"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -93,7 +94,7 @@ export function AddTransactionDialog({ children, isOpen, setIsOpen, onAddTransac
                 <FormMessage />
               </FormItem>
             )}/>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormField control={form.control} name="category" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
@@ -126,7 +127,9 @@ export function AddTransactionDialog({ children, isOpen, setIsOpen, onAddTransac
               </FormItem>
             )}/>
             </div>
-            <Button type="submit">Add Transaction</Button>
+             <DialogFooter className="pt-4">
+              <Button type="submit">Add Transaction</Button>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>

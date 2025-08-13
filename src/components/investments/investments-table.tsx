@@ -112,7 +112,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
                 <FormField control={form.control} name="name" render={({ field }) => (
                   <FormItem>
                     <FormLabel>Investment Name</FormLabel>
@@ -146,7 +146,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                     <FormMessage />
                   </FormItem>
                 )}/>
-                <Button type="submit" className="w-full md:w-auto">Add Investment</Button>
+                <Button type="submit" className="w-full md:w-auto lg:col-start-4">Add Investment</Button>
               </form>
             </Form>
           </CardContent>
@@ -331,7 +331,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
               <FormField control={form.control} name="name" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Investment Name</FormLabel>
@@ -365,7 +365,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                   <FormMessage />
                 </FormItem>
               )}/>
-              <Button type="submit" className="w-full md:w-auto">Add Investment</Button>
+              <Button type="submit" className="w-full md:col-span-2 lg:col-span-1 lg:w-auto">Add Investment</Button>
             </form>
           </Form>
         </CardContent>
