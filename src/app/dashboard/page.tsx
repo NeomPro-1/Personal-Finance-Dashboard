@@ -102,7 +102,7 @@ export default function DashboardPage() {
     const currentYear = new Date().getFullYear();
 
     yearsToDisplay.forEach(year => {
-        for (let i = 11; i >= 0; i--) {
+        for (let i = 0; i <= 11; i++) {
             const date = new Date(year, i, 1);
             options.push({
                 label: format(date, 'MMMM'),
