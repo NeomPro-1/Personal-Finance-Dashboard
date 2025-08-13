@@ -10,7 +10,7 @@ import {
   useSidebar,
   SidebarFooter,
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, GaugeCircle, CreditCard } from "lucide-react"
+import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "../theme-toggle"
@@ -59,15 +59,6 @@ export function SidebarContent() {
               <Link href="/forecast">
                 <BarChart />
                 <span>Forecast &amp; Tools</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.includes('/credit-score')} onClick={handleLinkClick} tooltip="Credit Score">
-              <Link href="/credit-score">
-                <GaugeCircle />
-                <span>Credit Score</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
