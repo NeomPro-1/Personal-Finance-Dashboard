@@ -279,15 +279,7 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn(
-        // Default mobile size
-        "h-8 w-8 [&>svg]:h-5 [&>svg]:w-5",
-        // Tablet
-        "sm:h-10 sm:w-10 sm:[&>svg]:h-6 sm:[&>svg]:w-6",
-        // Desktop
-        "md:h-12 md:w-12 md:[&>svg]:h-7 md:[&>svg]:w-7",
-        className
-      )}
+      className={cn("h-10 w-10 [&>svg]:h-6 [&>svg]:w-6", className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
@@ -299,7 +291,6 @@ const SidebarTrigger = React.forwardRef<
     </Button>
   )
 })
-
 SidebarTrigger.displayName = "SidebarTrigger"
 
 
