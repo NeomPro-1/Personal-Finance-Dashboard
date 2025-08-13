@@ -1,3 +1,4 @@
+
 export type Transaction = {
   id: string;
   date: string;
@@ -31,4 +32,30 @@ export type Investment = {
   purchaseDate: string;
   initialValue: number;
   currentValue: number;
+};
+
+export interface CreditCardData {
+  id: string;
+  name: string;
+  issuer: string;
+  limit: number;
+  balance: number;
+  openDate: string; // YYYY-MM-DD
+  missedPayments: number;
+}
+
+export type ScoreFactorName = 'Payment History' | 'Credit Utilization' | 'Credit Age' | 'Recent Inquiries' | 'Credit Mix';
+
+export interface ScoreFactor {
+  name: ScoreFactorName;
+  value: number; // The user's normalized score for this factor (0-100)
+  weight: number; // The factor's weight in the total score (e.g., 0.40)
+  details: string; // A string explaining the value, e.g., "30% utilization"
+}
+
+export type ScoreFactors = Record<ScoreFactorName, ScoreFactor>;
+
+export type Insight = {
+    text: string;
+    priority: 'High' | 'Medium' | 'Low';
 };

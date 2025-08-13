@@ -10,11 +10,10 @@ import {
   useSidebar,
   SidebarFooter,
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, GaugeCircle } from "lucide-react"
+import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, GaugeCircle, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "../theme-toggle"
-import { Sidebar, SidebarTrigger } from '../ui/sidebar';
 
 export function SidebarContent() {
   const pathname = usePathname();
@@ -28,11 +27,12 @@ export function SidebarContent() {
 
   return (
     <>
-      <SidebarHeader>
-        <div className="flex items-center gap-2">
-           <Wallet className={`w-8 h-8 text-primary ${state === 'collapsed' && 'w-10 h-10'}`} />
-        </div>
-      </SidebarHeader>
+       <SidebarHeader className="hidden md:flex">
+         <div className="flex items-center gap-2">
+            <Wallet className={`w-8 h-8 text-primary ${state === 'collapsed' && 'w-10 h-10'}`} />
+            <span className={`text-2xl font-bold ${state === 'collapsed' && 'hidden'}`}>FinanceFlow</span>
+         </div>
+       </SidebarHeader>
 
       <SidebarBody>
         <SidebarMenu>
@@ -68,6 +68,15 @@ export function SidebarContent() {
               <Link href="/credit-score">
                 <GaugeCircle />
                 <span>Credit Score</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname.includes('/credit-card-health')} onClick={handleLinkClick} tooltip="Card Health">
+              <Link href="/credit-card-health">
+                <CreditCard />
+                <span>Card Health</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
