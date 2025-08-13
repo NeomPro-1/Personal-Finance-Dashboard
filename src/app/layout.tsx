@@ -4,7 +4,7 @@
 import * as React from 'react';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger, SidebarFooter } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { SidebarContent } from '@/components/layout/sidebar-content';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -15,11 +15,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isClient, setIsClient] = React.useState(false)
-
-  React.useEffect(() => {
-    setIsClient(true)
-  }, [])
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -39,7 +34,6 @@ export default function RootLayout({
               <SidebarContent />
             </Sidebar>
             <SidebarInset>
-              {isClient ? (
                 <>
                   <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
                     <SidebarTrigger />
@@ -47,9 +41,6 @@ export default function RootLayout({
                   </header>
                   {children}
                 </>
-              ) : (
-                <LoadingSkeleton />
-              )}
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>

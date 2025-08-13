@@ -7,11 +7,13 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarContent as SidebarBody,
-  useSidebar
+  useSidebar,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
 import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { ThemeToggle } from "../theme-toggle"
 
 export function SidebarContent() {
   const pathname = usePathname();
@@ -67,6 +69,9 @@ export function SidebarContent() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarBody>
+      <SidebarFooter className="hidden md:flex">
+        <ThemeToggle />
+      </SidebarFooter>
     </>
   )
 }
