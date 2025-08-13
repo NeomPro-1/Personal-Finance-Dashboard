@@ -75,7 +75,6 @@ export default function CreditCardHealthPage() {
                 <Insights insights={insights} />
             </CardContent>
           </Card>
-          <ImprovementTips />
         </div>
         <div className="lg:col-span-2 space-y-8">
           <Card>
@@ -106,6 +105,9 @@ export default function CreditCardHealthPage() {
             </CardContent>
           </Card>
         </div>
+      </div>
+       <div className="mt-8">
+          <ImprovementTips />
       </div>
     </main>
   );
