@@ -49,12 +49,12 @@ export function CreditCardForm({
   setHasOtherLoans,
 }: CreditCardFormProps) {
     
-  const form = useForm({
+  const form = useForm<z.infer<typeof cardSchema>>({
     resolver: zodResolver(cardSchema),
     defaultValues: {
       name: '',
-      limit: undefined,
-      balance: undefined,
+      limit: '' as any,
+      balance: '' as any,
       openDate: new Date(),
       missedPayments: 0,
     }
@@ -181,7 +181,7 @@ export function CreditCardForm({
         </Form>
       </div>
 
-      <div className="border-t pt-6 space-y-4">
+       <div className="border-t pt-6 space-y-4">
          <h3 className="text-lg font-semibold">Other Factors</h3>
          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
