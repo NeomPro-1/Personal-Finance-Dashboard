@@ -104,10 +104,8 @@ export default function CreditCardHealthPage() {
               />
             </CardContent>
           </Card>
-        </div>
-      </div>
-       <div className="mt-8">
           <ImprovementTips />
+        </div>
       </div>
     </main>
   );
