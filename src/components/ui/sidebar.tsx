@@ -177,13 +177,6 @@ const Sidebar = React.forwardRef<
     ref
   ) => {
     const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
-    const [isClient, setIsClient] = React.useState(false);
-
-    React.useEffect(() => {
-      setIsClient(true);
-    }, []);
-
-    if (!isClient) return null;
 
     if (collapsible === "none") {
       return (
@@ -286,7 +279,15 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-12 w-12 [&>svg]:h-7 [&>svg]:w-7", className)}
+      className={cn(
+        // Default mobile size
+        "h-8 w-8 [&>svg]:h-5 [&>svg]:w-5",
+        // Tablet
+        "sm:h-10 sm:w-10 sm:[&>svg]:h-6 sm:[&>svg]:w-6",
+        // Desktop
+        "md:h-12 md:w-12 md:[&>svg]:h-7 md:[&>svg]:w-7",
+        className
+      )}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
@@ -298,7 +299,9 @@ const SidebarTrigger = React.forwardRef<
     </Button>
   )
 })
+
 SidebarTrigger.displayName = "SidebarTrigger"
+
 
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
