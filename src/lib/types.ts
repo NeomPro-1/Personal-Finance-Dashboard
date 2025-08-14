@@ -34,7 +34,8 @@ export type Investment = {
   purchaseDate: string;
   initialValue: number;
   currentValue: number;
-  quantityInGrams?: number; // Optional: for gold
+  quantityInGrams?: number;
+  carat?: 18 | 22 | 24;
 };
 
 export interface CreditCardData {

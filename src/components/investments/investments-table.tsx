@@ -36,13 +36,14 @@ const addInvestmentFormSchema = z.object({
   type: z.enum(['Stock', 'Gold']),
   initialValue: z.coerce.number().optional(),
   quantityInGrams: z.coerce.number().optional(),
+  carat: z.coerce.number().optional(),
   purchaseDate: z.date(),
 }).refine(data => {
     if (data.type === 'Stock') {
         return data.initialValue && data.initialValue > 0;
     }
     if (data.type === 'Gold') {
-        return data.quantityInGrams && data.quantityInGrams > 0;
+        return data.quantityInGrams && data.quantityInGrams > 0 && data.carat;
     }
     return false;
 }, {
@@ -63,6 +64,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
       purchaseDate: new Date(),
       initialValue: undefined,
       quantityInGrams: undefined,
+      carat: undefined,
     },
   });
   
@@ -81,7 +83,8 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
             type: 'Gold',
             purchaseDate,
             initialValue: value,
-            quantityInGrams: data.quantityInGrams
+            quantityInGrams: data.quantityInGrams,
+            carat: data.carat as any,
         }
     } else { // Stock
         submissionData = {
@@ -211,6 +214,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                         )}/>
                     )}
                     {investmentType === 'Gold' && (
+                        <>
                         <FormField control={form.control} name="quantityInGrams" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Quantity (grams)</FormLabel>
@@ -218,6 +222,25 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                 <FormMessage />
                             </FormItem>
                         )}/>
+                        <FormField control={form.control} name="carat" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Carat</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value?.toString()}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select purity" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="24">24 Carat</SelectItem>
+                                        <SelectItem value="22">22 Carat</SelectItem>
+                                        <SelectItem value="18">18 Carat</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                        </>
                     )}
                  </div>
                  <Button type="submit" className="w-full md:w-auto md:max-w-xs">Add Investment</Button>
@@ -327,7 +350,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                         {inv.type === 'Gold' && inv.quantityInGrams && (
                              <div className="flex justify-between items-center">
                               <span>Quantity:</span>
-                              <span className="font-medium">{inv.quantityInGrams}g</span>
+                              <span className="font-medium">{inv.quantityInGrams}g {inv.carat && `(${inv.carat}K)`}</span>
                             </div>
                         )}
                         <div className="flex justify-between items-center">
@@ -375,7 +398,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                         <TableCell className="font-medium">{inv.name}</TableCell>
                         <TableCell><Badge variant="outline">{inv.type}</Badge></TableCell>
                         <TableCell>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
-                        <TableCell>{inv.type === 'Gold' && inv.quantityInGrams ? `${inv.quantityInGrams}g` : 'N/A'}</TableCell>
+                        <TableCell>{inv.type === 'Gold' && inv.quantityInGrams ? `${inv.quantityInGrams}g ${inv.carat ? `(${inv.carat}K)` : ''}`.trim() : 'N/A'}</TableCell>
                         <TableCell className="text-right">{formatCurrency(inv.initialValue, isMobile)}</TableCell>
                         <TableCell className="text-right">{formatCurrency(inv.currentValue, isMobile)}</TableCell>
                         <TableCell className={cn(
@@ -478,6 +501,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                         )}/>
                     )}
                     {investmentType === 'Gold' && (
+                        <>
                         <FormField control={form.control} name="quantityInGrams" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Quantity (grams)</FormLabel>
@@ -485,6 +509,25 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                 <FormMessage />
                             </FormItem>
                         )}/>
+                        <FormField control={form.control} name="carat" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Carat</FormLabel>
+                                <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value?.toString()}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select purity" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="24">24 Carat</SelectItem>
+                                        <SelectItem value="22">22 Carat</SelectItem>
+                                        <SelectItem value="18">18 Carat</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                        </>
                     )}
                  </div>
                  <Button type="submit" className="w-full md:w-auto md:max-w-xs">Add Investment</Button>
