@@ -2,7 +2,6 @@
 "use client"
 
 import * as React from 'react';
-import { usePathname } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { SidebarContent } from '@/components/layout/sidebar-content';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -19,7 +18,11 @@ export function ClientLayout({
   }, []);
 
   if (!isMounted) {
-    return null;
+    return (
+        <div className="flex min-h-screen items-center justify-center">
+            <p>Loading...</p>
+        </div>
+    );
   }
 
   return (
