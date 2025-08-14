@@ -9,15 +9,8 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { SidebarContent } from "@/components/layout/sidebar-content"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { LoadingSkeleton } from "@/components/layout/loading-skeleton"
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const [isMounted, setIsMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   return (
     <NextThemesProvider
       attribute="class"
@@ -36,7 +29,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 <ThemeToggle />
             </header>
             <SidebarInset>
-                {!isMounted ? <LoadingSkeleton /> : children}
+                {children}
             </SidebarInset>
             </div>
         </div>
