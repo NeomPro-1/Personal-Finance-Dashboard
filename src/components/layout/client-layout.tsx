@@ -47,23 +47,35 @@ export function ClientLayout({
   children: React.ReactNode;
 }>) {
   const [isMounted, setIsMounted] = React.useState(false);
-  const [isNavigating, setIsNavigating] = React.useState(false);
   const pathname = usePathname();
 
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  // The useLocalStorage hook introduces a delay, which we can use to show a loading state.
+  // We'll track the 'previousPathname' to determine if a navigation is occurring.
+  const [isNavigating, setIsNavigating] = React.useState(false);
+  const previousPathname = React.useRef(pathname);
+
   React.useEffect(() => {
-    // When the path changes, start our navigation loader
-    setIsNavigating(true);
-    const timer = setTimeout(() => setIsNavigating(false), 1000); // Corresponds to the artificial delay in useLocalStorage
-    return () => clearTimeout(timer);
+    if (previousPathname.current !== pathname) {
+      setIsNavigating(true);
+      const timer = setTimeout(() => {
+        setIsNavigating(false);
+        previousPathname.current = pathname;
+      }, 1000); // This duration should match the delay in useLocalStorage
+      return () => clearTimeout(timer);
+    } else {
+        // Handle the initial load case
+        const timer = setTimeout(() => setIsNavigating(false), 1000);
+        return () => clearTimeout(timer);
+    }
   }, [pathname]);
 
   const showLoader = !isMounted || isNavigating;
 
-  if (showLoader) {
+  if (showLoader && pathname !== previousPathname.current) {
     return <FullPageLoading />;
   }
 
@@ -78,7 +90,7 @@ export function ClientLayout({
             <ThemeToggle />
           </header>
           <SidebarInset>
-            {children}
+            {showLoader ? <FullPageLoading/> : children}
           </SidebarInset>
         </div>
     </SidebarProvider>

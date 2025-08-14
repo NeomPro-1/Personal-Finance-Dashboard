@@ -1,16 +1,12 @@
 
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
-import { ClientLayout } from '@/components/layout/client-layout';
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
-
 
 export const metadata: Metadata = {
   title: 'FinanceFlow',
   description: 'Personal finance dashboard to track and manage your money.',
 };
-
 
 export default function RootLayout({
   children,
@@ -35,10 +31,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClientLayout>
-            {children}
-          </ClientLayout>
-          <Toaster />
+          {children}
         </ThemeProvider>
       </body>
     </html>
