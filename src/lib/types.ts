@@ -1,4 +1,5 @@
 
+
 export type Transaction = {
   id: string;
   date: string;
@@ -29,9 +30,11 @@ export type Category = (typeof CATEGORIES)[number];
 export type Investment = {
   id: string;
   name: string;
+  type: 'Stock' | 'Gold';
   purchaseDate: string;
   initialValue: number;
   currentValue: number;
+  quantityInGrams?: number; // Optional: for gold
 };
 
 export interface CreditCardData {

@@ -22,6 +22,8 @@ import { cn, formatCurrency } from "@/lib/utils"
 import type { Investment } from "@/lib/types"
 import { CalendarIcon, Trash2, TrendingUp, TrendingDown, DollarSign, PiggyBank, Briefcase, Info } from "lucide-react"
 import { useIsMobile } from '@/hooks/use-mobile'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { Badge } from '../ui/badge'
 
 interface InvestmentsTableProps {
   investments: Investment[];
@@ -31,9 +33,23 @@ interface InvestmentsTableProps {
 
 const addInvestmentFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  initialValue: z.coerce.number().positive({ message: "Value must be positive." }),
+  type: z.enum(['Stock', 'Gold']),
+  initialValue: z.coerce.number().optional(),
+  quantityInGrams: z.coerce.number().optional(),
   purchaseDate: z.date(),
+}).refine(data => {
+    if (data.type === 'Stock') {
+        return data.initialValue && data.initialValue > 0;
+    }
+    if (data.type === 'Gold') {
+        return data.quantityInGrams && data.quantityInGrams > 0;
+    }
+    return false;
+}, {
+    message: "A valid value is required for the selected investment type.",
+    path: ["initialValue"], // Or whichever path is most appropriate
 });
+
 
 type AddInvestmentFormValues = z.infer<typeof addInvestmentFormSchema>;
 
@@ -43,13 +59,39 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
     resolver: zodResolver(addInvestmentFormSchema),
     defaultValues: {
       name: "",
+      type: "Stock",
       purchaseDate: new Date(),
       initialValue: undefined,
+      quantityInGrams: undefined,
     },
   });
+  
+  const investmentType = form.watch("type");
 
   function onSubmit(data: AddInvestmentFormValues) {
-    onAddInvestment({ ...data, purchaseDate: format(data.purchaseDate, 'yyyy-MM-dd') });
+    const purchaseDate = format(data.purchaseDate, 'yyyy-MM-dd');
+    let submissionData: Omit<Investment, 'id' | 'currentValue'>;
+
+    if (data.type === 'Gold') {
+        // For simplicity, we'll set the initial value of gold based on quantity.
+        // A real app would use purchase price per gram.
+        const value = data.quantityInGrams! * 6000; // Placeholder price
+        submissionData = {
+            name: data.name,
+            type: 'Gold',
+            purchaseDate,
+            initialValue: value,
+            quantityInGrams: data.quantityInGrams
+        }
+    } else { // Stock
+        submissionData = {
+            name: data.name,
+            type: 'Stock',
+            purchaseDate,
+            initialValue: data.initialValue!,
+        }
+    }
+    onAddInvestment(submissionData);
     form.reset();
   }
   
@@ -112,41 +154,73 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-                <FormField control={form.control} name="name" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Investment Name</FormLabel>
-                    <FormControl><Input placeholder="e.g., Tech Giant Inc." {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}/>
-                <FormField control={form.control} name="initialValue" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Initial Value</FormLabel>
-                    <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}/>
-                <FormField control={form.control} name="purchaseDate" render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Purchase Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
-                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}/>
-                <Button type="submit" className="w-full md:w-auto md:col-span-2 lg:col-span-1">Add Investment</Button>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                    <FormField control={form.control} name="name" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl><Input placeholder="e.g., Tech Giant Inc." {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}/>
+                     <FormField control={form.control} name="type" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select investment type" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="Stock">Stock</SelectItem>
+                                    <SelectItem value="Gold">Gold</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                     <FormField control={form.control} name="purchaseDate" render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Purchase Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}/>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                    {investmentType === 'Stock' && (
+                        <FormField control={form.control} name="initialValue" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Initial Value</FormLabel>
+                                <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                    )}
+                    {investmentType === 'Gold' && (
+                        <FormField control={form.control} name="quantityInGrams" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Quantity (grams)</FormLabel>
+                                <FormControl><Input type="number" step="0.01" placeholder="e.g., 10" {...field} value={field.value ?? ''} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                    )}
+                 </div>
+                 <Button type="submit" className="w-full md:w-auto md:max-w-xs">Add Investment</Button>
               </form>
             </Form>
           </CardContent>
@@ -221,30 +295,41 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                   const gainLoss = inv.currentValue - inv.initialValue;
                   return (
                     <Card key={inv.id} className="bg-card/50">
-                      <CardHeader className="flex flex-row justify-between items-start pb-2">
-                        <CardTitle className="text-lg">{inv.name}</CardTitle>
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-8 w-8 -mt-2 -mr-2">
-                                <Trash2 className="h-4 w-4 text-muted-foreground" />
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This action cannot be undone. This will permanently delete this investment.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => onDeleteInvestment(inv.id)}>Continue</AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
+                      <CardHeader className="pb-2">
+                        <div className="flex justify-between items-start">
+                           <CardTitle className="text-lg">{inv.name}</CardTitle>
+                           <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8 -mt-2 -mr-2">
+                                  <Trash2 className="h-4 w-4 text-muted-foreground" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete this investment.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => onDeleteInvestment(inv.id)}>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                        </div>
+                         <div className="text-sm text-muted-foreground flex items-center gap-2">
+                            <span>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</span>
+                            <Badge variant="outline">{inv.type}</Badge>
+                         </div>
                       </CardHeader>
                       <CardContent className="space-y-2 text-sm">
-                        <p className="text-muted-foreground">{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</p>
+                        {inv.type === 'Gold' && inv.quantityInGrams && (
+                             <div className="flex justify-between items-center">
+                              <span>Quantity:</span>
+                              <span className="font-medium">{inv.quantityInGrams}g</span>
+                            </div>
+                        )}
                         <div className="flex justify-between items-center">
                           <span>Initial Value:</span>
                           <span className="font-medium">{formatCurrency(inv.initialValue, isMobile)}</span>
@@ -273,7 +358,9 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
+                    <TableHead>Type</TableHead>
                     <TableHead>Purchase Date</TableHead>
+                    <TableHead>Quantity</TableHead>
                     <TableHead className="text-right">Initial Value</TableHead>
                     <TableHead className="text-right">Current Value</TableHead>
                     <TableHead className="text-right">Gain/Loss</TableHead>
@@ -286,7 +373,9 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                     return (
                       <TableRow key={inv.id}>
                         <TableCell className="font-medium">{inv.name}</TableCell>
+                        <TableCell><Badge variant="outline">{inv.type}</Badge></TableCell>
                         <TableCell>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
+                        <TableCell>{inv.type === 'Gold' && inv.quantityInGrams ? `${inv.quantityInGrams}g` : 'N/A'}</TableCell>
                         <TableCell className="text-right">{formatCurrency(inv.initialValue, isMobile)}</TableCell>
                         <TableCell className="text-right">{formatCurrency(inv.currentValue, isMobile)}</TableCell>
                         <TableCell className={cn(
@@ -331,44 +420,76 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           <CardTitle>Add New Investment</CardTitle>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-              <FormField control={form.control} name="name" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Investment Name</FormLabel>
-                  <FormControl><Input placeholder="e.g., Tech Giant Inc." {...field} /></FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}/>
-               <FormField control={form.control} name="initialValue" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Initial Value</FormLabel>
-                  <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}/>
-               <FormField control={form.control} name="purchaseDate" render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Purchase Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
-                          {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}/>
-              <Button type="submit" className="w-full md:w-auto md:col-span-2 lg:col-span-1">Add Investment</Button>
-            </form>
-          </Form>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                    <FormField control={form.control} name="name" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl><Input placeholder="e.g., Tech Giant Inc." {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}/>
+                     <FormField control={form.control} name="type" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select investment type" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="Stock">Stock</SelectItem>
+                                    <SelectItem value="Gold">Gold</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                     <FormField control={form.control} name="purchaseDate" render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Purchase Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}/>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                    {investmentType === 'Stock' && (
+                        <FormField control={form.control} name="initialValue" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Initial Value</FormLabel>
+                                <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                    )}
+                    {investmentType === 'Gold' && (
+                        <FormField control={form.control} name="quantityInGrams" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Quantity (grams)</FormLabel>
+                                <FormControl><Input type="number" step="0.01" placeholder="e.g., 10" {...field} value={field.value ?? ''} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                    )}
+                 </div>
+                 <Button type="submit" className="w-full md:w-auto md:max-w-xs">Add Investment</Button>
+              </form>
+            </Form>
         </CardContent>
       </Card>
 
