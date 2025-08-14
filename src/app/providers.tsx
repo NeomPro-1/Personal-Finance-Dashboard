@@ -6,12 +6,12 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/toaster"
 import { Sidebar } from "@/components/ui/sidebar"
 import { SidebarInset } from "@/components/ui/sidebar"
-import { SidebarContent } from "./sidebar-content"
-import { ThemeToggle } from "../theme-toggle"
-import { SidebarTrigger } from "../ui/sidebar"
-import { LoadingSkeleton } from "./loading-skeleton"
+import { SidebarContent } from "@/components/layout/sidebar-content"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { SidebarTrigger } from "@/components/ui/sidebar"
+import { LoadingSkeleton } from "@/components/layout/loading-skeleton"
 
-export function AppProviders({ children }: { children: React.ReactNode }) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   const [isMounted, setIsMounted] = React.useState(false);
 
   React.useEffect(() => {

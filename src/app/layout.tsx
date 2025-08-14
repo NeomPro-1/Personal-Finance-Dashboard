@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
-import ProvidersWrapperServer from './providers-wrapper-server';
+import Providers from './providers';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <ProvidersWrapperServer>{children}</ProvidersWrapperServer>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
