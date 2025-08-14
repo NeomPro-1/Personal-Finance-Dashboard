@@ -23,7 +23,7 @@ const ClientLayout = dynamic(() => import('@/components/layout/client-layout').t
         </div>
       </div>
       <div className="flex-1 flex flex-col">
-        <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
+        <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 py-2 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
             <Skeleton className="h-8 w-8" />
             <Skeleton className="h-8 w-8 rounded-full" />
         </header>
