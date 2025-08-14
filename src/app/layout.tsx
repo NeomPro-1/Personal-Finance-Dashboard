@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import ClientLayout from './client-layout';
+import ProvidersWrapper from './providers-wrapper';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'FinanceFlow',
@@ -11,5 +12,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <ClientLayout>{children}</ClientLayout>;
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className="font-body antialiased">
+        <ProvidersWrapper>{children}</ProvidersWrapper>
+      </body>
+    </html>
+  );
 }
