@@ -21,10 +21,17 @@ interface GoalCardProps {
 export function GoalCard({ goal, onUpdateGoal, onDeleteGoal }: GoalCardProps) {
   const progress = useMemo(() => (goal.targetAmount > 0 ? (goal.currentAmount / goal.targetAmount) * 100 : 0), [goal]);
 
-  const daysLeft = useMemo(() => {
+  const daysRemainingText = useMemo(() => {
     if (!goal.targetDate) return null;
     const diff = differenceInDays(parseISO(goal.targetDate), new Date());
-    return diff >= 0 ? diff : null;
+    
+    if (diff < 0) {
+        return `Target was ${Math.abs(diff)} days ago`;
+    }
+    if (diff === 0) {
+        return 'Target is today!';
+    }
+    return `${diff} days left`;
   }, [goal.targetDate]);
 
   return (
@@ -39,7 +46,7 @@ export function GoalCard({ goal, onUpdateGoal, onDeleteGoal }: GoalCardProps) {
             <div className="flex items-center gap-1.5 text-xs">
               <Calendar className="h-3 w-3" />
               <span>Target: {format(parseISO(goal.targetDate), 'MMM dd, yyyy')}</span>
-              {daysLeft !== null && <span className="text-muted-foreground">({daysLeft} days left)</span>}
+              {daysRemainingText && <span className="text-muted-foreground">({daysRemainingText})</span>}
             </div>
           ) : (
             <span className="text-xs">No target date set</span>
