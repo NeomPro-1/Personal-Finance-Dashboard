@@ -8,10 +8,11 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useIsMobile } from '@/hooks/use-mobile';
 import { initialInvestments } from '@/lib/data';
+import useLocalStorage from '@/hooks/use-local-storage';
 
 function InvestmentsLoading() {
   return (
-    <div className="space-y-8 animate-slide-up-and-fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 animate-slide-up-and-fade-in">
       <Skeleton className="h-9 w-64" />
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="bg-card/50 border-border/50">
@@ -64,18 +65,13 @@ function InvestmentsLoading() {
 
 
 export default function InvestmentsPage() {
-  const [investments, setInvestments] = useState<Investment[]>([]);
+  const [investments, setInvestments] = useLocalStorage<Investment[]>('investments', initialInvestments);
   const [isLoading, setIsLoading] = useState(true);
   const { isMobile, isReady } = useIsMobile();
 
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-      setInvestments(initialInvestments);
-      setIsLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    setIsLoading(false);
   }, []);
 
   const handleAddInvestment = (investment: Omit<Investment, 'id' | 'currentValue'>) => {
@@ -84,11 +80,11 @@ export default function InvestmentsPage() {
       id: crypto.randomUUID(),
       currentValue: investment.initialValue,
     };
-    setInvestments(prev => [...prev, newInvestment]);
+    setInvestments([...investments, newInvestment]);
   };
 
   const handleDeleteInvestment = (id: string) => {
-    setInvestments(prev => prev.filter(inv => inv.id !== id));
+    setInvestments(investments.filter(inv => inv.id !== id));
   };
   
   return (

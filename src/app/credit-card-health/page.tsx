@@ -7,21 +7,20 @@ import { CreditCardForm } from '@/components/credit-card-health/credit-card-form
 import { ScoreDisplay } from '@/components/credit-card-health/score-display';
 import { FactorsBreakdown } from '@/components/credit-card-health/factors-breakdown';
 import { Insights } from '@/components/credit-card-health/insights';
-import type { CreditCardData, ScoreFactors } from '@/lib/types';
+import type { CreditCardData } from '@/lib/types';
 import { calculateScore, generateInsights } from '@/lib/credit-card-score';
 import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
 import { CreditHealthLoadingSkeleton } from '@/components/credit-card-health/credit-health-loading';
+import useLocalStorage from '@/hooks/use-local-storage';
 
 export default function CreditCardHealthPage() {
-  const [cards, setCards] = useState<CreditCardData[]>([]);
-  const [applications, setApplications] = useState(0);
-  const [hasOtherLoans, setHasOtherLoans] = useState(false);
+  const [cards, setCards] = useLocalStorage<CreditCardData[]>('credit-cards', []);
+  const [applications, setApplications] = useLocalStorage('credit-applications', 0);
+  const [hasOtherLoans, setHasOtherLoans] = useLocalStorage('has-other-loans', false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 500);
-    return () => clearTimeout(timer);
+    setIsLoading(false);
   }, []);
 
 
@@ -41,15 +40,15 @@ export default function CreditCardHealthPage() {
   );
 
   const handleAddCard = (newCard: Omit<CreditCardData, 'id'>) => {
-    setCards(prev => [...prev, { ...newCard, id: crypto.randomUUID() }]);
+    setCards([...cards, { ...newCard, id: crypto.randomUUID() }]);
   };
 
   const handleUpdateCard = (updatedCard: CreditCardData) => {
-    setCards(prev => prev.map(c => c.id === updatedCard.id ? updatedCard : c));
+    setCards(cards.map(c => c.id === updatedCard.id ? updatedCard : c));
   };
   
   const handleDeleteCard = (id: string) => {
-    setCards(prev => prev.filter(c => c.id !== id));
+    setCards(cards.filter(c => c.id !== id));
   }
   
   if (isLoading) {

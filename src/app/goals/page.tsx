@@ -8,18 +8,14 @@ import { GoalCard } from '@/components/goals/goal-card';
 import { GoalsLoading } from '@/components/goals/goals-loading';
 import { Info } from 'lucide-react';
 import { initialGoals } from '@/lib/data';
+import useLocalStorage from '@/hooks/use-local-storage';
 
 export default function GoalsPage() {
-  const [goals, setGoals] = useState<Goal[]>([]);
+  const [goals, setGoals] = useLocalStorage<Goal[]>('goals', initialGoals);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-        setGoals(initialGoals);
-        setIsLoading(false)
-    }, 500);
-    return () => clearTimeout(timer);
+    setIsLoading(false)
   }, []);
 
   const handleAddGoal = (goal: Omit<Goal, 'id' | 'currentAmount'>) => {
@@ -28,15 +24,15 @@ export default function GoalsPage() {
       id: crypto.randomUUID(),
       currentAmount: 0,
     };
-    setGoals(prev => [...prev, newGoal]);
+    setGoals([...goals, newGoal]);
   };
 
   const handleDeleteGoal = (id: string) => {
-    setGoals(prev => prev.filter(g => g.id !== id));
+    setGoals(goals.filter(g => g.id !== id));
   };
   
   const handleUpdateGoal = (updatedGoal: Goal) => {
-    setGoals(prev => prev.map(g => g.id === updatedGoal.id ? updatedGoal : g));
+    setGoals(goals.map(g => g.id === updatedGoal.id ? updatedGoal : g));
   }
 
   if (isLoading) {

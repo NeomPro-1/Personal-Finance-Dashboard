@@ -8,6 +8,7 @@ import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 import type { Transaction } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { initialTransactions } from '@/lib/data';
+import useLocalStorage from '@/hooks/use-local-storage';
 
 function ForecastLoading() {
     return (
@@ -38,16 +39,11 @@ function ForecastLoading() {
 }
 
 export default function ForecastPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-      setTransactions(initialTransactions);
-      setIsLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    setIsLoading(false);
   }, []);
   
 

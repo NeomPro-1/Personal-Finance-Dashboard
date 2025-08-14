@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { subMonths, format, getQuarter, getYear } from 'date-fns';
+import { getQuarter, getYear, format } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { SummaryCard } from '@/components/dashboard/summary-card';
 import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
@@ -13,6 +13,7 @@ import { QuarterlySummary } from '@/components/dashboard/quarterly-summary';
 import { formatCurrency } from '@/lib/utils';
 import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 import { initialTransactions } from '@/lib/data';
+import useLocalStorage from '@/hooks/use-local-storage';
 
 const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -36,26 +37,22 @@ const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 export default function DashboardPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-        setTransactions(initialTransactions);
-        setIsLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    // This effect now primarily handles the initial "is mounted" check
+    setIsLoading(false);
   }, []);
 
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: crypto.randomUUID() };
-    setTransactions(prev => [...prev, newTransaction]);
+    setTransactions([...transactions, newTransaction]);
   };
 
   const handleDeleteTransaction = (id: string) => {
-    setTransactions(prev => prev.filter(t => t.id !== id));
+    setTransactions(transactions.filter(t => t.id !== id));
   };
 
   const filteredTransactions = useMemo(() => {
