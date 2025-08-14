@@ -12,17 +12,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useSidebar } from "./ui/sidebar"
 
 export function ThemeToggle() {
   const { setTheme } = useTheme()
-  const { setOpenMobile, isMobile } = useSidebar();
 
   const handleThemeChange = (theme: string) => {
     setTheme(theme);
-    if (isMobile) {
-      setOpenMobile(false);
-    }
   }
 
   return (
