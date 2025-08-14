@@ -48,10 +48,15 @@ export default function CreditCardHealthPage() {
     }
   }, [cards, applications, hasOtherLoans, isLoading]);
 
-  const { score, factors } = useMemo(() => 
-    calculateScore(cards, applications, hasOtherLoans), 
-    [cards, applications, hasOtherLoans]
-  );
+  const activeCard = useMemo(() => {
+    if (cards.length === 0) return null;
+    return cards[cards.length - 1];
+  }, [cards]);
+  
+  const { score, factors } = useMemo(() => {
+      const cardToScore = activeCard ? [activeCard] : [];
+      return calculateScore(cardToScore, applications, hasOtherLoans)
+  }, [activeCard, applications, hasOtherLoans]);
   
   const insights = useMemo(() => 
     generateInsights(factors),
@@ -84,8 +89,15 @@ export default function CreditCardHealthPage() {
         <div className="lg:col-span-1 space-y-8">
            <Card>
             <CardHeader>
-              <CardTitle>Your Score</CardTitle>
-              <CardDescription>A combined score based on all your credit accounts</CardDescription>
+              <CardTitle>
+                {activeCard ? `Your "${activeCard.name}" Score` : "Your Score"}
+              </CardTitle>
+              <CardDescription>
+                {activeCard 
+                    ? `Score based on your "${activeCard.name}" card.`
+                    : "Add a card to see your score."
+                }
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ScoreDisplay score={score} />
