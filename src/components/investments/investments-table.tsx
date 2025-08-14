@@ -539,3 +539,5 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
     </div>
   )
 }
+
+    
