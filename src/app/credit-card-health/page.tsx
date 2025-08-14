@@ -85,7 +85,7 @@ export default function CreditCardHealthPage() {
            <Card>
             <CardHeader>
               <CardTitle>Your Score</CardTitle>
-              <CardDescription>A score based on your credit card habits</CardDescription>
+              <CardDescription>A combined score based on all your credit accounts</CardDescription>
             </CardHeader>
             <CardContent>
               <ScoreDisplay score={score} />
