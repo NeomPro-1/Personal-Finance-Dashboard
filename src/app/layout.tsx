@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import React from 'react';
 import ProvidersWrapper from './providers-wrapper';
@@ -6,6 +7,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'FinanceFlow',
   description: 'Personal finance dashboard to track and manage your money.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,14 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased">
+      <body>
         <ProvidersWrapper>{children}</ProvidersWrapper>
       </body>
     </html>
