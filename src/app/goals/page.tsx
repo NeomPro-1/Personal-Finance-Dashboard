@@ -8,9 +8,10 @@ import { GoalCard } from '@/components/goals/goal-card';
 import { Info } from 'lucide-react';
 import { initialGoals } from '@/lib/data';
 import useLocalStorage from '@/hooks/use-local-storage';
+import { GoalsLoading } from '@/components/goals/goals-loading';
 
 export default function GoalsPage() {
-  const [goals, setGoals] = useLocalStorage<Goal[]>('goals', initialGoals);
+  const [goals, setGoals, isReady] = useLocalStorage<Goal[]>('goals', initialGoals);
 
   const handleAddGoal = (goal: Omit<Goal, 'id' | 'currentAmount'>) => {
     const newGoal: Goal = {
@@ -27,6 +28,10 @@ export default function GoalsPage() {
   
   const handleUpdateGoal = (updatedGoal: Goal) => {
     setGoals(goals.map(g => g.id === updatedGoal.id ? updatedGoal : g));
+  }
+
+  if (!isReady) {
+    return <GoalsLoading />;
   }
 
   return (

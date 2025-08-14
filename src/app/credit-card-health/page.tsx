@@ -11,11 +11,14 @@ import type { CreditCardData } from '@/lib/types';
 import { calculateScore, generateInsights } from '@/lib/credit-card-score';
 import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
 import useLocalStorage from '@/hooks/use-local-storage';
+import { CreditHealthLoadingSkeleton } from '@/components/credit-card-health/credit-health-loading';
 
 export default function CreditCardHealthPage() {
-  const [cards, setCards] = useLocalStorage<CreditCardData[]>('credit-cards', []);
-  const [applications, setApplications] = useLocalStorage('credit-applications', 0);
-  const [hasOtherLoans, setHasOtherLoans] = useLocalStorage('has-other-loans', false);
+  const [cards, setCards, isCardsReady] = useLocalStorage<CreditCardData[]>('credit-cards', []);
+  const [applications, setApplications, isAppsReady] = useLocalStorage('credit-applications', 0);
+  const [hasOtherLoans, setHasOtherLoans, isLoansReady] = useLocalStorage('has-other-loans', false);
+
+  const isReady = isCardsReady && isAppsReady && isLoansReady;
 
   const activeCard = useMemo(() => {
     if (cards.length === 0) return null;
@@ -44,6 +47,10 @@ export default function CreditCardHealthPage() {
     setCards(cards.filter(c => c.id !== id));
   }
   
+  if (!isReady) {
+    return <CreditHealthLoadingSkeleton />;
+  }
+
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">

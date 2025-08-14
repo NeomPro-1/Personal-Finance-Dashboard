@@ -7,10 +7,11 @@ import type { Investment } from '@/lib/types';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { initialInvestments } from '@/lib/data';
 import useLocalStorage from '@/hooks/use-local-storage';
+import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 
 
 export default function InvestmentsPage() {
-  const [investments, setInvestments] = useLocalStorage<Investment[]>('investments', initialInvestments);
+  const [investments, setInvestments, isReady] = useLocalStorage<Investment[]>('investments', initialInvestments);
   const isMobile = useIsMobile();
   
   const handleAddInvestment = (investment: Omit<Investment, 'id' | 'currentValue'>) => {
@@ -25,6 +26,10 @@ export default function InvestmentsPage() {
   const handleDeleteInvestment = (id: string) => {
     setInvestments(investments.filter(inv => inv.id !== id));
   };
+
+  if (!isReady) {
+    return <LoadingSkeleton />;
+  }
   
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">

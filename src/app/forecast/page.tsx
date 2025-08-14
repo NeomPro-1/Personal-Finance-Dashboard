@@ -8,9 +8,14 @@ import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 import type { Transaction } from '@/lib/types';
 import { initialTransactions } from '@/lib/data';
 import useLocalStorage from '@/hooks/use-local-storage';
+import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 
 export default function ForecastPage() {
-  const [transactions] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
+  const [transactions, , isReady] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
+
+  if (!isReady) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">

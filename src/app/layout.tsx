@@ -2,6 +2,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import { ClientLayout } from '@/components/layout/client-layout';
 
 export const metadata: Metadata = {
   title: 'FinanceFlow',
@@ -31,7 +33,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
