@@ -27,7 +27,7 @@ export function SidebarContent() {
 
   return (
     <>
-       <SidebarHeader className="hidden md:flex">
+       <SidebarHeader>
          <div className="flex items-center gap-2">
             <Wallet className={`w-8 h-8 text-primary ${state === 'collapsed' && 'w-10 h-10'}`} />
             <span className={`text-2xl font-bold ${state === 'collapsed' && 'hidden'}`}>FinanceFlow</span>
@@ -96,7 +96,7 @@ export function SidebarContent() {
         </SidebarMenu>
       </SidebarFooter>
 
-      <div className={`p-2 ${state === 'collapsed' ? 'flex justify-center' : ''}`}>
+      <div className={`p-2 hidden md:flex ${state === 'collapsed' ? 'justify-center' : ''}`}>
         <ThemeToggle />
       </div>
     </>
