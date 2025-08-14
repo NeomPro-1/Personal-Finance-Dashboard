@@ -225,7 +225,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                         <FormField control={form.control} name="carat" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Carat</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value?.toString()}>
+                                <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value?.toString()}>
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select purity" />
@@ -539,5 +539,3 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
     </div>
   )
 }
-
-    
