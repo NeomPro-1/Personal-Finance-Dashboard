@@ -1,15 +1,16 @@
 
 "use client"
 
+import * as React from 'react';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import dynamic from 'next/dynamic';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ClientLayout } from '@/components/layout/client-layout';
 
-const ClientLayout = dynamic(() => import('@/components/layout/client-layout').then(mod => mod.ClientLayout), { 
-  ssr: false,
-  loading: () => (
-     <div className="flex h-screen w-screen">
+
+function FullPageLoading() {
+  return (
+    <div className="flex h-screen w-screen">
       <div className="hidden md:block md:w-64 bg-muted p-4">
         <div className="flex items-center gap-2 mb-8">
             <Skeleton className="w-8 h-8 rounded-full" />
@@ -35,14 +36,22 @@ const ClientLayout = dynamic(() => import('@/components/layout/client-layout').t
         </main>
       </div>
     </div>
-  )
-});
+  );
+}
+
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -56,9 +65,13 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+        {!isMounted ? (
+          <FullPageLoading />
+        ) : (
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+        )}
         <Toaster />
       </body>
     </html>

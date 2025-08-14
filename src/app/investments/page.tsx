@@ -64,16 +64,18 @@ function InvestmentsLoading() {
 
 
 export default function InvestmentsPage() {
-  const [investments, setInvestments] = useState<Investment[]>(initialInvestments);
+  const [investments, setInvestments] = useState<Investment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isMobile, isReady } = useIsMobile();
 
 
   useEffect(() => {
     // Simulate loading
-    setTimeout(() => {
+    const timer = setTimeout(() => {
+      setInvestments(initialInvestments);
       setIsLoading(false);
     }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleAddInvestment = (investment: Omit<Investment, 'id' | 'currentValue'>) => {

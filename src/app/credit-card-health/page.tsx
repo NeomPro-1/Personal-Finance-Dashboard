@@ -20,7 +20,8 @@ export default function CreditCardHealthPage() {
 
   useEffect(() => {
     // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
   }, []);
 
 

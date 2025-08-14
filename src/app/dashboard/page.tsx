@@ -36,15 +36,17 @@ const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 export default function DashboardPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading
-    setTimeout(() => {
+    const timer = setTimeout(() => {
+        setTransactions(initialTransactions);
         setIsLoading(false);
     }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {

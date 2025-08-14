@@ -10,12 +10,16 @@ import { Info } from 'lucide-react';
 import { initialGoals } from '@/lib/data';
 
 export default function GoalsPage() {
-  const [goals, setGoals] = useState<Goal[]>(initialGoals);
+  const [goals, setGoals] = useState<Goal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
+    const timer = setTimeout(() => {
+        setGoals(initialGoals);
+        setIsLoading(false)
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleAddGoal = (goal: Omit<Goal, 'id' | 'currentAmount'>) => {

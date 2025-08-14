@@ -38,14 +38,16 @@ function ForecastLoading() {
 }
 
 export default function ForecastPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading
-    setTimeout(() => {
+    const timer = setTimeout(() => {
+      setTransactions(initialTransactions);
       setIsLoading(false);
     }, 500);
+    return () => clearTimeout(timer);
   }, []);
   
 
