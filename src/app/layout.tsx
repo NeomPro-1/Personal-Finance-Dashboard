@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import React from 'react';
 import ProvidersWrapper from './providers-wrapper';
 import './globals.css';
 
@@ -7,11 +8,7 @@ export const metadata: Metadata = {
   description: 'Personal finance dashboard to track and manage your money.',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

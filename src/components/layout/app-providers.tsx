@@ -19,7 +19,11 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (!isMounted) {
-    return null;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+          <p>Loading...</p>
+      </div>
+    );
   }
   
   return (
