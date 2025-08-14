@@ -11,7 +11,7 @@ import { initialInvestments } from '@/lib/data';
 
 function InvestmentsLoading() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-slide-up-and-fade-in">
       <Skeleton className="h-9 w-64" />
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="bg-card/50 border-border/50">

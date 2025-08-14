@@ -9,8 +9,6 @@ import type { Transaction } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { initialTransactions } from '@/lib/data';
 
-const TRANSACTIONS_STORAGE_KEY = 'transactions';
-
 function ForecastLoading() {
     return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-slide-up-and-fade-in">
