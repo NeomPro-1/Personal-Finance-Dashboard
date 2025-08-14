@@ -177,13 +177,13 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
         />
       </div>
       
-       <Card className="bg-blue-500/10 border-blue-500/30">
+       <Card className="bg-primary/10 border-primary/30">
           <CardHeader className="flex-row items-center gap-4 space-y-0 pb-4">
-              <Info className="h-6 w-6 text-blue-400" />
-              <CardTitle className="text-blue-300 text-xl">Demonstration Data</CardTitle>
+              <Info className="h-6 w-6 text-primary" />
+              <CardTitle className="text-primary/90 text-xl">Demonstration Data</CardTitle>
           </CardHeader>
           <CardContent>
-              <p className="text-blue-200 text-sm max-w-prose">
+              <p className="text-primary/80 text-sm max-w-prose">
                   The data shown is for demonstration purposes only. It is not based on real-time market values.
               </p>
           </CardContent>
