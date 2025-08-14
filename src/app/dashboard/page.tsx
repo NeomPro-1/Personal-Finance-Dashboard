@@ -1,8 +1,8 @@
 
 "use client"
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { getQuarter, getYear, format } from 'date-fns';
+import React, { useState, useMemo } from 'react';
+import { getQuarter, format } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { SummaryCard } from '@/components/dashboard/summary-card';
 import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
@@ -11,7 +11,6 @@ import { IncomeTable } from '@/components/dashboard/income-table';
 import { ExpensesTable } from '@/components/dashboard/expenses-table';
 import { QuarterlySummary } from '@/components/dashboard/quarterly-summary';
 import { formatCurrency } from '@/lib/utils';
-import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 import { initialTransactions } from '@/lib/data';
 import useLocalStorage from '@/hooks/use-local-storage';
 
@@ -37,7 +36,7 @@ const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 export default function DashboardPage() {
-  const [transactions, setTransactions, isReady] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
+  const [transactions, setTransactions] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
   
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
@@ -90,11 +89,6 @@ export default function DashboardPage() {
     return options.sort((a,b) => new Date(a.value).getMonth() - new Date(b.value).getMonth());
     
   }, []);
-
-  if (!isReady) {
-    return <LoadingSkeleton />;
-  }
-
 
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">

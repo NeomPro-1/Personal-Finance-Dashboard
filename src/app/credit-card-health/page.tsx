@@ -1,7 +1,7 @@
 
 "use client"
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { CreditCardForm } from '@/components/credit-card-health/credit-card-form';
 import { ScoreDisplay } from '@/components/credit-card-health/score-display';
@@ -10,15 +10,12 @@ import { Insights } from '@/components/credit-card-health/insights';
 import type { CreditCardData } from '@/lib/types';
 import { calculateScore, generateInsights } from '@/lib/credit-card-score';
 import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
-import { CreditHealthLoadingSkeleton } from '@/components/credit-card-health/credit-health-loading';
 import useLocalStorage from '@/hooks/use-local-storage';
 
 export default function CreditCardHealthPage() {
-  const [cards, setCards, isCardsReady] = useLocalStorage<CreditCardData[]>('credit-cards', []);
-  const [applications, setApplications, isAppsReady] = useLocalStorage('credit-applications', 0);
-  const [hasOtherLoans, setHasOtherLoans, isLoansReady] = useLocalStorage('has-other-loans', false);
-  
-  const isLoading = !isCardsReady || !isAppsReady || !isLoansReady;
+  const [cards, setCards] = useLocalStorage<CreditCardData[]>('credit-cards', []);
+  const [applications, setApplications] = useLocalStorage('credit-applications', 0);
+  const [hasOtherLoans, setHasOtherLoans] = useLocalStorage('has-other-loans', false);
 
   const activeCard = useMemo(() => {
     if (cards.length === 0) return null;
@@ -47,10 +44,6 @@ export default function CreditCardHealthPage() {
     setCards(cards.filter(c => c.id !== id));
   }
   
-  if (isLoading) {
-    return <CreditHealthLoadingSkeleton />;
-  }
-
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">

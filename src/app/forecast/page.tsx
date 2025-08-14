@@ -1,49 +1,16 @@
 
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FinancialForecastChart } from '@/components/analysis/financial-forecast-chart';
 import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 import type { Transaction } from '@/lib/types';
-import { Skeleton } from '@/components/ui/skeleton';
 import { initialTransactions } from '@/lib/data';
 import useLocalStorage from '@/hooks/use-local-storage';
 
-function ForecastLoading() {
-    return (
-    <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-slide-up-and-fade-in">
-      <Skeleton className="h-9 w-72" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-8 w-48" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-8 w-48" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-[350px] w-full" />
-          </CardContent>
-        </Card>
-      </div>
-    </main>
-  );
-}
-
 export default function ForecastPage() {
-  const [transactions, setTransactions, isReady] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
-
-  if (!isReady) {
-    return <ForecastLoading />;
-  }
+  const [transactions] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
 
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
