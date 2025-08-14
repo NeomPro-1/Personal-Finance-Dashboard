@@ -79,7 +79,7 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Quarterly Summary</h2>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {quarterlyData.map((data) => (
           <QuarterlySummaryCard
             key={data.id}
