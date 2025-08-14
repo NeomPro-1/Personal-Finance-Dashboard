@@ -1,7 +1,7 @@
 
 import './globals.css';
-import { AppProviders } from '@/components/layout/app-providers';
 import type { Metadata } from 'next';
+import { AppProviders } from '@/components/layout/app-providers';
 
 export const metadata: Metadata = {
   title: 'FinanceFlow',

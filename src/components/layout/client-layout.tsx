@@ -1,44 +1,24 @@
 
+
 "use client"
 
-import * as React from 'react';
-import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { SidebarContent } from '@/components/layout/sidebar-content';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { AppProviders } from '@/components/layout/app-providers';
 
-export function ClientLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const [isMounted, setIsMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return (
-        <div className="flex min-h-screen items-center justify-center">
-            <p>Loading...</p>
-        </div>
-    );
-  }
-
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-        <Sidebar className="z-20">
-          <SidebarContent />
-        </Sidebar>
-        <div className="flex-1 flex flex-col h-screen overflow-y-auto">
-          <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 py-2 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
-            <SidebarTrigger />
-            <ThemeToggle />
-          </header>
-          <SidebarInset>
-            {children}
-          </SidebarInset>
-        </div>
-    </SidebarProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className="font-body antialiased">
+        <AppProviders>{children}</AppProviders>
+      </body>
+    </html>
   );
 }
