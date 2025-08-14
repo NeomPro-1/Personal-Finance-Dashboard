@@ -37,15 +37,9 @@ const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 export default function DashboardPage() {
-  const [transactions, setTransactions] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
+  const [transactions, setTransactions, isReady] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // This effect now primarily handles the initial "is mounted" check
-    setIsLoading(false);
-  }, []);
-
+  
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: crypto.randomUUID() };
     setTransactions([...transactions, newTransaction]);
@@ -97,7 +91,7 @@ export default function DashboardPage() {
     
   }, []);
 
-  if (isLoading) {
+  if (!isReady) {
     return <LoadingSkeleton />;
   }
 

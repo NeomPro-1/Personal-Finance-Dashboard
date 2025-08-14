@@ -1,7 +1,7 @@
 
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import type { Goal } from '@/lib/types';
 import { AddGoal } from '@/components/goals/add-goal';
 import { GoalCard } from '@/components/goals/goal-card';
@@ -11,12 +11,7 @@ import { initialGoals } from '@/lib/data';
 import useLocalStorage from '@/hooks/use-local-storage';
 
 export default function GoalsPage() {
-  const [goals, setGoals] = useLocalStorage<Goal[]>('goals', initialGoals);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(false)
-  }, []);
+  const [goals, setGoals, isReady] = useLocalStorage<Goal[]>('goals', initialGoals);
 
   const handleAddGoal = (goal: Omit<Goal, 'id' | 'currentAmount'>) => {
     const newGoal: Goal = {
@@ -35,7 +30,7 @@ export default function GoalsPage() {
     setGoals(goals.map(g => g.id === updatedGoal.id ? updatedGoal : g));
   }
 
-  if (isLoading) {
+  if (!isReady) {
     return <GoalsLoading />;
   }
 

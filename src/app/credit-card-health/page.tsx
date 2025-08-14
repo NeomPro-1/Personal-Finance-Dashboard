@@ -14,15 +14,11 @@ import { CreditHealthLoadingSkeleton } from '@/components/credit-card-health/cre
 import useLocalStorage from '@/hooks/use-local-storage';
 
 export default function CreditCardHealthPage() {
-  const [cards, setCards] = useLocalStorage<CreditCardData[]>('credit-cards', []);
-  const [applications, setApplications] = useLocalStorage('credit-applications', 0);
-  const [hasOtherLoans, setHasOtherLoans] = useLocalStorage('has-other-loans', false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-
+  const [cards, setCards, isCardsReady] = useLocalStorage<CreditCardData[]>('credit-cards', []);
+  const [applications, setApplications, isAppsReady] = useLocalStorage('credit-applications', 0);
+  const [hasOtherLoans, setHasOtherLoans, isLoansReady] = useLocalStorage('has-other-loans', false);
+  
+  const isLoading = !isCardsReady || !isAppsReady || !isLoansReady;
 
   const activeCard = useMemo(() => {
     if (cards.length === 0) return null;

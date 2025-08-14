@@ -39,15 +39,9 @@ function ForecastLoading() {
 }
 
 export default function ForecastPage() {
-  const [transactions, setTransactions] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
-  const [isLoading, setIsLoading] = useState(true);
+  const [transactions, setTransactions, isReady] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-  
-
-  if (isLoading) {
+  if (!isReady) {
     return <ForecastLoading />;
   }
 

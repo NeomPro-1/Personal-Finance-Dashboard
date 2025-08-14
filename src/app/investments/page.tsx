@@ -1,7 +1,7 @@
 
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { InvestmentsTable } from '@/components/investments/investments-table';
 import type { Investment } from '@/lib/types';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -65,14 +65,10 @@ function InvestmentsLoading() {
 
 
 export default function InvestmentsPage() {
-  const [investments, setInvestments] = useLocalStorage<Investment[]>('investments', initialInvestments);
-  const [isLoading, setIsLoading] = useState(true);
-  const { isMobile, isReady } = useIsMobile();
-
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  const [investments, setInvestments, isDataReady] = useLocalStorage<Investment[]>('investments', initialInvestments);
+  const { isMobile, isReady: isMobileReady } = useIsMobile();
+  
+  const isLoading = !isDataReady || !isMobileReady;
 
   const handleAddInvestment = (investment: Omit<Investment, 'id' | 'currentValue'>) => {
     const newInvestment: Investment = {
@@ -89,7 +85,7 @@ export default function InvestmentsPage() {
   
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
-      {isLoading || !isReady ? (
+      {isLoading ? (
         <InvestmentsLoading />
       ) : (
         <>
