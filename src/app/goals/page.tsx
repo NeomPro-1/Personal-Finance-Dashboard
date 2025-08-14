@@ -7,6 +7,7 @@ import { AddGoal } from '@/components/goals/add-goal';
 import { GoalCard } from '@/components/goals/goal-card';
 import { GoalsLoading } from '@/components/goals/goals-loading';
 import { Info } from 'lucide-react';
+import { initialGoals } from '@/lib/data';
 
 const GOALS_STORAGE_KEY = 'savingsGoals';
 
@@ -22,11 +23,11 @@ export default function GoalsPage() {
         if (storedGoals) {
           setGoals(JSON.parse(storedGoals));
         } else {
-          setGoals([]);
+          setGoals(initialGoals);
         }
       } catch (error) {
         console.error("Failed to load goals from localStorage", error);
-        setGoals([]);
+        setGoals(initialGoals);
       } finally {
         setTimeout(() => setIsLoading(false), 500);
       }

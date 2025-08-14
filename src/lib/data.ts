@@ -1,5 +1,5 @@
 
-import type { Transaction, Investment } from '@/lib/types';
+import type { Transaction, Investment, Goal } from '@/lib/types';
 
 export const initialTransactions: Transaction[] = [
   // January
@@ -30,3 +30,13 @@ export const initialInvestments: Investment[] = [
   { id: '3', name: 'BioPharma Solutions', purchaseDate: '2024-06-10', initialValue: 10000, currentValue: 12500 },
   { id: '4', name: 'Robotics Startup', purchaseDate: '2024-09-01', initialValue: 7500, currentValue: 9000 },
 ];
+
+export const initialGoals: Goal[] = [
+    {
+        id: 'goal-1',
+        name: 'New Gaming PC',
+        targetAmount: 2000,
+        currentAmount: 750,
+        targetDate: '2025-12-31'
+    }
+]
