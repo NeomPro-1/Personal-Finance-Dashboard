@@ -59,3 +59,11 @@ export type Insight = {
     text: string;
     priority: 'High' | 'Medium' | 'Low';
 };
+
+export type Goal = {
+  id: string;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  targetDate?: string;
+};

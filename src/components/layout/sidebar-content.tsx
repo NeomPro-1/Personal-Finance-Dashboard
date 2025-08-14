@@ -10,7 +10,7 @@ import {
   useSidebar,
   SidebarFooter,
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, CreditCard } from "lucide-react"
+import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, CreditCard, PiggyBank } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "../theme-toggle"
@@ -50,6 +50,15 @@ export function SidebarContent() {
               <Link href="/investments">
                 <TrendingUp />
                 <span>Investments</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname.includes('/goals')} onClick={handleLinkClick} tooltip="Savings Goals">
+              <Link href="/goals">
+                <PiggyBank />
+                <span>Savings Goals</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
