@@ -42,7 +42,7 @@ export function GoalCard({ goal, onUpdateGoal, onDeleteGoal }: GoalCardProps) {
               {daysLeft !== null && <span className="text-muted-foreground">({daysLeft} days left)</span>}
             </div>
           ) : (
-            <span>No target date set</span>
+            <span className="text-xs">No target date set</span>
           )}
         </CardDescription>
       </CardHeader>
