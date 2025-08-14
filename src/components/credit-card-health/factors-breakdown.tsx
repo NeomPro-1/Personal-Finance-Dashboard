@@ -2,47 +2,28 @@
 "use client";
 
 import { Progress } from '@/components/ui/progress';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import type { ScoreFactors } from '@/lib/types';
-import { Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
 
 interface FactorsBreakdownProps {
   factors: ScoreFactors;
 }
 
-const getImpactColor = (weight: number) => {
-  if (weight >= 0.3) return 'bg-red-500/20 text-red-400 border-red-500/30';
-  if (weight >= 0.15) return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-  return 'bg-green-500/20 text-green-400 border-green-500/30';
-};
-
 export function FactorsBreakdown({ factors }: FactorsBreakdownProps) {
   return (
-    <TooltipProvider>
       <div className="space-y-4">
         {Object.values(factors).map((factor) => (
           <div key={factor.name}>
             <div className="flex justify-between items-center mb-1">
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-sm">{factor.name}</span>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{factor.details}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-full border', getImpactColor(factor.weight))}>
-                {factor.weight * 100}% Weight
+              <span className="font-medium text-sm">{factor.name}</span>
+              <span className='text-xs text-muted-foreground font-medium'>
+                {factor.details}
               </span>
             </div>
             <Progress value={factor.value} className="h-2" />
           </div>
         ))}
       </div>
-    </TooltipProvider>
   );
 }
