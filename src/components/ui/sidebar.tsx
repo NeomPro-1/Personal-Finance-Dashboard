@@ -304,11 +304,15 @@ const SidebarInset = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"main">
 >(({ className, ...props }, ref) => {
+  const { state } = useSidebar();
   return (
     <main
       ref={ref}
+      data-sidebar="inset"
       className={cn(
-        "relative flex min-h-svh flex-1 flex-col bg-background",
+        "relative flex min-h-svh flex-1 flex-col transition-[padding] ease-in-out",
+        state === "expanded" && "md:pl-[--sidebar-width]",
+        state === "collapsed" && "md:pl-[--sidebar-width-icon]",
         className
       )}
       {...props}
@@ -364,7 +368,7 @@ const SidebarFooter = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="footer"
-      className={cn("flex flex-col gap-2 p-2 mt-auto", className)}
+      className={cn("flex flex-col gap-2 mt-auto", className)}
       {...props}
     />
   )
