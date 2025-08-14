@@ -1,7 +1,7 @@
 
 import './globals.css';
-import type { Metadata } from 'next';
 import { AppProviders } from '@/components/layout/app-providers';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'FinanceFlow',
@@ -25,9 +25,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="font-body antialiased">
-        <AppProviders>
-          {children}
-        </AppProviders>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );
