@@ -1,8 +1,7 @@
 
 import './globals.css';
 import type { Metadata } from 'next';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/toaster';
+import { AppProviders } from '@/components/layout/app-providers';
 
 export const metadata: Metadata = {
   title: 'FinanceFlow',
@@ -25,16 +24,10 @@ export default function RootLayout({
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className="font-body antialiased bg-background text-foreground">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className="font-body antialiased">
+        <AppProviders>
           {children}
-          <Toaster />
-        </ThemeProvider>
+        </AppProviders>
       </body>
     </html>
   );
