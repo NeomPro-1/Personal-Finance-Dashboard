@@ -52,20 +52,25 @@ export function LoadingSkeleton() {
         </div>
       </div>
 
-      <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
-        <div>
-          <div className="flex justify-between items-center mb-4">
-            <Skeleton className="h-8 w-32" />
-            <Skeleton className="h-9 w-24" />
-          </div>
-          <Skeleton className="h-64 w-full" />
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+            <p className="text-lg font-semibold animate-pulse">Loading...</p>
         </div>
-        <div>
-          <div className="flex justify-between items-center mb-4">
-            <Skeleton className="h-8 w-32" />
-            <Skeleton className="h-9 w-24" />
+        <div className="grid gap-8 grid-cols-1 lg:grid-cols-2 blur-sm">
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-9 w-24" />
+            </div>
+            <Skeleton className="h-64 w-full" />
           </div>
-          <Skeleton className="h-64 w-full" />
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-9 w-24" />
+            </div>
+            <Skeleton className="h-64 w-full" />
+          </div>
         </div>
       </div>
     </main>

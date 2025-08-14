@@ -27,8 +27,11 @@ const ClientLayout = dynamic(() => import('@/components/layout/client-layout').t
             <Skeleton className="h-8 w-8" />
             <Skeleton className="h-8 w-8 rounded-full" />
         </header>
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main className="p-4 sm:p-6 lg:p-8 relative">
            <Skeleton className="h-[calc(100vh-10rem)] w-full" />
+            <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+                <p className="text-lg font-semibold animate-pulse">Loading...</p>
+            </div>
         </main>
       </div>
     </div>
