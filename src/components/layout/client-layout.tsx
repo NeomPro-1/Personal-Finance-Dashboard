@@ -15,18 +15,18 @@ export function ClientLayout({
   return (
     <ThemeProvider attribute="class" enableSystem>
       <SidebarProvider>
-        <Sidebar>
-          <SidebarContent />
-        </Sidebar>
-        <SidebarInset>
-          <>
+          <Sidebar>
+            <SidebarContent />
+          </Sidebar>
+          <div className="flex-1 flex flex-col h-screen overflow-y-auto">
             <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
               <SidebarTrigger />
               <ThemeToggle />
             </header>
-            {children}
-          </>
-        </SidebarInset>
+            <SidebarInset>
+              {children}
+            </SidebarInset>
+          </div>
       </SidebarProvider>
     </ThemeProvider>
   );
