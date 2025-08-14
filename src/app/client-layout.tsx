@@ -1,8 +1,7 @@
-
-
-"use client"
+"use client";
 
 import { AppProviders } from '@/components/layout/app-providers';
+import './globals.css';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
