@@ -12,7 +12,7 @@ const INVESTMENTS_STORAGE_KEY = 'investments';
 
 function InvestmentsLoading() {
   return (
-    <main className="p-4 sm:p-6 lg:p-8 space-y-8">
+    <>
       <Skeleton className="h-9 w-64" />
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="bg-card/50 border-border/50">
@@ -59,7 +59,7 @@ function InvestmentsLoading() {
             <Skeleton className="h-48 w-full" />
         </CardContent>
       </Card>
-    </main>
+    </>
   );
 }
 
@@ -116,20 +116,21 @@ export default function InvestmentsPage() {
     setInvestments(prev => prev.filter(inv => inv.id !== id));
   };
   
-  if (isLoading || !isReady) {
-    return <InvestmentsLoading />;
-  }
-  
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
-      <h1 className="text-3xl font-bold tracking-tight">Investment Tracker</h1>
-
-      <InvestmentsTable 
-        investments={investments} 
-        onAddInvestment={handleAddInvestment}
-        onDeleteInvestment={handleDeleteInvestment}
-        isMobile={isMobile}
-      />
+      {isLoading || !isReady ? (
+        <InvestmentsLoading />
+      ) : (
+        <>
+          <h1 className="text-3xl font-bold tracking-tight">Investment Tracker</h1>
+          <InvestmentsTable 
+            investments={investments} 
+            onAddInvestment={handleAddInvestment}
+            onDeleteInvestment={handleDeleteInvestment}
+            isMobile={isMobile}
+          />
+        </>
+      )}
     </main>
   );
 }
