@@ -15,7 +15,7 @@ export function ClientLayout({
   return (
     <ThemeProvider attribute="class" enableSystem>
       <SidebarProvider>
-          <Sidebar>
+          <Sidebar className="z-20">
             <SidebarContent />
           </Sidebar>
           <div className="flex-1 flex flex-col h-screen overflow-y-auto">
