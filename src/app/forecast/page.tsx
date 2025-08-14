@@ -7,6 +7,7 @@ import { FinancialForecastChart } from '@/components/analysis/financial-forecast
 import { NetWorthCalculator } from '@/components/analysis/net-worth-calculator';
 import type { Transaction } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { initialTransactions } from '@/lib/data';
 
 const TRANSACTIONS_STORAGE_KEY = 'transactions';
 
@@ -39,32 +40,14 @@ function ForecastLoading() {
 }
 
 export default function ForecastPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-  
-    const loadData = () => {
-      try {
-        const storedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
-        if (storedTransactions) {
-          setTransactions(JSON.parse(storedTransactions));
-        } else {
-          setTransactions([]);
-        }
-      } catch (error) {
-        console.error("Failed to load transactions from localStorage", error);
-        setTransactions([]);
-      } finally {
-        // Delay to show loading indicator for at least 500ms
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
-      }
-    };
-  
-    loadData();
+    // Simulate loading
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
   }, []);
   
 

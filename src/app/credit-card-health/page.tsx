@@ -12,8 +12,6 @@ import { calculateScore, generateInsights } from '@/lib/credit-card-score';
 import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
 import { CreditHealthLoadingSkeleton } from '@/components/credit-card-health/credit-health-loading';
 
-const CREDIT_HEALTH_DATA_KEY = 'creditHealthData';
-
 export default function CreditCardHealthPage() {
   const [cards, setCards] = useState<CreditCardData[]>([]);
   const [applications, setApplications] = useState(0);
@@ -21,32 +19,10 @@ export default function CreditCardHealthPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    try {
-      const savedData = localStorage.getItem(CREDIT_HEALTH_DATA_KEY);
-      if (savedData) {
-        const { cards, applications, hasOtherLoans } = JSON.parse(savedData);
-        setCards(cards || []);
-        setApplications(applications || 0);
-        setHasOtherLoans(hasOtherLoans || false);
-      }
-    } catch (error) {
-      console.error("Failed to load credit health data from localStorage", error);
-    } finally {
-      setTimeout(() => setIsLoading(false), 500);
-    }
+    // Simulate loading
+    setTimeout(() => setIsLoading(false), 500);
   }, []);
 
-  useEffect(() => {
-    if (!isLoading) {
-      try {
-        const dataToSave = JSON.stringify({ cards, applications, hasOtherLoans });
-        localStorage.setItem(CREDIT_HEALTH_DATA_KEY, dataToSave);
-      } catch (error) {
-        console.error("Failed to save credit health data to localStorage", error);
-      }
-    }
-  }, [cards, applications, hasOtherLoans, isLoading]);
 
   const activeCard = useMemo(() => {
     if (cards.length === 0) return null;

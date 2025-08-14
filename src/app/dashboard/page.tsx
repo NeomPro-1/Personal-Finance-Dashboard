@@ -12,8 +12,7 @@ import { ExpensesTable } from '@/components/dashboard/expenses-table';
 import { QuarterlySummary } from '@/components/dashboard/quarterly-summary';
 import { formatCurrency } from '@/lib/utils';
 import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
-
-const TRANSACTIONS_STORAGE_KEY = 'transactions';
+import { initialTransactions } from '@/lib/data';
 
 const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -37,46 +36,16 @@ const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 export default function DashboardPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-  
-    const loadData = () => {
-      try {
-        const storedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
-        if (storedTransactions) {
-          setTransactions(JSON.parse(storedTransactions));
-        } else {
-          setTransactions([]);
-        }
-      } catch (error) {
-        console.error("Failed to load transactions from localStorage", error);
-        setTransactions([]);
-      } finally {
-        // Delay to show loading indicator for at least 500ms
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
-      }
-    };
-  
-    loadData();
+    // Simulate loading
+    setTimeout(() => {
+        setIsLoading(false);
+    }, 500);
   }, []);
-  
-
-  useEffect(() => {
-    if (!isLoading) {
-      try {
-        localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify(transactions));
-      } catch (error) {
-        console.error("Failed to save transactions to localStorage", error);
-      }
-    }
-  }, [transactions, isLoading]);
-
 
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: crypto.randomUUID() };

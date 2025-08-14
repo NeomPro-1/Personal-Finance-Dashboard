@@ -9,41 +9,14 @@ import { GoalsLoading } from '@/components/goals/goals-loading';
 import { Info } from 'lucide-react';
 import { initialGoals } from '@/lib/data';
 
-const GOALS_STORAGE_KEY = 'savingsGoals';
-
 export default function GoalsPage() {
-  const [goals, setGoals] = useState<Goal[]>([]);
+  const [goals, setGoals] = useState<Goal[]>(initialGoals);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    const loadData = () => {
-      try {
-        const storedGoals = localStorage.getItem(GOALS_STORAGE_KEY);
-        if (storedGoals) {
-          setGoals(JSON.parse(storedGoals));
-        } else {
-          setGoals(initialGoals);
-        }
-      } catch (error) {
-        console.error("Failed to load goals from localStorage", error);
-        setGoals(initialGoals);
-      } finally {
-        setTimeout(() => setIsLoading(false), 500);
-      }
-    };
-    loadData();
+    // Simulate loading
+    setTimeout(() => setIsLoading(false), 500);
   }, []);
-
-  useEffect(() => {
-    if (!isLoading) {
-      try {
-        localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(goals));
-      } catch (error) {
-        console.error("Failed to save goals to localStorage", error);
-      }
-    }
-  }, [goals, isLoading]);
 
   const handleAddGoal = (goal: Omit<Goal, 'id' | 'currentAmount'>) => {
     const newGoal: Goal = {

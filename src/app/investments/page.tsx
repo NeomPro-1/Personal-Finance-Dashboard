@@ -7,8 +7,7 @@ import type { Investment } from '@/lib/types';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useIsMobile } from '@/hooks/use-mobile';
-
-const INVESTMENTS_STORAGE_KEY = 'investments';
+import { initialInvestments } from '@/lib/data';
 
 function InvestmentsLoading() {
   return (
@@ -65,43 +64,17 @@ function InvestmentsLoading() {
 
 
 export default function InvestmentsPage() {
-  const [investments, setInvestments] = useState<Investment[]>([]);
+  const [investments, setInvestments] = useState<Investment[]>(initialInvestments);
   const [isLoading, setIsLoading] = useState(true);
   const { isMobile, isReady } = useIsMobile();
 
 
   useEffect(() => {
-    setIsLoading(true);
-    const loadData = () => {
-      try {
-        const storedInvestments = localStorage.getItem(INVESTMENTS_STORAGE_KEY);
-        if (storedInvestments) {
-          setInvestments(JSON.parse(storedInvestments));
-        } else {
-          setInvestments([]);
-        }
-      } catch (error) {
-        console.error("Failed to load investments from localStorage", error);
-        setInvestments([]);
-      } finally {
-          // Delay to show loading indicator for at least 500ms
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 500);
-      }
-    };
-    loadData();
+    // Simulate loading
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
   }, []);
-
-  useEffect(() => {
-    if (!isLoading) {
-        try {
-          localStorage.setItem(INVESTMENTS_STORAGE_KEY, JSON.stringify(investments));
-        } catch (error) {
-          console.error("Failed to save investments to localStorage", error);
-        }
-    }
-  }, [investments, isLoading]);
 
   const handleAddInvestment = (investment: Omit<Investment, 'id' | 'currentValue'>) => {
     const newInvestment: Investment = {
