@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const INVESTMENTS_STORAGE_KEY = 'investments';
 
@@ -79,6 +80,8 @@ function InvestmentsLoading() {
 export default function InvestmentsPage() {
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { isMobile, isReady } = useIsMobile();
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -126,7 +129,7 @@ export default function InvestmentsPage() {
     setInvestments(prev => prev.filter(inv => inv.id !== id));
   };
   
-  if (isLoading) {
+  if (isLoading || !isReady) {
     return <InvestmentsLoading />;
   }
   
@@ -138,6 +141,7 @@ export default function InvestmentsPage() {
         investments={investments} 
         onAddInvestment={handleAddInvestment}
         onDeleteInvestment={handleDeleteInvestment}
+        isMobile={isMobile}
       />
     </main>
   );

@@ -21,7 +21,6 @@ import { InvestmentSummaryCard } from './investment-summary-card'
 import { cn, formatCurrency } from "@/lib/utils"
 import type { Investment } from "@/lib/types"
 import { CalendarIcon, Trash2, TrendingUp, TrendingDown, DollarSign, PiggyBank, Briefcase, Info } from "lucide-react"
-import { useIsMobile } from '@/hooks/use-mobile'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Badge } from '../ui/badge'
 
@@ -29,6 +28,7 @@ interface InvestmentsTableProps {
   investments: Investment[];
   onAddInvestment: (investment: Omit<Investment, 'id' | 'currentValue'>) => void;
   onDeleteInvestment: (id: string) => void;
+  isMobile: boolean;
 }
 
 const addInvestmentFormSchema = z.object({
@@ -54,8 +54,7 @@ const addInvestmentFormSchema = z.object({
 
 type AddInvestmentFormValues = z.infer<typeof addInvestmentFormSchema>;
 
-export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestment }: InvestmentsTableProps) {
-  const isMobile = useIsMobile();
+export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestment, isMobile }: InvestmentsTableProps) {
   const form = useForm<AddInvestmentFormValues>({
     resolver: zodResolver(addInvestmentFormSchema),
     defaultValues: {
