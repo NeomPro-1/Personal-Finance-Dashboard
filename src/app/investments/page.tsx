@@ -12,7 +12,7 @@ const INVESTMENTS_STORAGE_KEY = 'investments';
 
 function InvestmentsLoading() {
   return (
-    <>
+    <div className="space-y-8">
       <Skeleton className="h-9 w-64" />
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="bg-card/50 border-border/50">
@@ -59,7 +59,7 @@ function InvestmentsLoading() {
             <Skeleton className="h-48 w-full" />
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 }
 
