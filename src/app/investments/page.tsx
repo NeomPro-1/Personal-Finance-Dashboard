@@ -4,19 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import { InvestmentsTable } from '@/components/investments/investments-table';
 import type { Investment } from '@/lib/types';
-import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -25,7 +12,7 @@ const INVESTMENTS_STORAGE_KEY = 'investments';
 
 function InvestmentsLoading() {
   return (
-    <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-slide-up-and-fade-in">
+    <main className="p-4 sm:p-6 lg:p-8 space-y-8">
       <Skeleton className="h-9 w-64" />
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="bg-card/50 border-border/50">
