@@ -83,7 +83,7 @@ export function SidebarContent() {
         </SidebarMenu>
       </SidebarBody>
       
-      <SidebarFooter className={isMobile ? 'flex' : 'hidden md:flex'}>
+      <SidebarFooter>
          <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.includes('/settings')} onClick={handleLinkClick} tooltip="Settings">
@@ -96,7 +96,7 @@ export function SidebarContent() {
         </SidebarMenu>
       </SidebarFooter>
 
-      <div className="hidden md:flex items-center justify-center p-2">
+      <div className={`p-2 ${state === 'collapsed' ? 'flex justify-center' : ''}`}>
         <ThemeToggle />
       </div>
     </>
