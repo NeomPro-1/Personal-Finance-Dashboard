@@ -1,8 +1,8 @@
 
 "use client"
 
-import React, { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,8 @@ import { format } from 'date-fns';
 import { Calendar } from '../ui/calendar';
 import { cn } from '@/lib/utils';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { calculateScore } from '@/lib/credit-card-score';
+import { ScoreDisplay } from './score-display';
 
 interface CreditCardFormProps {
   cards: CreditCardData[];
@@ -77,13 +79,16 @@ export function CreditCardForm({
   return (
     <div className="space-y-6">
       <Accordion type="multiple" className="w-full space-y-4">
-        {cards.map((card, index) => (
+        {cards.map((card, index) => {
+          const { score } = calculateScore([card], applications, hasOtherLoans);
+          return (
           <AccordionItem value={card.id} key={card.id} className="border rounded-lg bg-card/50">
             <AccordionTrigger className="px-4 py-3 text-lg font-semibold hover:no-underline">
                 {card.name || "New Card"}
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                  <div className="space-y-4">
                     <div className="space-y-2">
                         <Label>Card Name</Label>
                         <Input value={card.name} onChange={(e) => handleFieldChange(index, 'name', e.target.value)} />
@@ -92,7 +97,14 @@ export function CreditCardForm({
                         <Label>Open Date</Label>
                         <Input type="date" value={card.openDate} onChange={(e) => handleFieldChange(index, 'openDate', e.target.value)} />
                     </div>
+                  </div>
+                   <div className="w-full h-full flex justify-center items-center">
+                    <div className="scale-75">
+                        <ScoreDisplay score={score} />
+                    </div>
                 </div>
+                </div>
+
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <Label>Credit Limit</Label>
@@ -114,7 +126,7 @@ export function CreditCardForm({
                 </Button>
             </AccordionContent>
           </AccordionItem>
-        ))}
+        )})}
       </Accordion>
 
       <div className="border-t pt-6">
