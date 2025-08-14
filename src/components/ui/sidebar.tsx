@@ -224,7 +224,7 @@ const Sidebar = React.forwardRef<
         <aside
           ref={ref}
           className={cn(
-            'group md:flex flex-col transition-all duration-300 ease-in-out',
+            'group hidden md:flex flex-col transition-all duration-300 ease-in-out',
             state === 'expanded' ? 'w-[var(--sidebar-width)]' : 'w-[var(--sidebar-width-icon)]',
             'bg-sidebar text-sidebar-foreground border-r border-sidebar-border',
             className
@@ -757,3 +757,5 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+
+    
