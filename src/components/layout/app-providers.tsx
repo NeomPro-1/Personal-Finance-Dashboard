@@ -10,6 +10,7 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { SidebarContent } from "./sidebar-content"
 import { ThemeToggle } from "../theme-toggle"
 import { SidebarTrigger } from "../ui/sidebar"
+import { LoadingSkeleton } from "./loading-skeleton"
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   const [isMounted, setIsMounted] = React.useState(false);
@@ -18,14 +19,6 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-          <p>Loading...</p>
-      </div>
-    );
-  }
-  
   return (
     <NextThemesProvider
       attribute="class"
@@ -44,7 +37,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
                 <ThemeToggle />
             </header>
             <SidebarInset>
-                {children}
+                {!isMounted ? <LoadingSkeleton /> : children}
             </SidebarInset>
             </div>
         </div>
