@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -8,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DollarSign, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { cn, formatCurrency } from '@/lib/utils';
 
 interface QuarterlySummaryCardProps {
@@ -20,6 +21,26 @@ interface QuarterlySummaryCardProps {
   isChecked: boolean;
   onCheckedChange: (isChecked: boolean) => void;
 }
+
+const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M6 3h12" />
+      <path d="M6 8h12" />
+      <path d="m19 13-10 4" />
+      <path d="M9 13c-2.5 0-4.5 2-4.5 4.5S6.5 22 9 22s4.5-2 4.5-4.5" />
+    </svg>
+  );
 
 export function QuarterlySummaryCard({
   title,
@@ -77,7 +98,7 @@ export function QuarterlySummaryCard({
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <DollarSign className="h-5 w-5" />
+            <RupeeIcon className="h-5 w-5" />
             <span>Net Balance</span>
           </div>
           <span className="font-bold">{formatCurrency(net)}</span>
