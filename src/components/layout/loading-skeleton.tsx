@@ -1,6 +1,4 @@
 
-"use client";
-
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 

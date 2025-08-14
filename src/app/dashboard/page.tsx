@@ -1,5 +1,4 @@
-
-"use client"
+'use client';
 
 import React, { useState, useMemo } from 'react';
 import { getQuarter, format } from 'date-fns';

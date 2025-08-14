@@ -1,6 +1,4 @@
 
-"use client";
-
 import { AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import type { Insight } from '@/lib/types';
 

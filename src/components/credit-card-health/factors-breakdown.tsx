@@ -1,6 +1,4 @@
 
-"use client";
-
 import { Progress } from '@/components/ui/progress';
 import type { ScoreFactors } from '@/lib/types';
 import { cn } from '@/lib/utils';

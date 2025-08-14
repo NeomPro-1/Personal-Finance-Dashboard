@@ -1,5 +1,4 @@
-
-"use client"
+'use client';
 
 import React, { useState, useMemo } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -172,7 +171,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select investment type" />
-                                    </SelectTrigger>
+                                    </Trigger>
                                 </FormControl>
                                 <SelectContent>
                                     <SelectItem value="Stock">Stock</SelectItem>
@@ -459,7 +458,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select investment type" />
-                                    </SelectTrigger>
+                                    </Trigger>
                                 </FormControl>
                                 <SelectContent>
                                     <SelectItem value="Stock">Stock</SelectItem>

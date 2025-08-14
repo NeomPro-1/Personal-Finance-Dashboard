@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { AppProviders } from '@/components/layout/app-providers';
 

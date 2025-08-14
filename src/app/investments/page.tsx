@@ -1,5 +1,4 @@
-
-"use client"
+'use client';
 
 import React from 'react';
 import { InvestmentsTable } from '@/components/investments/investments-table';
