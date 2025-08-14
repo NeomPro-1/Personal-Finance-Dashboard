@@ -5,7 +5,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { subMonths, format, getQuarter, getYear } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { SummaryCard } from '@/components/dashboard/summary-card';
-import { DollarSign, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { IncomeTable } from '@/components/dashboard/income-table';
 import { ExpensesTable } from '@/components/dashboard/expenses-table';
@@ -14,6 +14,27 @@ import { formatCurrency } from '@/lib/utils';
 import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
 
 const TRANSACTIONS_STORAGE_KEY = 'transactions';
+
+const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M6 3h12" />
+    <path d="M6 8h12" />
+    <path d="m19 13-10 4" />
+    <path d="M9 13c-2.5 0-4.5 2-4.5 4.5S6.5 22 9 22s4.5-2 4.5-4.5" />
+  </svg>
+);
+
 
 export default function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -141,7 +162,7 @@ export default function DashboardPage() {
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <SummaryCard title="Total Income" value={formatCurrency(income)} icon={ArrowUpCircle} />
         <SummaryCard title="Total Expenses" value={formatCurrency(expenses)} icon={ArrowDownCircle} />
-        <SummaryCard title="Net Balance" value={formatCurrency(net)} icon={DollarSign} />
+        <SummaryCard title="Net Balance" value={formatCurrency(net)} icon={RupeeIcon} />
       </div>
 
       <QuarterlySummary transactions={transactions} />

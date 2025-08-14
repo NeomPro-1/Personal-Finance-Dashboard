@@ -5,7 +5,7 @@ import type { LucideIcon } from "lucide-react";
 interface SummaryCardProps {
   title: string;
   value: string;
-  icon: LucideIcon;
+  icon: LucideIcon | ((props: React.SVGProps<SVGSVGElement>) => JSX.Element);
   className?: string;
 }
 
