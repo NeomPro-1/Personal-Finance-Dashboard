@@ -346,23 +346,23 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                             <Badge variant="outline">{inv.type}</Badge>
                          </div>
                       </CardHeader>
-                      <CardContent className="space-y-2 text-sm">
+                      <CardContent className="space-y-2 text-sm pt-4">
                         {inv.type === 'Gold' && inv.quantityInGrams && (
                              <div className="flex justify-between items-center">
-                              <span>Quantity:</span>
+                              <span className="text-muted-foreground">Quantity:</span>
                               <span className="font-medium">{inv.quantityInGrams}g {inv.carat && `(${inv.carat}K)`}</span>
                             </div>
                         )}
                         <div className="flex justify-between items-center">
-                          <span>Initial Value:</span>
+                          <span className="text-muted-foreground">Initial Value:</span>
                           <span className="font-medium">{formatCurrency(inv.initialValue, isMobile)}</span>
                         </div>
                          <div className="flex justify-between items-center">
-                          <span>Current Value:</span>
+                          <span className="text-muted-foreground">Current Value:</span>
                           <span className="font-medium">{formatCurrency(inv.currentValue, isMobile)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span>Gain/Loss:</span>
+                          <span className="text-muted-foreground">Gain/Loss:</span>
                            <span className={cn(
                             "font-bold",
                             gainLoss >= 0 ? "text-green-500" : "text-red-500"
