@@ -8,17 +8,21 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => voi
   const [storedValue, setStoredValue] = useState<T>(initialValue);
 
   useEffect(() => {
-    try {
-      const item = window.localStorage.getItem(key);
-      if (item) {
-        setStoredValue(JSON.parse(item));
+    const timer = setTimeout(() => {
+      try {
+        const item = window.localStorage.getItem(key);
+        if (item) {
+          setStoredValue(JSON.parse(item));
+        }
+      } catch (error) {
+        console.error(error);
+        setStoredValue(initialValue);
+      } finally {
+          setIsReady(true);
       }
-    } catch (error) {
-      console.error(error);
-      setStoredValue(initialValue);
-    } finally {
-        setIsReady(true);
-    }
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [key, initialValue]);
 
 
