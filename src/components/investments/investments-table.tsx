@@ -34,10 +34,10 @@ interface InvestmentsTableProps {
 const addInvestmentFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   type: z.enum(['Stock', 'Gold']),
+  purchaseDate: z.date(),
   initialValue: z.coerce.number().optional(),
   quantityInGrams: z.coerce.number().optional(),
   carat: z.coerce.number().optional(),
-  purchaseDate: z.date(),
 }).refine(data => {
     if (data.type === 'Stock') {
         return data.initialValue && data.initialValue > 0;
@@ -149,7 +149,6 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                 </div>
             </CardContent>
         </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>Add New Investment</CardTitle>
