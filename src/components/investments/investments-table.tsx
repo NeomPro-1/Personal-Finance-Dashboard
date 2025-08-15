@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react'
@@ -115,109 +116,108 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
 
   if (investments.length === 0) {
     return (
-      <div>
-        <div className="space-y-8">
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            <InvestmentSummaryCard 
-              title="Total Invested" 
-              value={formatCurrency(0, isMobile)} 
-              icon={PiggyBank} 
-            />
-            <InvestmentSummaryCard 
-              title="Current Value" 
-              value={formatCurrency(0, isMobile)} 
-              icon={Briefcase} 
-            />
-            <InvestmentSummaryCard 
-              title="Total Gain/Loss" 
-              value={formatCurrency(0, isMobile)} 
-              icon={DollarSign}
-              change={'0.00%'}
-            />
-          </div>
-          <Card>
-              <CardHeader>
-                  <CardTitle>Investments</CardTitle>
-              </CardHeader>
-              <CardContent>
-                  <div className="flex items-center justify-center h-48 bg-card/50 rounded-md">
-                      <div className="text-center text-muted-foreground p-6">
-                          <Info className="mx-auto h-8 w-8 mb-2" />
-                          <p>No investments recorded yet.</p>
-                          <p className="text-sm">Use the form below to add one.</p>
-                      </div>
-                  </div>
-              </CardContent>
-          </Card>
-          <Card>
+      <div className="space-y-8">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          <InvestmentSummaryCard 
+            title="Total Invested" 
+            value={formatCurrency(0, isMobile)} 
+            icon={PiggyBank} 
+          />
+          <InvestmentSummaryCard 
+            title="Current Value" 
+            value={formatCurrency(0, isMobile)} 
+            icon={Briefcase} 
+          />
+          <InvestmentSummaryCard 
+            title="Total Gain/Loss" 
+            value={formatCurrency(0, isMobile)} 
+            icon={DollarSign}
+            change={'0.00%'}
+          />
+        </div>
+        <Card>
             <CardHeader>
-              <CardTitle>Add New Investment</CardTitle>
+                <CardTitle>Investments</CardTitle>
             </CardHeader>
             <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-                      <FormField control={form.control} name="name" render={({ field }) => (
+                <div className="flex items-center justify-center h-48 bg-card/50 rounded-md">
+                    <div className="text-center text-muted-foreground p-6">
+                        <Info className="mx-auto h-8 w-8 mb-2" />
+                        <p>No investments recorded yet.</p>
+                        <p className="text-sm">Use the form below to add one.</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Add New Investment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                    <FormField control={form.control} name="name" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl><Input placeholder="e.g., Tech Giant Inc." {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}/>
+                     <FormField control={form.control} name="type" render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl><Input placeholder="e.g., Tech Giant Inc." {...field} /></FormControl>
-                          <FormMessage />
+                            <FormLabel>Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select investment type" />
+                                    </Trigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="Stock">Stock</SelectItem>
+                                    <SelectItem value="Gold">Gold</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
                         </FormItem>
-                      )}/>
-                       <FormField control={form.control} name="type" render={({ field }) => (
-                          <FormItem>
-                              <FormLabel>Type</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                      <SelectTrigger>
-                                          <SelectValue placeholder="Select investment type" />
-                                      </Trigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                      <SelectItem value="Stock">Stock</SelectItem>
-                                      <SelectItem value="Gold">Gold</SelectItem>
-                                  </SelectContent>
-                              </Select>
-                              <FormMessage />
-                          </FormItem>
-                      )}/>
-                       <FormField control={form.control} name="purchaseDate" render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>Purchase Date</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
-                                  {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                              <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                            </PopoverContent>
-                          </Popover>
-                          <FormMessage />
-                        </FormItem>
-                      )}/>
-                   </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-                      {investmentType === 'Stock' && (
-                          <FormField control={form.control} name="initialValue" render={({ field }) => (
-                              <FormItem>
-                                  <FormLabel>Initial Value</FormLabel>
-                                  <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
-                                  <FormMessage />
-                              </FormItem>
-                          )}/>
-                      )}
-                      {investmentType === 'Gold' && (
-                          <>
-                          <FormField control={form.control} name="quantityInGrams" render={({ field }) => (
-                              <FormItem>
-                                  <FormLabel>Quantity (grams)</FormLabel>
-                                  <FormControl><Input type="number" step="0.01" placeholder="e.g., 10" {...field} value={field.value ?? ''} /></FormControl>
-                                  <FormMessage />
+                    )}/>
+                     <FormField control={form.control} name="purchaseDate" render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Purchase Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}/>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                    {investmentType === 'Stock' && (
+                        <FormField control={form.control} name="initialValue" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Initial Value</FormLabel>
+                                <FormControl><Input type="number" step="0.01" placeholder="e.g., 5000.00" {...field} value={field.value ?? ''} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                    )}
+                    {investmentType === 'Gold' && (
+                        <>
+                        <FormField control={form.control} name="quantityInGrams" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Quantity (grams)</FormLabel>
+                                <FormControl><Input type="number" step="0.01" placeholder="e.g., 10" {...field} value={field.value ?? ''} /></FormControl>
+                                <FormMessage />
                               </FormItem>
                           )}/>
                           <FormField control={form.control} name="carat" render={({ field }) => (
@@ -244,9 +244,8 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                    <Button type="submit" className="w-full md:w-auto md:max-w-xs">Add Investment</Button>
                 </form>
               </Form>
-            </CardContent>
-          </Card>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
