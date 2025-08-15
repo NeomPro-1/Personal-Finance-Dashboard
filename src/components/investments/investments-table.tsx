@@ -106,12 +106,13 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
   }, [investments]);
   
   const performanceData = useMemo(() => {
-    return investments.map(inv => ({
+    const sortedInvestments = [...investments].sort((a,b) => new Date(a.purchaseDate).getTime() - new Date(b.purchaseDate).getTime());
+    return sortedInvestments.map(inv => ({
       name: inv.name,
       initial: inv.initialValue,
       current: inv.currentValue,
       gain: inv.currentValue - inv.initialValue,
-    })).sort((a,b) => new Date(a.name).getTime() - new Date(b.name).getTime());
+    }));
   }, [investments]);
 
   if (investments.length === 0) {
