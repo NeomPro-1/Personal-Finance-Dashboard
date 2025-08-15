@@ -20,17 +20,19 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     >
       <SidebarProvider>
         <div className="flex min-h-screen">
-            <Sidebar className="z-20">
-            <SidebarContent />
-            </Sidebar>
+            <div className="hidden border-r bg-muted/40 md:flex">
+              <Sidebar>
+                <SidebarContent />
+              </Sidebar>
+            </div>
             <div className="flex-1 flex flex-col h-screen overflow-y-auto">
-            <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 py-2 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
-                <SidebarTrigger />
-                <ThemeToggle />
-            </header>
-            <SidebarInset>
-                {children}
-            </SidebarInset>
+              <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 py-2 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
+                  <SidebarTrigger />
+                  <ThemeToggle />
+              </header>
+              <SidebarInset>
+                  {children}
+              </SidebarInset>
             </div>
         </div>
       </SidebarProvider>
