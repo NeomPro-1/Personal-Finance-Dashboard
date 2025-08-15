@@ -47,7 +47,7 @@ const addInvestmentFormSchema = z.object({
     return false;
 }, {
     message: "A valid value is required for the selected investment type.",
-    path: ["initialValue"], // Or whichever path is most appropriate
+    path: ["initialValue"], 
 });
 
 
@@ -73,8 +73,6 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
     let submissionData: Omit<Investment, 'id' | 'currentValue'>;
 
     if (data.type === 'Gold') {
-        // For simplicity, we'll set the initial value of gold based on quantity.
-        // A real app would use purchase price per gram.
         const value = data.quantityInGrams! * 6000; // Placeholder price
         submissionData = {
             name: data.name,
