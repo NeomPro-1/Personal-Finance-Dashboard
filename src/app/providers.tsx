@@ -28,11 +28,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <div className="flex min-h-screen">
           {isMounted && (
             <>
+              {/* Desktop Sidebar */}
               <div className="hidden border-r bg-muted/40 md:flex">
                 <Sidebar>
                   <SidebarContent />
                 </Sidebar>
               </div>
+              
+              {/* Mobile Sidebar (Sheet) */}
+               <Sidebar>
+                  <SidebarContent />
+               </Sidebar>
+
               <div className="flex-1 flex flex-col h-screen overflow-y-auto">
                 <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 py-2 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
                     <SidebarTrigger />

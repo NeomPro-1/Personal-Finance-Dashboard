@@ -9,10 +9,11 @@ import {
   useSidebar,
   SidebarFooter,
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, CreditCard, PiggyBank } from "lucide-react"
+import { LayoutDashboard, Settings, Wallet, BarChart, TrendingUp, CreditCard, PiggyBank, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "../theme-toggle"
+import { SheetClose } from "../ui/sheet"
 
 export function SidebarContent() {
   const pathname = usePathname();
@@ -27,9 +28,12 @@ export function SidebarContent() {
   return (
     <>
        <SidebarHeader>
-         <div className="flex items-center gap-2">
-            <Wallet className={`w-8 h-8 text-primary ${state === 'collapsed' && 'w-10 h-10'}`} />
-            <span className={`text-2xl font-bold ${state === 'collapsed' && 'hidden'}`}>FinanceFlow</span>
+         <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+                <Wallet className={`w-8 h-8 text-primary ${state === 'collapsed' && 'w-10 h-10'}`} />
+                <span className={`text-2xl font-bold ${state === 'collapsed' && 'hidden'}`}>FinanceFlow</span>
+            </div>
+            {isMobile && <SheetClose><X className="h-6 w-6" /></SheetClose>}
          </div>
        </SidebarHeader>
 

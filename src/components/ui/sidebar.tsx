@@ -206,13 +206,6 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
-             <SheetHeader className="p-2">
-                <SheetTitle className="flex items-center gap-2 text-left">
-                  <Wallet className="w-8 h-8 text-primary" />
-                  <span className="text-2xl font-bold">FinanceFlow</span>
-                </SheetTitle>
-                 <SheetClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary" />
-              </SheetHeader>
             {children}
           </SheetContent>
         </Sheet>
@@ -340,14 +333,14 @@ const SidebarHeader = React.forwardRef<
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
   const { isMobile, state } = useSidebar();
-  if (isMobile) return null;
+  
   return (
     <div
       ref={ref}
       data-sidebar="header"
       className={cn(
         "flex flex-col gap-2 p-2 text-sidebar-foreground",
-        state === 'collapsed' && 'items-center',
+        !isMobile && state === 'collapsed' && 'items-center',
         className
       )}
       {...props}
