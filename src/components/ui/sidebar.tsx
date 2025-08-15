@@ -300,10 +300,7 @@ const SidebarInset = React.forwardRef<
     <main
       ref={ref}
       data-sidebar="inset"
-      className={cn(
-        "relative flex min-h-svh flex-1 flex-col",
-        className
-      )}
+      className={cn("flex-1 overflow-y-auto", className)}
       {...props}
     />
   )

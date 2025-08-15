@@ -35,7 +35,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 <SidebarContent />
             </Sidebar>
 
-            <div className="flex-1 flex flex-col h-screen overflow-y-auto">
+            <div className="flex-1 flex flex-col h-screen">
               {/* Header for Mobile View */}
               <header className="sticky top-0 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 py-2 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
                   <SidebarTrigger />
