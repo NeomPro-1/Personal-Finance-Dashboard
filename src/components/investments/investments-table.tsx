@@ -115,7 +115,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
 
   if (investments.length === 0) {
     return (
-       <div className="space-y-8">
+      <div className="space-y-8">
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           <InvestmentSummaryCard 
             title="Total Invested" 
@@ -227,7 +227,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select purity" />
-                                        </SelectTrigger>
+                                        </Trigger>
                                     </FormControl>
                                     <SelectContent>
                                         <SelectItem value="24">24 Carat</SelectItem>
@@ -514,7 +514,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select purity" />
-                                        </SelectTrigger>
+                                        </Trigger>
                                     </FormControl>
                                     <SelectContent>
                                         <SelectItem value="24">24 Carat</SelectItem>
