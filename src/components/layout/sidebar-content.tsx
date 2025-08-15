@@ -64,7 +64,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Dashboard"
             >
-              <Link href="/dashboard" target="_blank" rel="noopener noreferrer">
+              <Link href="/dashboard">
                 <LayoutDashboard />
                 <span>Dashboard</span>
               </Link>
@@ -78,7 +78,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Investments"
             >
-              <Link href="/investments" target="_blank" rel="noopener noreferrer">
+              <Link href="/investments">
                 <TrendingUp />
                 <span>Investments</span>
               </Link>
@@ -92,7 +92,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Savings Goals"
             >
-              <Link href="/goals" target="_blank" rel="noopener noreferrer">
+              <Link href="/goals">
                 <PiggyBank />
                 <span>Savings Goals</span>
               </Link>
@@ -106,7 +106,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Forecast & Tools"
             >
-              <Link href="/forecast" target="_blank" rel="noopener noreferrer">
+              <Link href="/forecast">
                 <BarChart />
                 <span>Forecast &amp; Tools</span>
               </Link>
@@ -120,7 +120,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Credit Health Check"
             >
-              <Link href="/credit-card-health" target="_blank" rel="noopener noreferrer">
+              <Link href="/credit-card-health">
                 <CreditCard />
                 <span>Credit Health Check</span>
               </Link>
@@ -139,7 +139,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Settings"
             >
-              <Link href="/settings" target="_blank" rel="noopener noreferrer">
+              <Link href="/settings">
                 <Settings />
                 <span>Settings</span>
               </Link>
