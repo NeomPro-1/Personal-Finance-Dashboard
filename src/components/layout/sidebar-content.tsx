@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -63,7 +64,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Dashboard"
             >
-              <Link href="/dashboard">
+              <Link href="/dashboard" target="_blank" rel="noopener noreferrer">
                 <LayoutDashboard />
                 <span>Dashboard</span>
               </Link>
@@ -77,7 +78,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Investments"
             >
-              <Link href="/investments">
+              <Link href="/investments" target="_blank" rel="noopener noreferrer">
                 <TrendingUp />
                 <span>Investments</span>
               </Link>
@@ -91,7 +92,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Savings Goals"
             >
-              <Link href="/goals">
+              <Link href="/goals" target="_blank" rel="noopener noreferrer">
                 <PiggyBank />
                 <span>Savings Goals</span>
               </Link>
@@ -105,7 +106,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Forecast & Tools"
             >
-              <Link href="/forecast">
+              <Link href="/forecast" target="_blank" rel="noopener noreferrer">
                 <BarChart />
                 <span>Forecast &amp; Tools</span>
               </Link>
@@ -119,7 +120,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Credit Health Check"
             >
-              <Link href="/credit-card-health">
+              <Link href="/credit-card-health" target="_blank" rel="noopener noreferrer">
                 <CreditCard />
                 <span>Credit Health Check</span>
               </Link>
@@ -138,7 +139,7 @@ export function SidebarContent() {
               onClick={handleLinkClick} 
               tooltip="Settings"
             >
-              <Link href="/settings">
+              <Link href="/settings" target="_blank" rel="noopener noreferrer">
                 <Settings />
                 <span>Settings</span>
               </Link>
