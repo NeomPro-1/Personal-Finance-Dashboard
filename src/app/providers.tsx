@@ -15,6 +15,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     setIsMounted(true);
+
+    // ✅ Prevent double scrollbars
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
   }, []);
 
   if (!isMounted) {
@@ -30,7 +39,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     >
       <SidebarProvider>
         {/* Main layout container */}
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen w-screen overflow-hidden">
           {/* Sidebar */}
           <Sidebar>
             <SidebarContent />
@@ -44,7 +53,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               <ThemeToggle />
             </header>
 
-            {/* Scrollable content area */}
+            {/* Single scrollable area */}
             <SidebarInset className="flex-1 overflow-y-auto">
               {children}
             </SidebarInset>
