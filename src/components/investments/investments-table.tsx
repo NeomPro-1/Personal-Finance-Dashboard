@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react'
@@ -14,7 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { InvestmentSummaryCard } from './investment-summary-card'
 
@@ -106,7 +105,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
   }, [investments]);
   
   const performanceData = useMemo(() => {
-    const sortedInvestments = [...investments].sort((a,b) => new Date(a.purchaseDate).getTime() - new Date(b.purchaseDate).getTime());
+    const sortedInvestments = [...investments].sort((a, b) => new Date(a.purchaseDate).getTime() - new Date(b.purchaseDate).getTime());
     return sortedInvestments.map(inv => ({
       name: inv.name,
       initial: inv.initialValue,
