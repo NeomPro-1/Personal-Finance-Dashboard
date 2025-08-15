@@ -11,11 +11,13 @@ import { calculateScore, generateInsights } from '@/lib/credit-card-score';
 import { ImprovementTips } from '@/components/credit-card-health/improvement-tips';
 import useLocalStorage from '@/hooks/use-local-storage';
 import { CreditHealthLoadingSkeleton } from '@/components/credit-card-health/credit-health-loading';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function CreditCardHealthPage() {
   const [cards, setCards, isCardsReady] = useLocalStorage<CreditCardData[]>('credit-cards', []);
   const [applications, setApplications, isAppsReady] = useLocalStorage('credit-applications', 0);
   const [hasOtherLoans, setHasOtherLoans, isLoansReady] = useLocalStorage('has-other-loans', false);
+  const isMobile = useIsMobile();
 
   const isReady = isCardsReady && isAppsReady && isLoansReady;
 
@@ -53,7 +55,7 @@ export default function CreditCardHealthPage() {
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Credit Health Check</h1>
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Credit Health Check</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -109,6 +111,7 @@ export default function CreditCardHealthPage() {
                 setApplications={setApplications}
                 hasOtherLoans={hasOtherLoans}
                 setHasOtherLoans={setHasOtherLoans}
+                isMobile={isMobile}
               />
             </CardContent>
           </Card>

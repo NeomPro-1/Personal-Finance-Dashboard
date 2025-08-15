@@ -16,6 +16,7 @@ interface IncomeTableProps {
   transactions: Transaction[];
   onAddTransaction: (transaction: Omit<Transaction, 'id'>) => void;
   onDeleteTransaction: (id: string) => void;
+  isMobile: boolean;
 }
 
 const getCategoryColor = (category: string) => {
@@ -27,7 +28,7 @@ const getCategoryColor = (category: string) => {
   }
 }
 
-export function IncomeTable({ transactions, onAddTransaction, onDeleteTransaction }: IncomeTableProps) {
+export function IncomeTable({ transactions, onAddTransaction, onDeleteTransaction, isMobile }: IncomeTableProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const groupedByMonth = useMemo(() => {
@@ -70,6 +71,7 @@ export function IncomeTable({ transactions, onAddTransaction, onDeleteTransactio
                 </div>
             </AccordionTrigger>
             <AccordionContent className="px-1 pb-2">
+              <div className="w-full overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent">
@@ -88,7 +90,7 @@ export function IncomeTable({ transactions, onAddTransaction, onDeleteTransactio
                         <Badge variant="outline" className={getCategoryColor(t.category)}>{t.category}</Badge>
                       </TableCell>
                        <TableCell>{format(parseISO(t.date), 'MMM dd, yyyy')}</TableCell>
-                      <TableCell className="text-right">{formatCurrency(t.amount)}</TableCell>
+                      <TableCell className="text-right">{formatCurrency(t.amount, isMobile)}</TableCell>
                       <TableCell>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
@@ -113,11 +115,13 @@ export function IncomeTable({ transactions, onAddTransaction, onDeleteTransactio
                     </TableRow>
                   ))}
                    <TableRow className="hover:bg-transparent">
-                      <TableCell colSpan={4} className="text-right font-semibold text-muted-foreground">SUM</TableCell>
-                      <TableCell className="text-right font-bold">{formatCurrency(total)}</TableCell>
+                      <TableCell colSpan={3} className="text-right font-semibold text-muted-foreground">Sum</TableCell>
+                      <TableCell className="text-right font-bold">{formatCurrency(total, isMobile)}</TableCell>
+                      <TableCell></TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
+              </div>
             </AccordionContent>
           </AccordionItem>
         ))}

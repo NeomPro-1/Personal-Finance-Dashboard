@@ -29,6 +29,7 @@ interface CreditCardFormProps {
   setApplications: (value: number) => void;
   hasOtherLoans: boolean;
   setHasOtherLoans: (value: boolean) => void;
+  isMobile: boolean;
 }
 
 const cardSchema = z.object({
@@ -48,6 +49,7 @@ export function CreditCardForm({
   setApplications,
   hasOtherLoans,
   setHasOtherLoans,
+  isMobile,
 }: CreditCardFormProps) {
     
   const form = useForm<z.infer<typeof cardSchema>>({
@@ -82,7 +84,7 @@ export function CreditCardForm({
           const { score } = calculateScore([card], applications, hasOtherLoans);
           return (
           <AccordionItem value={card.id} key={card.id} className="border rounded-lg bg-card/50">
-            <AccordionTrigger className="px-4 py-3 text-lg font-semibold hover:no-underline">
+            <AccordionTrigger className="px-4 py-3 text-base md:text-lg font-semibold hover:no-underline">
                 {card.name || "New Card"}
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4 space-y-4">

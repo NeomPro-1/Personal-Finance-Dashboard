@@ -18,6 +18,7 @@ interface QuarterlySummaryCardProps {
   net: number;
   isChecked: boolean;
   onCheckedChange: (isChecked: boolean) => void;
+  isMobile: boolean;
 }
 
 const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -48,6 +49,7 @@ export function QuarterlySummaryCard({
   net,
   isChecked,
   onCheckedChange,
+  isMobile,
 }: QuarterlySummaryCardProps) {
 
   const handleCardClick = () => {
@@ -85,21 +87,21 @@ export function QuarterlySummaryCard({
             <ArrowUpCircle className="h-5 w-5 text-green-500" />
             <span>Income</span>
           </div>
-          <span className="font-bold">{formatCurrency(income)}</span>
+          <span className="font-bold">{formatCurrency(income, isMobile)}</span>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-muted-foreground">
             <ArrowDownCircle className="h-5 w-5 text-red-500" />
             <span>Expenses</span>
           </div>
-          <span className="font-bold">{formatCurrency(expenses)}</span>
+          <span className="font-bold">{formatCurrency(expenses, isMobile)}</span>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-muted-foreground">
             <RupeeIcon className="h-5 w-5" />
             <span>Net Balance</span>
           </div>
-          <span className="font-bold">{formatCurrency(net)}</span>
+          <span className="font-bold">{formatCurrency(net, isMobile)}</span>
         </div>
       </CardContent>
     </Card>

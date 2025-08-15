@@ -13,6 +13,7 @@ import { formatCurrency } from '@/lib/utils';
 import { initialTransactions } from '@/lib/data';
 import useLocalStorage from '@/hooks/use-local-storage';
 import { LoadingSkeleton } from '@/components/layout/loading-skeleton';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -38,6 +39,7 @@ const RupeeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function DashboardPage() {
   const [transactions, setTransactions, isReady] = useLocalStorage<Transaction[]>('transactions', initialTransactions);
   const [filter, setFilter] = useState<string>('all'); // 'all', 'q1', 'q2', 'q3', 'q4', 'yyyy-MM'
+  const isMobile = useIsMobile();
   
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: crypto.randomUUID() };
@@ -97,7 +99,7 @@ export default function DashboardPage() {
   return (
     <main className="p-4 sm:p-6 lg:p-8 space-y-8 bg-background text-foreground">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Personal Finance Dashboard</h1>
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Personal Finance Dashboard</h1>
         <div className="flex items-center gap-2 w-full sm:w-auto">
             <Select value={filter} onValueChange={setFilter}>
               <SelectTrigger className="w-full sm:w-[180px]">
@@ -120,23 +122,25 @@ export default function DashboardPage() {
       </div>
       
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        <SummaryCard title="Total Income" value={formatCurrency(income)} icon={ArrowUpCircle} />
-        <SummaryCard title="Total Expenses" value={formatCurrency(expenses)} icon={ArrowDownCircle} />
-        <SummaryCard title="Net Balance" value={formatCurrency(net)} icon={RupeeIcon} />
+        <SummaryCard title="Total Income" value={formatCurrency(income, isMobile)} icon={ArrowUpCircle} />
+        <SummaryCard title="Total Expenses" value={formatCurrency(expenses, isMobile)} icon={ArrowDownCircle} />
+        <SummaryCard title="Net Balance" value={formatCurrency(net, isMobile)} icon={RupeeIcon} />
       </div>
 
-      <QuarterlySummary transactions={transactions} />
+      <QuarterlySummary transactions={transactions} isMobile={isMobile} />
 
       <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
         <IncomeTable 
           transactions={incomeTransactions} 
           onAddTransaction={handleAddTransaction}
-          onDeleteTransaction={handleDeleteTransaction} 
+          onDeleteTransaction={handleDeleteTransaction}
+          isMobile={isMobile}
         />
         <ExpensesTable 
           transactions={expenseTransactions} 
           onAddTransaction={handleAddTransaction} 
           onDeleteTransaction={handleDeleteTransaction}
+          isMobile={isMobile}
         />
       </div>
     </main>

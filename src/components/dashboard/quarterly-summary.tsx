@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { getQuarter, getYear, format } from 'date-fns';
+import { getQuarter, getYear } from 'date-fns';
 import type { Transaction } from '@/lib/types';
 import { QuarterlySummaryCard } from './quarterly-summary-card';
 
 interface QuarterlySummaryProps {
   transactions: Transaction[];
+  isMobile: boolean;
 }
 
 const quarterMonthsMap: Record<string, string> = {
@@ -16,7 +17,7 @@ const quarterMonthsMap: Record<string, string> = {
   "Q4": "October, November, December"
 };
 
-export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
+export function QuarterlySummary({ transactions, isMobile }: QuarterlySummaryProps) {
   const [checkedQuarters, setCheckedQuarters] = useState<Record<string, boolean>>({});
 
   const handleCheckedChange = (quarter: string, isChecked: boolean) => {
@@ -89,6 +90,7 @@ export function QuarterlySummary({ transactions }: QuarterlySummaryProps) {
             net={data.net}
             isChecked={!!checkedQuarters[data.id]}
             onCheckedChange={(isChecked) => handleCheckedChange(data.id, isChecked)}
+            isMobile={isMobile}
           />
         ))}
       </div>
