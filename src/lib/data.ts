@@ -1,5 +1,4 @@
-
-import type { Transaction, Investment, Goal } from '@/lib/types';
+import type { Transaction, Investment, Goal, CreditCardData } from '@/lib/types';
 
 export const initialTransactions: Transaction[] = [
   // January
@@ -25,10 +24,10 @@ export const initialTransactions: Transaction[] = [
 ];
 
 export const initialInvestments: Investment[] = [
-  { id: '1', name: 'Tech Giant Inc.', purchaseDate: '2024-01-15', initialValue: 5000, currentValue: 7500 },
-  { id: '2', name: 'Green Energy Co.', purchaseDate: '2024-03-22', initialValue: 3000, currentValue: 2800 },
-  { id: '3', name: 'BioPharma Solutions', purchaseDate: '2024-06-10', initialValue: 10000, currentValue: 12500 },
-  { id: '4', name: 'Robotics Startup', purchaseDate: '2024-09-01', initialValue: 7500, currentValue: 9000 },
+  { id: '1', name: 'Tech Giant Inc.', type: 'Stock', purchaseDate: '2024-01-15', initialValue: 5000, currentValue: 7500 },
+  { id: '2', name: 'Green Energy Co.', type: 'Stock', purchaseDate: '2024-03-22', initialValue: 3000, currentValue: 2800 },
+  { id: '3', name: 'BioPharma Solutions', type: 'Stock', purchaseDate: '2024-06-10', initialValue: 10000, currentValue: 12500 },
+  { id: '4', name: 'Robotics Startup', type: 'Stock', purchaseDate: '2024-09-01', initialValue: 7500, currentValue: 9000 },
 ];
 
 export const initialGoals: Goal[] = [
@@ -39,4 +38,6 @@ export const initialGoals: Goal[] = [
         currentAmount: 750,
         targetDate: '2025-12-31'
     }
-]
+];
+
+export const initialCreditCards: CreditCardData[] = [];
