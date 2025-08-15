@@ -204,14 +204,13 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
               <CardTitle>Investments</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="w-full overflow-x-auto">
                 <Table>
                     <TableHeader>
                     <TableRow>
                         <TableHead>Name</TableHead>
                         <TableHead>Type</TableHead>
-                        <TableHead>Purchase Date</TableHead>
-                        <TableHead>Quantity</TableHead>
+                        <TableHead className="hidden lg:table-cell">Purchase Date</TableHead>
+                        <TableHead className="hidden lg:table-cell">Quantity</TableHead>
                         <TableHead className="text-right">Initial Value</TableHead>
                         <TableHead className="text-right">Current Value</TableHead>
                         <TableHead className="text-right">Gain/Loss</TableHead>
@@ -225,12 +224,12 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                         <TableRow key={inv.id}>
                             <TableCell className="font-medium">{inv.name}</TableCell>
                             <TableCell><Badge variant="outline">{inv.type}</Badge></TableCell>
-                            <TableCell>{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
-                            <TableCell>{inv.type === 'Gold' && inv.quantityInGrams ? `${inv.quantityInGrams}g ${inv.carat ? `(${inv.carat}K)` : ''}`.trim() : 'N/A'}</TableCell>
+                            <TableCell className="hidden lg:table-cell">{format(new Date(inv.purchaseDate), 'MMM dd, yyyy')}</TableCell>
+                            <TableCell className="hidden lg:table-cell">{inv.type === 'Gold' && inv.quantityInGrams ? `${inv.quantityInGrams}g ${inv.carat ? `(${inv.carat}K)` : ''}`.trim() : 'N/A'}</TableCell>
                             <TableCell className="text-right">{formatCurrency(inv.initialValue, isMobile)}</TableCell>
                             <TableCell className="text-right">{formatCurrency(inv.currentValue, isMobile)}</TableCell>
                             <TableCell className={cn(
-                            "text-right",
+                            "text-right font-medium",
                             gainLoss >= 0 ? "text-green-500" : "text-red-500"
                             )}>
                             {formatCurrency(gainLoss, isMobile)}
@@ -261,7 +260,6 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                     })}
                     </TableBody>
                 </Table>
-                </div>
             </CardContent>
          </Card>
      )
