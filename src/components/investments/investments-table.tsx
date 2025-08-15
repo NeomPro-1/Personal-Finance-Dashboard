@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react'
@@ -131,7 +132,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
             title="Total Gain/Loss" 
             value={formatCurrency(0, isMobile)} 
             icon={DollarSign}
-            change={`0.00%`}
+            change={'0.00%'}
           />
         </div>
         <Card>
@@ -247,7 +248,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
