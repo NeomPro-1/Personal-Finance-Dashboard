@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react'
@@ -171,7 +170,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select investment type" />
-                                    </Trigger>
+                                    </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
                                     <SelectItem value="Stock">Stock</SelectItem>
@@ -458,7 +457,7 @@ export function InvestmentsTable({ investments, onAddInvestment, onDeleteInvestm
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select investment type" />
-                                    </Trigger>
+                                    </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
                                     <SelectItem value="Stock">Stock</SelectItem>
